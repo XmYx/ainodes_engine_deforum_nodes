@@ -53,15 +53,17 @@ class DeforumRunNode(AiNode):
         self.content.setMinimumWidth(300)
         self.content.setMinimumHeight(250)
         self.content.eval_signal.connect(self.evalImplementation)
-        deforum_folder_name = "custom_nodes/ainodes_backend_base_nodes/ainodes_backend/deforum"
-        sys.path.extend([os.path.join(deforum_folder_name, 'scripts', 'deforum_helpers', 'src')])
+        #deforum_folder_name = "custom_nodes/ainodes_backend_base_nodes/ainodes_backend/deforum"
+        #sys.path.extend([os.path.join(deforum_folder_name, 'scripts', 'deforum_helpers', 'src')])
 
     def evalImplementation_thread(self, index=0):
         self.busy = True
+        try:
+            data = self.getInputData(0)
+        except:
+            data = None
 
-        data = self.getInputData(0)
-
-        print("DEFORUM RUN NODE", data)
+        #print("DEFORUM RUN NODE", data)
 
         args_dict = DeforumArgs()
         anim_args_dict = DeforumAnimArgs()
@@ -93,35 +95,32 @@ class DeforumRunNode(AiNode):
         args_dict['animation_prompts'] = keyframeExamples()
 
         root.animation_prompts = json.loads(args_dict['animation_prompts'])
+        if data is not None:
+            for key, value in args.__dict__.items():
+                if key in data:
+                    if data[key] == "":
+                        val = None
+                    else:
+                        val = data[key]
+                    setattr(args, key, val)
 
-        for key, value in args.__dict__.items():
-            if key in data:
-                if data[key] == "":
-                    val = None
-                else:
-                    val = data[key]
+            for key, value in anim_args.__dict__.items():
+                if key in data:
+                    if data[key] == "" and "schedule" not in key:
+                        val = None
+                    else:
+                        val = data[key]
+                    setattr(anim_args, key, val)
 
-                setattr(args, key, val)
-
-        for key, value in anim_args.__dict__.items():
-            if key in data:
-                if data[key] == "" and "schedule" not in key:
-                    val = None
-                else:
-                    val = data[key]
-                setattr(anim_args, key, val)
-
-        for key, value in root.__dict__.items():
-            if key in data:
-                if data[key] == "":
-                    val = None
-                else:
-                    val = data[key]
-
-                setattr(root, key, val)
+            for key, value in root.__dict__.items():
+                if key in data:
+                    if data[key] == "":
+                        val = None
+                    else:
+                        val = data[key]
+                    setattr(root, key, val)
 
         animation_prompts = root.animation_prompts
-
         args.timestring = time.strftime('%Y%m%d%H%M%S')
         current_arg_list = [args, anim_args, video_args, parseq_args]
         full_base_folder_path = os.path.join(os.getcwd(), "output/deforum")
