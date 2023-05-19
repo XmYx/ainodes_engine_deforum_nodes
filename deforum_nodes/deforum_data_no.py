@@ -19,6 +19,7 @@ from ainodes_frontend import singleton as gs
 from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap
 from custom_nodes.ainodes_engine_base_nodes.image_nodes.output_node import ImagePreviewNode
 from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
+from .deforum_basenode import DeforumBaseParamsWidget
 
 from ..deforum_helpers.render import render_animation, Root, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
     DeformAnimKeys, DeforumAnimPrompts, ParseqArgs, LoopArgs
@@ -917,9 +918,7 @@ class DeforumDataWidget(QDMNodeContentWidget):
 
 
     def get_values(self):
-
         values = {}
-
         for widget in self.widget_list:
             if isinstance(widget, QtWidgets.QWidget):
                 name = widget.objectName()
@@ -944,7 +943,6 @@ class DeforumDataWidget(QDMNodeContentWidget):
                         values[acc_name] = widget.isChecked()
                     elif "_spinbox" in real_name or "_doublespinbox" in real_name:
                         values[acc_name] = widget.value()
-
         return values
 
 class DeforumArgsDataWidget(QDMNodeContentWidget):
@@ -1004,7 +1002,7 @@ class DeforumArgsDataWidget(QDMNodeContentWidget):
 
 
 
-@register_node(OP_NODE_DEFORUM_PROMPT)
+#@register_node(OP_NODE_DEFORUM_PROMPT)
 class DeforumPromptNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/torch.png"
     op_code = OP_NODE_DEFORUM_PROMPT
@@ -1051,7 +1049,7 @@ class DeforumPromptNode(AiNode):
 
 
 
-@register_node(OP_NODE_DEFORUM_ARGS_DATA)
+#@register_node(OP_NODE_DEFORUM_ARGS_DATA)
 class DeforumArgsDataNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/torch.png"
     op_code = OP_NODE_DEFORUM_ARGS_DATA
@@ -1067,7 +1065,7 @@ class DeforumArgsDataNode(AiNode):
         super().__init__(scene, inputs=[6, 1], outputs=[6, 1])
 
     def initInnerClasses(self):
-        self.content = DeforumArgsDataWidget(self)
+        self.content = DeforumBaseParamsWidget(self)
         self.grNode = CalcGraphicsNode(self)
         self.grNode.width = 1280
         self.grNode.height = 500
@@ -1094,7 +1092,7 @@ class DeforumArgsDataNode(AiNode):
 
 
 
-@register_node(OP_NODE_DEFORUM_DATA)
+#@register_node(OP_NODE_DEFORUM_DATA)
 class DeforumDataNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/torch.png"
     op_code = OP_NODE_DEFORUM_DATA
