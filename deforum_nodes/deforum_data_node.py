@@ -80,7 +80,7 @@ deforum_args_layout = {
                 "max_frames": {
                     "type": "spinbox",
                     "min": 1,
-                    "max": 2048,
+                    "max": 100000,
                     "default": 120,
                     "step": 1
                 },
