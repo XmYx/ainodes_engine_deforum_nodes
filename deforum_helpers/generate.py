@@ -12,7 +12,7 @@ from .animation import sample_from_cv2, sample_to_cv2
 #from modules import processing, sd_models
 #from modules.shared import opts, sd_model, state, cmd_opts
 #from modules.processing import process_images, StableDiffusionProcessingTxt2Img
-from .deforum_controlnet import is_controlnet_enabled, process_with_controlnet
+#from .deforum_controlnet import is_controlnet_enabled, process_with_controlnet
 import math, json, itertools
 import requests
 
