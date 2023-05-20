@@ -4,6 +4,10 @@ DEBUG_MODE = gs.debug
 
 def next_seed(args):
     try:
+
+        print("SEED DEBUG", args.seed)
+        print("SEED BEHA", args.seed_behavior)
+
         args.seed = int(args.seed)
     except:
         pass
@@ -30,4 +34,7 @@ def next_seed(args):
         pass # always keep seed the same
     else:
         args.seed = random.randint(0, 2**32 - 1)
+
+    print("SEED DEBUG", args.seed)
+
     return args.seed

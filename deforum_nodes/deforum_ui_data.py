@@ -137,6 +137,10 @@ deforum_anim_params = {
         "type": "lineedit",
         "default": "20230129210106"
     },
+    "use_looper": {
+        "type": "checkbox",
+        "default": False
+    },
 
 }
 

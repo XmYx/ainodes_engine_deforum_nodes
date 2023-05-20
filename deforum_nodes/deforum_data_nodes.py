@@ -138,7 +138,7 @@ class DeforumAnimParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_anim_params_node"
     op_code = OP_NODE_DEFORUM_ANIM_PARAMS
     content_class = DeforumAnimParamsWidget
-    h_value = 250
+    h_value = 300
 
 
 @register_node(OP_NODE_DEFORUM_TRANSLATION_PARAMS)

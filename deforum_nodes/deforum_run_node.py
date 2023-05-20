@@ -95,6 +95,10 @@ class DeforumRunNode(AiNode):
         args_dict['animation_prompts'] = keyframeExamples()
 
         root.animation_prompts = json.loads(args_dict['animation_prompts'])
+
+        setattr(loop_args, "init_images", "")
+        print("LOOP ARGS", loop_args)
+
         if data is not None:
             for key, value in args.__dict__.items():
                 if key in data:
@@ -120,6 +124,14 @@ class DeforumRunNode(AiNode):
                         val = data[key]
                     setattr(root, key, val)
 
+            for key, value in loop_args.__dict__.items():
+                if key in data:
+                    if data[key] == "":
+                        val = None
+                    else:
+                        val = data[key]
+                    setattr(loop_args, key, val)
+
         animation_prompts = root.animation_prompts
         args.timestring = time.strftime('%Y%m%d%H%M%S')
         current_arg_list = [args, anim_args, video_args, parseq_args]
@@ -131,14 +143,15 @@ class DeforumRunNode(AiNode):
         if args.seed == -1 or args.seed == "-1":
 
             setattr(args, "seed", secrets.randbelow(999999999999999999))
-            setattr(root, "raw_seed", args.seed)
+            setattr(root, "raw_seed", int(args.seed))
+            setattr(args, "seed_internal", 0)
 
-        setattr(loop_args, "use_looper", True)
-        try:
-            test = render_animation(self, args, anim_args, video_args, parseq_args, loop_args, controlnet_args, animation_prompts, root, callback=self.handle_callback)
-        except Exception as e:
-            print(e)
-            pass
+        #setattr(loop_args, "use_looper", True)
+        #try:
+        test = render_animation(self, args, anim_args, video_args, parseq_args, loop_args, controlnet_args, animation_prompts, root, callback=self.handle_callback)
+        #except Exception as e:
+        #    print(e)
+        #    pass
         return True
 
     def handle_callback(self, image):

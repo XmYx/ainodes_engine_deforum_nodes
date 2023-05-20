@@ -378,18 +378,19 @@ def render_animation(node, args, anim_args, video_args, parseq_args, loop_args, 
         if anim_args.hybrid_motion == 'Optical Flow':
             prev_flow = None
         if loop_args.use_looper:
-            print("Using Guided Images mode: seed_behavior will be set to 'schedule' and 'strength_0_no_init' to False")
-            if args.strength == 0:
-                args.strength = 0.85
-                print("Strength was set to 0, but using looper, setting strength to 0.85")
-                #raise RuntimeError("Strength needs to be greater than 0 in Init tab")
-            args.strength_0_no_init = False
-            args.seed_behavior = "schedule"
             if not isJson(loop_args.init_images):
                 loop_args.use_looper = False
                 print("***DEFORUM WARNING***")
                 print("     Looper was requested, but the input images are not valid, turning looper Off.")
-                #raise RuntimeError("The images set for use with keyframe-guidance are not in a proper JSON format")
+            else:
+                print("Using Guided Images mode: seed_behavior will be set to 'schedule' and 'strength_0_no_init' to False")
+                if args.strength == 0:
+                    args.strength = 0.85
+                    print("Strength was set to 0, but using looper, setting strength to 0.85")
+                    #raise RuntimeError("Strength needs to be greater than 0 in Init tab")
+                args.strength_0_no_init = False
+                args.seed_behavior = "schedule"
+                    #raise RuntimeError("The images set for use with keyframe-guidance are not in a proper JSON format")
 
     # handle controlnet video input frames generation
     #if is_controlnet_enabled(controlnet_args):
@@ -1022,10 +1023,14 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         for fs, fe in pairwise_repl(framesToImageSwapOn):
             if fs <= frame <= fe:
                 skipFrame = fe - fs
+        if skipFrame > 0:
+            #print("frame % skipFrame", frame % skipFrame)
 
-        if frame % skipFrame <= tweeningFrames:  # number of tweening frames
-            blendFactor = loop_args.blendFactorMax - loop_args.blendFactorSlope * math.cos(
-                (frame % tweeningFrames) / (tweeningFrames / 2))
+            if frame % skipFrame <= tweeningFrames:  # number of tweening frames
+                blendFactor = loop_args.blendFactorMax - loop_args.blendFactorSlope * math.cos(
+                    (frame % tweeningFrames) / (tweeningFrames / 2))
+        else:
+            print("LOOPER ERROR, AVOIDING DIVISION BY 0")
         init_image2, _ = load_img(list(jsonImages.values())[frameToChoose],
                                   shape=(args.W, args.H),
                                   use_alpha_as_mask=args.use_alpha_as_mask)
