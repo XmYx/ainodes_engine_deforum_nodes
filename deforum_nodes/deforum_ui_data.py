@@ -1,9 +1,4 @@
 
-
-
-
-
-
 deforum_base_params = {
 
     "W": {

@@ -7,3 +7,5 @@ imageio_ffmpeg
 rich
 gdown
 py3d
+librosa
+git+https://github.com/XmYx/deforum.git

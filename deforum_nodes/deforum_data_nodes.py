@@ -9,7 +9,11 @@ from functools import partial
 from types import SimpleNamespace
 
 import numpy as np
-from qtpy import QtCore
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPaintEvent, Qt
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+from mpmath import sin
+from qtpy import QtCore, Qt3DCore, Qt3DExtras
 from qtpy import QtWidgets
 
 from ainodes_frontend.base import register_node, get_next_opcode
@@ -25,8 +29,6 @@ from .deforum_basenode import DeforumBaseParamsWidget, DeforumCadenceParamsWidge
     DeforumVideoInitParamsWidget
 from .deforum_data_no import merge_dicts
 
-from ..deforum_helpers.render import render_animation, Root, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
-    DeformAnimKeys, DeforumAnimPrompts, ParseqArgs, LoopArgs
 
 OP_NODE_DEFORUM_BASE_PARAMS = get_next_opcode()
 OP_NODE_DEFORUM_CADENCE_PARAMS = get_next_opcode()
@@ -41,6 +43,106 @@ OP_NODE_DEFORUM_NOISE_PARAMS = get_next_opcode()
 OP_NODE_DEFORUM_DIFFUSION_PARAMS = get_next_opcode()
 OP_NODE_DEFORUM_MASKING_PARAMS = get_next_opcode()
 OP_NODE_DEFORUM_VIDEO_INIT_PARAMS = get_next_opcode()
+
+#OP_NODE_DEFORUM_MOTION = get_next_opcode()
+
+class MotionWidget(QWidget):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        # Initialize motion parameters
+        self.zoom = 1.0
+        self.angle = 0.0
+        self.translation_x = 0.0
+        self.translation_y = 0.0
+        self.rotation = 0.0
+
+        self.frame_number = 0
+
+        # Set up the 3D view and scene
+        self.view = Qt3DExtras.Qt3DWindow()
+        self.scene = Qt3DCore.QEntity()
+
+        # Set up the camera and transform component
+        self.camera = Qt3DExtras.QFirstPersonCameraController(self.scene)
+        self.camera.setAspectRatio(4 / 3)
+        self.camera.setUpVector(Qt3DCore.QVector3D(0, 1, 0))
+        self.camera.setViewCenter(Qt3DCore.QVector3D(0, 0, 0))
+
+        self.transform = Qt3DCore.QTransform()
+        self.scene.addComponent(self.transform)
+
+        self.view.setRootEntity(self.scene)
+
+        # Create a timer to update the animation
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_animation)
+        self.timer.start(30)  # Adjust the interval as needed (in milliseconds)
+
+        # Set up the layout and add the 3D view
+        layout = QVBoxLayout()
+        layout.addWidget(self.view)
+        self.setLayout(layout)
+
+        # Create the point cloud entity
+        self.point_cloud_entity = self.create_point_cloud()
+        self.scene.addChildEntity(self.point_cloud_entity)
+
+    def create_point_cloud(self):
+        # Create a point cloud entity
+        point_cloud_entity = Qt3DCore.QEntity(self.scene)
+
+        # Create the point geometry
+        point_geometry = Qt3DExtras.QSphereGeometry()
+        point_geometry.setRadius(0.05)
+
+        # Create the point material
+        point_material = Qt3DExtras.QPhongMaterial()
+        point_material.setDiffuse(Qt.green)
+
+        # Create a transform component for the point cloud
+        point_transform = Qt3DCore.QTransform()
+        point_transform.setScale3D(Qt3DCore.QVector3D(1, 1, 1))
+        point_transform.setTranslation(Qt3DCore.QVector3D(0, 0, 0))
+
+        # Set the geometry and material to the point cloud entity
+        point_mesh = Qt3DCore.QMesh(point_cloud_entity)
+        point_mesh.setGeometry(point_geometry)
+        point_mesh.setMaterial(point_material)
+        point_mesh.addComponent(point_transform)
+
+        return point_cloud_entity
+
+    def update_animation(self):
+        self.frame_number += 1
+
+        # Update motion parameters based on frame number or keyframes
+        self.zoom = 1.0025 + 0.002 * sin(1.25 * 3.14 * self.frame_number / 30)
+        # Update other motion parameters in a similar fashion
+
+        # Perform the necessary transformations based on motion parameters
+        self.transform.setScale3D(Qt3DCore.QVector3D(self.zoom, self.zoom, self.zoom))
+        self.transform.setRotationZ(self.angle)
+        self.transform.setTranslation(Qt3DCore.QVector3D(self.translation_x, self.translation_y, 0))
+
+        # Update the point cloud position
+        point_transform = self.point_cloud_entity.componentsOfType(Qt3DCore.QTransform)[0]
+        point_transform.setTranslation(Qt3DCore.QVector3D(self.translation_x, self.translation_y, 0))
+
+    def paintEvent(self, event: QPaintEvent):
+        # No need for painting in a 3D widget
+        pass
+
+
+class DeforumMotionWidget(QDMNodeContentWidget):
+    params = None
+    def initUI(self):
+        self.createUI()
+        self.create_main_layout(grid=1)
+        self.main_layout.addWidget(self.widget)
+
+    def createUI(self):
+        self.widget = MotionWidget(self)
 
 
 
@@ -201,7 +303,6 @@ class DeforumVideoInitParamsNode(DeforumParamBaseNode):
     op_code = OP_NODE_DEFORUM_VIDEO_INIT_PARAMS
     content_class = DeforumVideoInitParamsWidget
     h_value = 420 - 100
-
 
 
 

@@ -21,8 +21,8 @@ from custom_nodes.ainodes_engine_base_nodes.image_nodes.output_node import Image
 from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 from .deforum_basenode import DeforumBaseParamsWidget
 
-from ..deforum_helpers.render import render_animation, Root, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
-    DeformAnimKeys, DeforumAnimPrompts, ParseqArgs, LoopArgs
+#from ..deforum_helpers.render import render_animation, Root, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
+#    DeformAnimKeys, DeforumAnimPrompts, ParseqArgs, LoopArgs
 
 OP_NODE_DEFORUM_DATA = get_next_opcode()
 OP_NODE_DEFORUM_ARGS_DATA = get_next_opcode()
@@ -1093,7 +1093,7 @@ class DeforumArgsDataNode(AiNode):
 
 
 #@register_node(OP_NODE_DEFORUM_DATA)
-class DeforumDataNode(AiNode):
+"""class DeforumDataNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/torch.png"
     op_code = OP_NODE_DEFORUM_DATA
     op_title = "Deforum Node"
@@ -1229,7 +1229,7 @@ class DeforumDataNode(AiNode):
             self.executeChild(output_index=1)
 
     def onInputChanged(self, socket=None):
-        pass
+        pass"""
 
 
 def merge_dicts(dict1, dict2):

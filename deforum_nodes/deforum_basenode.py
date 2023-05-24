@@ -51,6 +51,8 @@ class DeforumBaseWidget(QDMNodeContentWidget):
         return values
 
 
+
+
 class DeforumBaseParamsWidget(DeforumBaseWidget):
     params = deforum_base_params
 
