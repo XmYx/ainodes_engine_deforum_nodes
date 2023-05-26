@@ -6,8 +6,8 @@
         {
             "id": 2305020328112,
             "title": "Torch Loader",
-            "pos_x": -3928.10261249542,
-            "pos_y": 2904.814839363097,
+            "pos_x": -4031.0994386672955,
+            "pos_y": 3389.2813920974722,
             "inputs": [
                 {
                     "id": 2305020329360,
@@ -27,19 +27,20 @@
                 }
             ],
             "content": {
-                "Models": "dreamlike-diffusion-1.0.safetensors",
-                "Configs": "v1-inference_fp16.yaml",
+                "Model:": "cyberrealistic_v20.safetensors",
+                "Config:": "v1-inference_fp16.yaml",
                 "Vae": "default",
+                "LDM Optimization": "sdp",
                 "Force Reload": "False"
             },
-            "op_code": 32,
+            "op_code": 34,
             "content_label_objname": "torch_loader_node"
         },
         {
             "id": 2305020328304,
             "title": "K Sampler",
-            "pos_x": -623.7880373001096,
-            "pos_y": 1452.2110795974745,
+            "pos_x": -780.1906251907345,
+            "pos_y": 1787.904438972474,
             "inputs": [
                 {
                     "id": 2305020329408,
@@ -109,19 +110,20 @@
                 "Last Step:": 5,
                 "Stop Sampling Early": "False",
                 "Force full denoise": "True",
+                "Show Tensor Preview": "True",
                 "Disable noise generation": "False",
                 "Iterate seed": "False",
                 "Denoise:": 1.0,
                 "Guidance Scale:": 7.5
             },
-            "op_code": 25,
+            "op_code": 27,
             "content_label_objname": "K_sampling_node"
         },
         {
             "id": 2305020329312,
             "title": "Conditioning",
-            "pos_x": -255.6630373001102,
-            "pos_y": 1598.9298295974745,
+            "pos_x": -309.0687990188603,
+            "pos_y": 1946.067280769349,
             "inputs": [
                 {
                     "id": 2305020328064,
@@ -170,22 +172,22 @@
         {
             "id": 2305020328400,
             "title": "Bg Node",
-            "pos_x": -796.2489748001091,
-            "pos_y": 1351.7227983474745,
+            "pos_x": -849.6547365188591,
+            "pos_y": 1698.860249519349,
             "inputs": [],
             "outputs": [],
             "content": {},
             "op_code": 5,
             "content_label_objname": "bg_node",
             "color": "#ff55aaff",
-            "width": 995.6484374999995,
-            "height": 751.0195312499993
+            "width": 976.5749511718745,
+            "height": 842.5722656249993
         },
         {
             "id": 2373651337888,
             "title": "Deforum Video Init Params",
-            "pos_x": -1196.7793703079208,
-            "pos_y": 2497.344136238097,
+            "pos_x": -1299.7761964797955,
+            "pos_y": 2981.8106889724722,
             "inputs": [
                 {
                     "id": 2373654384448,
@@ -227,14 +229,14 @@
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 54,
+            "op_code": 55,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -273.3174562454219,
-            "pos_y": 2184.7220659255972,
+            "pos_x": -376.3142824172969,
+            "pos_y": 2669.1886186599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -247,8 +249,8 @@
         {
             "id": 2373654390880,
             "title": "Deforum Masking Params",
-            "pos_x": -1193.3614015579208,
-            "pos_y": 2837.1878862380972,
+            "pos_x": -1296.3582277297955,
+            "pos_y": 3321.6544389724722,
             "inputs": [
                 {
                     "id": 2373654390544,
@@ -296,14 +298,14 @@
                 "full_res_mask": "True",
                 "full_res_mask_padding": 4
             },
-            "op_code": 53,
+            "op_code": 54,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
             "id": 2316990994496,
             "title": "Bg Node",
-            "pos_x": -2706.6182374954205,
-            "pos_y": 2953.179097175597,
+            "pos_x": -2809.6150636672955,
+            "pos_y": 3437.6456499099722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -316,8 +318,8 @@
         {
             "id": 2373654391312,
             "title": "Deforum Translation",
-            "pos_x": -2279.884839057921,
-            "pos_y": 2680.449604988097,
+            "pos_x": -2382.881665229796,
+            "pos_y": 3164.9161577224722,
             "inputs": [
                 {
                     "id": 2373654380992,
@@ -362,14 +364,14 @@
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 48,
+            "op_code": 49,
             "content_label_objname": "deforum_translation_node"
         },
         {
             "id": 2305020327488,
             "title": "Bg Node",
-            "pos_x": 379.54509258270264,
-            "pos_y": 2014.4492387771593,
+            "pos_x": 276.54826641082764,
+            "pos_y": 2498.9157915115347,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -382,8 +384,8 @@
         {
             "id": 2316990994496,
             "title": "Bg Node",
-            "pos_x": -2530.0557374954205,
-            "pos_y": 2950.054097175597,
+            "pos_x": -2633.0525636672955,
+            "pos_y": 3434.5206499099722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -396,8 +398,8 @@
         {
             "id": 2373654391600,
             "title": "Image Preview",
-            "pos_x": 605.8634519577023,
-            "pos_y": 2071.4072465896593,
+            "pos_x": 502.8666257858273,
+            "pos_y": 2555.8737993240347,
             "inputs": [
                 {
                     "id": 2373654391744,
@@ -451,8 +453,8 @@
         {
             "id": 2373654392032,
             "title": "Execute",
-            "pos_x": -3896.6084718704196,
-            "pos_y": 2455.931782722472,
+            "pos_x": -3999.6052980422946,
+            "pos_y": 2940.3983354568472,
             "inputs": [
                 {
                     "id": 2373654392512,
@@ -478,8 +480,8 @@
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -747.9268312454215,
-            "pos_y": 2182.768940925597,
+            "pos_x": -850.9236574172966,
+            "pos_y": 2667.2354936599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -492,8 +494,8 @@
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -1302.6143312454215,
-            "pos_y": 2176.9095659255977,
+            "pos_x": -1405.6111574172965,
+            "pos_y": 2661.3761186599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -506,8 +508,8 @@
         {
             "id": 2316990994448,
             "title": "Bg Node",
-            "pos_x": -2881.7158937454205,
-            "pos_y": 2159.331440925597,
+            "pos_x": -2984.7127199172955,
+            "pos_y": 2643.7979936599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -520,8 +522,8 @@
         {
             "id": 2373654392848,
             "title": "Deforum Base Params",
-            "pos_x": -3368.0598878860446,
-            "pos_y": 2423.9981889724727,
+            "pos_x": -3471.0567140579196,
+            "pos_y": 2908.4647417068472,
             "inputs": [
                 {
                     "id": 2373654392320,
@@ -576,14 +578,14 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 42,
+            "op_code": 43,
             "content_label_objname": "deforum_base_params_node"
         },
         {
             "id": 2373654392992,
             "title": "Deforum Hybrid Video Params",
-            "pos_x": -1820.2996828079224,
-            "pos_y": 2610.8605424880966,
+            "pos_x": -1923.2965089797972,
+            "pos_y": 3095.327095222471,
             "inputs": [
                 {
                     "id": 2373654391120,
@@ -633,14 +635,14 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 44,
+            "op_code": 45,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
             "id": 2373654391648,
             "title": "Video Save",
-            "pos_x": 443.80017070770293,
-            "pos_y": 3181.6552934646597,
+            "pos_x": 340.80334453582793,
+            "pos_y": 3666.1218461990347,
             "inputs": [
                 {
                     "id": 2373654393664,
@@ -676,14 +678,14 @@
             "content": {
                 "Dump at every:": 0
             },
-            "op_code": 37,
+            "op_code": 26,
             "content_label_objname": "video_output_node"
         },
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -2328.0049562454215,
-            "pos_y": 2169.097065925597,
+            "pos_x": -2431.0017824172965,
+            "pos_y": 2653.5636186599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -696,8 +698,8 @@
         {
             "id": 2316990994688,
             "title": "Bg Node",
-            "pos_x": -2886.3057374954205,
-            "pos_y": 2951.616597175597,
+            "pos_x": -2989.3025636672955,
+            "pos_y": 3436.0831499099722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -710,8 +712,8 @@
         {
             "id": 2373654394672,
             "title": "Deforum Diffusion Params",
-            "pos_x": -694.1426515579216,
-            "pos_y": 2868.2425737380972,
+            "pos_x": -797.1394777297966,
+            "pos_y": 3352.7091264724722,
             "inputs": [
                 {
                     "id": 2373654394144,
@@ -756,14 +758,14 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 52,
+            "op_code": 53,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
             "id": 2302744841376,
             "title": "Bg Node",
-            "pos_x": -3999.1475343704196,
-            "pos_y": 2328.978657722472,
+            "pos_x": -4102.144360542295,
+            "pos_y": 2813.4452104568472,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -776,8 +778,8 @@
         {
             "id": 2373654393616,
             "title": "Deforum Depth Params",
-            "pos_x": -2285.158276557921,
-            "pos_y": 2328.008198738097,
+            "pos_x": -2388.155102729796,
+            "pos_y": 2812.4747514724722,
             "inputs": [
                 {
                     "id": 2373654391840,
@@ -818,14 +820,14 @@
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 50,
+            "op_code": 51,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
             "id": 2373654393472,
             "title": "Deforum Prompt Node",
-            "pos_x": -228.3955812454219,
-            "pos_y": 2262.3587846755972,
+            "pos_x": -331.3924074172969,
+            "pos_y": 2746.8253374099722,
             "inputs": [
                 {
                     "id": 2373654395248,
@@ -861,14 +863,14 @@
             "content": {
                 "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
             },
-            "op_code": 55,
+            "op_code": 56,
             "content_label_objname": "deforum_prompt_node"
         },
         {
             "id": 2373654392896,
             "title": "Deforum Hybrid Schedule",
-            "pos_x": -1820.5098390579217,
-            "pos_y": 2266.9730424880977,
+            "pos_x": -1923.5066652297965,
+            "pos_y": 2751.4395952224722,
             "inputs": [
                 {
                     "id": 2373654395728,
@@ -909,14 +911,14 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 46,
+            "op_code": 47,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
             "id": 2373654395536,
             "title": "Deforum Image Init Params",
-            "pos_x": -1198.2442140579217,
-            "pos_y": 2228.7894487380977,
+            "pos_x": -1301.2410402297965,
+            "pos_y": 2713.2560014724722,
             "inputs": [
                 {
                     "id": 2373654396208,
@@ -955,14 +957,14 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 45,
+            "op_code": 46,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
             "id": 2373654396016,
             "title": "Deforum Noise Params",
-            "pos_x": -705.5684328079216,
-            "pos_y": 2352.324604988097,
+            "pos_x": -808.5652589797966,
+            "pos_y": 2836.7911577224722,
             "inputs": [
                 {
                     "id": 2373654395584,
@@ -1008,14 +1010,14 @@
                 "perlin_octaves": 4,
                 "perlin_persistence": 0.0
             },
-            "op_code": 51,
+            "op_code": 52,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
             "id": 2373654396112,
             "title": "Deforum Color Params",
-            "pos_x": -2789.9434328079205,
-            "pos_y": 3011.308979988097,
+            "pos_x": -2892.9402589797955,
+            "pos_y": 3495.7755327224722,
             "inputs": [
                 {
                     "id": 2373654394192,
@@ -1055,14 +1057,14 @@
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 49,
+            "op_code": 50,
             "content_label_objname": "deforum_color_params_node"
         },
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -1870.9737062454215,
-            "pos_y": 2171.050190925597,
+            "pos_x": -1973.9705324172965,
+            "pos_y": 2655.5167436599722,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -1075,8 +1077,8 @@
         {
             "id": 2316990996608,
             "title": "Bg Node",
-            "pos_x": -3419.1487550735455,
-            "pos_y": 2317.723774909972,
+            "pos_x": -3522.1455812454205,
+            "pos_y": 2802.1903276443472,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -1089,8 +1091,8 @@
         {
             "id": 2373654396688,
             "title": "Deforum Anim Params",
-            "pos_x": -2801.6473390579213,
-            "pos_y": 2219.1300737380975,
+            "pos_x": -2904.6441652297963,
+            "pos_y": 2703.596626472473,
             "inputs": [
                 {
                     "id": 2374258147488,
@@ -1131,14 +1133,14 @@
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 47,
+            "op_code": 48,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
             "id": 2373654396832,
             "title": "Deforum Cadence Params",
-            "pos_x": -2831.4473390579205,
-            "pos_y": 2554.180073738097,
+            "pos_x": -2934.4441652297955,
+            "pos_y": 3038.6466264724722,
             "inputs": [
                 {
                     "id": 2374258147968,
@@ -1179,14 +1181,14 @@
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "1"
             },
-            "op_code": 43,
+            "op_code": 44,
             "content_label_objname": "deforum_cadence_params_node"
         },
         {
             "id": 2305020328400,
             "title": "Bg Node",
-            "pos_x": -4084.5967531204215,
-            "pos_y": 2828.398823738095,
+            "pos_x": -4187.593579292296,
+            "pos_y": 3312.8653764724704,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -1199,8 +1201,8 @@
         {
             "id": 2362654425200,
             "title": "Deforum Runner",
-            "pos_x": -191.4062499999999,
-            "pos_y": 3107.421874999998,
+            "pos_x": -294.4030761718749,
+            "pos_y": 3591.888427734373,
             "inputs": [
                 {
                     "id": 2362871046224,
@@ -1255,14 +1257,14 @@
                 }
             ],
             "content": {},
-            "op_code": 56,
+            "op_code": 57,
             "content_label_objname": "deforum_runner_node"
         },
         {
             "id": 2362871047424,
             "title": "Image Preview",
-            "pos_x": 1266.4062499999993,
-            "pos_y": 2082.4218749999995,
+            "pos_x": 1163.4094238281243,
+            "pos_y": 2566.888427734374,
             "inputs": [
                 {
                     "id": 2362871047568,
@@ -1381,7 +1383,7 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 44,
+            "op_code": 45,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
@@ -1447,7 +1449,7 @@
                 "Sampler:": "p_sampler",
                 "Prior Scale:": 5
             },
-            "op_code": 26,
+            "op_code": 28,
             "content_label_objname": "kandinsky_node"
         },
         {
@@ -1499,7 +1501,7 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 52,
+            "op_code": 53,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
@@ -1588,7 +1590,7 @@
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 50,
+            "op_code": 51,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
@@ -1685,7 +1687,7 @@
                 "full_res_mask": "True",
                 "full_res_mask_padding": 4
             },
-            "op_code": 53,
+            "op_code": 54,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
@@ -1747,7 +1749,7 @@
                 }
             ],
             "content": {},
-            "op_code": 56,
+            "op_code": 57,
             "content_label_objname": "deforum_runner_node"
         },
         {
@@ -1813,7 +1815,7 @@
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 48,
+            "op_code": 49,
             "content_label_objname": "deforum_translation_node"
         },
         {
@@ -1884,7 +1886,7 @@
             "content": {
                 "Dump at every:": 0
             },
-            "op_code": 37,
+            "op_code": 26,
             "content_label_objname": "video_output_node"
         },
         {
@@ -1947,7 +1949,7 @@
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 54,
+            "op_code": 55,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
@@ -2059,7 +2061,7 @@
             "content": {
                 "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
             },
-            "op_code": 55,
+            "op_code": 56,
             "content_label_objname": "deforum_prompt_node"
         },
         {
@@ -2106,7 +2108,7 @@
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 49,
+            "op_code": 50,
             "content_label_objname": "deforum_color_params_node"
         },
         {
@@ -2154,7 +2156,7 @@
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 47,
+            "op_code": 48,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
@@ -2230,7 +2232,7 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 42,
+            "op_code": 43,
             "content_label_objname": "deforum_base_params_node"
         },
         {
@@ -2347,7 +2349,7 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 46,
+            "op_code": 47,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
@@ -2400,7 +2402,7 @@
                 "perlin_octaves": 4,
                 "perlin_persistence": 0.0
             },
-            "op_code": 51,
+            "op_code": 52,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
@@ -2446,7 +2448,7 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 45,
+            "op_code": 46,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
@@ -2508,7 +2510,7 @@
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "0"
             },
-            "op_code": 43,
+            "op_code": 44,
             "content_label_objname": "deforum_cadence_params_node"
         }
     ],
