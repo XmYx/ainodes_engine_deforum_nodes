@@ -95,7 +95,7 @@ from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
 
 OP_NODE_DEFORUM_PEAKS = get_next_opcode()
-class AudioWidget(QDMNodeContentWidget):
+class DeforumAudioPeaksWidget(QDMNodeContentWidget):
     set_peaks_signal = QtCore.Signal(str)
     def initUI(self):
         # Create a label to display the image
@@ -108,19 +108,19 @@ class AudioWidget(QDMNodeContentWidget):
 
 
 @register_node(OP_NODE_DEFORUM_PEAKS)
-class AudioNode(AiNode):
+class DeforumAudioNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/bg.png"
     op_code = OP_NODE_DEFORUM_PEAKS
-    op_title = "Matting"
-    content_label_objname = "image_matte_node"
-    category = "Image"
+    op_title = "Deforum Peaks"
+    content_label_objname = "deforum_audio_peaks_node"
+    category = "DeForum"
 
 
     def __init__(self, scene):
         super().__init__(scene, inputs=[1], outputs=[1])
 
     def initInnerClasses(self):
-        self.content = AudioWidget(self)
+        self.content = DeforumAudioPeaksWidget(self)
         self.grNode = CalcGraphicsNode(self)
         self.grNode.height = 200
         self.grNode.width = 280
