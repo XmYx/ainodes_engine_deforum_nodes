@@ -53,6 +53,7 @@ def get_peak_values(mp3_path, threshold, number_of_samples, distribution=None):
 import numpy as np
 
 def generate_keyframes(mp3_path, fps):
+    import librosa
     # Load the audio file
     audio, sr = librosa.load(mp3_path)
 
