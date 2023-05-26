@@ -4,1071 +4,6 @@
     "scene_height": 64000,
     "nodes": [
         {
-            "id": 1759486617840,
-            "title": "Deforum Runner",
-            "pos_x": -172.4687499999999,
-            "pos_y": 911.8906249999999,
-            "inputs": [
-                {
-                    "id": 1759497790528,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759497790432,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 3
-                },
-                {
-                    "id": 1759487328656,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 1759487328704,
-                    "index": 3,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759487341232,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 1759484781680,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {},
-            "op_code": 56,
-            "content_label_objname": "deforum_runner_node"
-        },
-        {
-            "id": 1759450418144,
-            "title": "Kandinsky",
-            "pos_x": -163.79882812500034,
-            "pos_y": -723.2666015624977,
-            "inputs": [
-                {
-                    "id": 1759449730256,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 1759449734528,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759449730544,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                },
-                {
-                    "id": 2287486681296,
-                    "index": 3,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759433912528,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 1759492671952,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "Task": "TXT2IMG",
-                "Prompt:": "",
-                "Seed:": "",
-                "Steps:": 25,
-                "Guidance Scale:": 4,
-                "Width:": 512,
-                "Height:": 512,
-                "Strength:": 0.84,
-                "Sampler:": "p_sampler",
-                "Prior Scale:": 5
-            },
-            "op_code": 26,
-            "content_label_objname": "kandinsky_node"
-        },
-        {
-            "id": 1759488529248,
-            "title": "Deforum Anim Params",
-            "pos_x": -2795.9080078125,
-            "pos_y": 40.2673828125001,
-            "inputs": [
-                {
-                    "id": 1759433470016,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759484775872,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759484773232,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759436032704,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "animation_mode_value_combobox": "3D",
-                "max_frames": 300,
-                "border_value_combobox": "wrap",
-                "resume_from_timestring": "False",
-                "resume_timestring": "20230519203823",
-                "use_looper": "False"
-            },
-            "op_code": 47,
-            "content_label_objname": "deforum_anim_params_node"
-        },
-        {
-            "id": 1759497899504,
-            "title": "Deforum Base Params",
-            "pos_x": -3362.3205566406227,
-            "pos_y": 245.13549804687523,
-            "inputs": [
-                {
-                    "id": 1759619150272,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149648,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619149600,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619150368,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "W": 768,
-                "H": 512,
-                "seed": "-1",
-                "sampler": "euler_ancestral",
-                "steps": 25,
-                "scale": 7,
-                "n_batch": 1,
-                "batch_name": "Deforum_{timestring}",
-                "seed_behavior_value_combobox": "iter",
-                "seed_iter_N": 1,
-                "outdir": "output/deforum",
-                "strength": 0.0,
-                "save_settings": "True",
-                "save_sample_per_step": "False",
-                "prompt_weighting": "False",
-                "normalize_prompt_weights": "True",
-                "log_weighted_subprompts": "False",
-                "prompt": "",
-                "timestring": "",
-                "seed_internal": "-1"
-            },
-            "op_code": 42,
-            "content_label_objname": "deforum_base_params_node"
-        },
-        {
-            "id": 1759451257280,
-            "title": "Deforum Cadence Params",
-            "pos_x": -2825.708007812499,
-            "pos_y": 375.3173828125001,
-            "inputs": [
-                {
-                    "id": 1759619150176,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149744,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619149792,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148304,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "diffusion_cadence": 4,
-                "optical_flow_cadence_value_combobox": "None",
-                "cadence_flow_factor_schedule": "0: (1)",
-                "optical_flow_redo_generation_value_combobox": "None",
-                "redo_flow_factor_schedule": "0: (1)",
-                "diffusion_redo": "0"
-            },
-            "op_code": 43,
-            "content_label_objname": "deforum_cadence_params_node"
-        },
-        {
-            "id": 1759450762112,
-            "title": "Deforum Color Params",
-            "pos_x": -2784.204101562499,
-            "pos_y": 832.4462890624998,
-            "inputs": [
-                {
-                    "id": 1759619149888,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149936,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619148208,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148544,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "color_coherence_value_combobox": "None",
-                "color_coherence_image_path": "",
-                "color_coherence_video_every_N_frames": 1,
-                "color_force_grayscale": "False",
-                "legacy_colormatch": "False"
-            },
-            "op_code": 49,
-            "content_label_objname": "deforum_color_params_node"
-        },
-        {
-            "id": 1759498922272,
-            "title": "Deforum Depth Params",
-            "pos_x": -2288.7939453124986,
-            "pos_y": 110.0830078125,
-            "inputs": [
-                {
-                    "id": 1759619148400,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148448,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619148112,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148160,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "use_depth_warping": "True",
-                "depth_algorithm_value_combobox": "Zoe",
-                "midas_weight": 0.0,
-                "padding_mode_value_combobox": "border",
-                "sampling_mode_value_combobox": "bicubic",
-                "save_depth_maps": "False"
-            },
-            "op_code": 50,
-            "content_label_objname": "deforum_depth_params_node"
-        },
-        {
-            "id": 1759497907664,
-            "title": "Deforum Diffusion Params",
-            "pos_x": -688.4033203124999,
-            "pos_y": 667.8955078124997,
-            "inputs": [
-                {
-                    "id": 1757662435200,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759488529200,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759499088656,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759499088992,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "noise_schedule": "0: (0.065)",
-                "strength_schedule": "0: (0.65)",
-                "contrast_schedule": "0: (1.0)",
-                "cfg_scale_schedule": "0: (7)",
-                "enable_steps_scheduling": "False",
-                "steps_schedule": "0: (25)",
-                "enable_ddim_eta_scheduling": "False",
-                "ddim_eta_schedule": "0:(0)",
-                "enable_ancestral_eta_scheduling": "False",
-                "ancestral_eta_schedule": "0:(1)"
-            },
-            "op_code": 52,
-            "content_label_objname": "deforum_diffusion_params_node"
-        },
-        {
-            "id": 1759498430320,
-            "title": "Deforum Hybrid Schedule",
-            "pos_x": -1819.4580078124995,
-            "pos_y": 78.73535156250023,
-            "inputs": [
-                {
-                    "id": 1759499090384,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759499090336,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759499088944,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759499091824,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "hybrid_comp_alpha_schedule": "0:(0.5)",
-                "hybrid_comp_mask_blend_alpha_schedule": "0:(0.5)",
-                "hybrid_comp_mask_contrast_schedule": "0:(1)",
-                "hybrid_comp_mask_auto_contrast_cutoff_high_schedule": "0:(100)",
-                "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
-                "hybrid_flow_factor_schedule": "0:(1)"
-            },
-            "op_code": 46,
-            "content_label_objname": "deforum_hybrid_sched_node"
-        },
-        {
-            "id": 1759450417808,
-            "title": "Deforum Hybrid Video Params",
-            "pos_x": -1816.1228515625003,
-            "pos_y": 477.3103515624996,
-            "inputs": [
-                {
-                    "id": 1759492125120,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759492124976,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759490165824,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759498922608,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "hybrid_generate_inputframes": "False",
-                "hybrid_generate_human_masks_value_combobox": "None",
-                "hybrid_use_first_frame_as_init_image": "True",
-                "hybrid_motion_value_combobox": "None",
-                "hybrid_motion_use_prev_img": "False",
-                "hybrid_flow_consistency": "False",
-                "hybrid_consistency_blur": 2,
-                "hybrid_flow_method_value_combobox": "RAFT",
-                "hybrid_composite_value_combobox": "None",
-                "hybrid_use_init_image": "False",
-                "hybrid_comp_mask_type_value_combobox": "None",
-                "hybrid_comp_mask_inverse": "False",
-                "hybrid_comp_mask_equalize_value_combobox": "None",
-                "hybrid_comp_mask_auto_contrast": "False",
-                "hybrid_comp_save_extra_frames": "False"
-            },
-            "op_code": 44,
-            "content_label_objname": "deforum_hybrid_params_node"
-        },
-        {
-            "id": 1759499089088,
-            "title": "Deforum Image Init Params",
-            "pos_x": -1217.8955078124998,
-            "pos_y": 24.536132812500227,
-            "inputs": [
-                {
-                    "id": 1759498912672,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759498922176,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759498924960,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759498924912,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "strength_0_no_init": "True",
-                "init_image": "https://deforum.github.io/a1/I1.png",
-                "init_sample": "",
-                "use_init": "False"
-            },
-            "op_code": 45,
-            "content_label_objname": "deforum_image_init_params_node"
-        },
-        {
-            "id": 1759498913584,
-            "title": "Deforum Masking Params",
-            "pos_x": -1230.5908203124984,
-            "pos_y": 677.8564453124998,
-            "inputs": [
-                {
-                    "id": 1759450761680,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759450762064,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619148496,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148352,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "use_mask": "False",
-                "use_alpha_as_mask": "False",
-                "mask_file": "https://deforum.github.io/a1/M1.jpg",
-                "mask_image": "",
-                "noise_mask": "",
-                "invert_mask": "False",
-                "mask_contrast_adjust": 1.0,
-                "mask_brightness_adjust": 1.0,
-                "overlay_mask": "True",
-                "mask_overlay_blur": 4,
-                "fill": 1,
-                "full_res_mask": "True",
-                "full_res_mask_padding": 4
-            },
-            "op_code": 53,
-            "content_label_objname": "deforum_masking_params_node"
-        },
-        {
-            "id": 1759488301648,
-            "title": "Deforum Noise Params",
-            "pos_x": -693.9697265624997,
-            "pos_y": 150.0244140625001,
-            "inputs": [
-                {
-                    "id": 1759619150320,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619150080,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619150464,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619150224,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "enable_noise_multiplier_scheduling": "True",
-                "noise_multiplier_schedule": "0: (1.05)",
-                "amount_schedule": "0: (0.1)",
-                "kernel_schedule": "0: (5)",
-                "sigma_schedule": "0: (1.0)",
-                "threshold_schedule": "0: (0.0)",
-                "noise_type_value_combobox": "uniform",
-                "perlin_w": 8,
-                "perlin_h": 8,
-                "perlin_octaves": 4,
-                "perlin_persistence": 0.0
-            },
-            "op_code": 51,
-            "content_label_objname": "deforum_noise_params_node"
-        },
-        {
-            "id": 1759499088176,
-            "title": "Deforum Prompt Node",
-            "pos_x": -226.56249999999991,
-            "pos_y": 83.49609374999977,
-            "inputs": [
-                {
-                    "id": 1759619149840,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148688,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619148256,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149408,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
-            },
-            "op_code": 55,
-            "content_label_objname": "deforum_prompt_node"
-        },
-        {
-            "id": 1759619150128,
-            "title": "Deforum Translation",
-            "pos_x": -2280.3955078124986,
-            "pos_y": 509.3994140624998,
-            "inputs": [
-                {
-                    "id": 1759619148976,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149024,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619149072,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149120,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "angle": "0:(0)",
-                "zoom": "0:(1.0025+0.002*sin(1.25*3.14*t/30))",
-                "translation_x": "0:(0)",
-                "translation_y": "0:(0)",
-                "translation_z": "0:(1.75)",
-                "transform_center_x": "0:(0.5)",
-                "transform_center_y": "0:(0.5)",
-                "rotation_3d_x": "0:(0)",
-                "rotation_3d_y": "0:(0)",
-                "rotation_3d_z": "0:(0)"
-            },
-            "op_code": 48,
-            "content_label_objname": "deforum_translation_node"
-        },
-        {
-            "id": 1759619148880,
-            "title": "Deforum Video Init Params",
-            "pos_x": -1224.2431640624989,
-            "pos_y": 336.0595703125,
-            "inputs": [
-                {
-                    "id": 1759619149264,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619149312,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1759619149360,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 1759619148832,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "video_init_path": "https://deforum.github.io/a1/V1.mp4",
-                "extract_nth_frame": 1,
-                "extract_from_frame": 0,
-                "extract_to_frame": -1,
-                "overwrite_extracted_frames": "True",
-                "use_mask_video": "False",
-                "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
-            },
-            "op_code": 54,
-            "content_label_objname": "deforum_video_init_params_node"
-        },
-        {
-            "id": 2302744844304,
-            "title": "Execute",
-            "pos_x": -3873.2910156249977,
-            "pos_y": 519.2565917968744,
-            "inputs": [
-                {
-                    "id": 2302744842768,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2302744842624,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {},
-            "op_code": 7,
-            "content_label_objname": "exec_node"
-        },
-        {
-            "id": 2302744841376,
-            "title": "Bg Node",
-            "pos_x": -3975.8300781249977,
-            "pos_y": 392.3034667968743,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff55aa00",
-            "width": 455.12109374999955,
-            "height": 428.2656249999999
-        },
-        {
-            "id": 2302744842528,
-            "title": "Image Preview",
-            "pos_x": 449.1699218749991,
-            "pos_y": 75.07324218749966,
-            "inputs": [
-                {
-                    "id": 2302744839648,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2302744839216,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2302744839168,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2302744839120,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2302744839312,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2302744838880,
-                    "index": 2,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {},
-            "op_code": 14,
-            "content_label_objname": "image_output_node"
-        },
-        {
-            "id": 2316990994688,
-            "title": "Bg Node",
-            "pos_x": -2880.566406249999,
-            "pos_y": 772.7539062499998,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffff0000",
-            "width": 176.3125,
-            "height": 431.0
-        },
-        {
-            "id": 2316990994496,
-            "title": "Bg Node",
-            "pos_x": -2700.878906249999,
-            "pos_y": 774.3164062499998,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff00aa00",
-            "width": 173.1875,
-            "height": 429.4375
-        },
-        {
-            "id": 2316990994496,
-            "title": "Bg Node",
-            "pos_x": -2524.316406249999,
-            "pos_y": 771.1914062499998,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff0000ff",
-            "width": 173.1875,
-            "height": 429.4375
-        },
-        {
-            "id": 2316990996608,
-            "title": "Bg Node",
-            "pos_x": -3413.4094238281236,
-            "pos_y": 138.861083984375,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff55557f",
-            "width": 457.5625,
-            "height": 896.6249999999998
-        },
-        {
-            "id": 2316990994448,
-            "title": "Bg Node",
-            "pos_x": -2875.976562499999,
-            "pos_y": -19.531249999999943,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffffff00",
-            "width": 508.83203125,
-            "height": 738.3242187499998
-        },
-        {
-            "id": 2316990996464,
-            "title": "Bg Node",
-            "pos_x": -2322.2656249999995,
-            "pos_y": -9.765625,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff005500",
-            "width": 441.13750000000005,
-            "height": 1230.3249999999998
-        },
-        {
-            "id": 2316990996464,
-            "title": "Bg Node",
-            "pos_x": -1865.2343749999995,
-            "pos_y": -7.8125,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffaa55ff",
-            "width": 550.5343750000002,
-            "height": 1228.5374999999997
-        },
-        {
-            "id": 2316990996464,
-            "title": "Bg Node",
-            "pos_x": -1296.8749999999993,
-            "pos_y": -1.9531249999997726,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffaa00ff",
-            "width": 550.5343750000002,
-            "height": 1228.5374999999997
-        },
-        {
-            "id": 2316990996464,
-            "title": "Bg Node",
-            "pos_x": -742.1874999999997,
-            "pos_y": 3.90625,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffffaa00",
-            "width": 439.20625000000024,
-            "height": 1220.7249999999997
-        },
-        {
-            "id": 2316990996464,
-            "title": "Bg Node",
-            "pos_x": -271.4843749999999,
-            "pos_y": 5.859375000000227,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff00557f",
-            "width": 484.1281250000001,
-            "height": 1218.771875
-        },
-        {
             "id": 2305020328112,
             "title": "Torch Loader",
             "pos_x": -3928.10261249542,
@@ -1097,7 +32,7 @@
                 "Vae": "default",
                 "Force Reload": "False"
             },
-            "op_code": 33,
+            "op_code": 32,
             "content_label_objname": "torch_loader_node"
         },
         {
@@ -1247,81 +182,10 @@
             "height": 751.0195312499993
         },
         {
-            "id": 2305020327440,
-            "title": "Bg Node",
-            "pos_x": -272.21679687500034,
-            "pos_y": -836.7919921874982,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ffffaaff",
-            "width": 460.0039062499998,
-            "height": 774.9453124999995
-        },
-        {
-            "id": 2305020327488,
-            "title": "Bg Node",
-            "pos_x": 368.1640624999993,
-            "pos_y": -33.447265625,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 5,
-            "content_label_objname": "bg_node",
-            "color": "#ff550000",
-            "width": 954.5107421874989,
-            "height": 1261.0292968749986
-        },
-        {
-            "id": 2303939163712,
-            "title": "Video Save",
-            "pos_x": 446.0910156250002,
-            "pos_y": 866.1806640624998,
-            "inputs": [
-                {
-                    "id": 2317242779728,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2324975906016,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2324975906112,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2324975905248,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "Dump at every:": 0
-            },
-            "op_code": 38,
-            "content_label_objname": "video_output_node"
-        },
-        {
             "id": 2373651337888,
             "title": "Deforum Video Init Params",
-            "pos_x": -1229.9824953079205,
-            "pos_y": 2514.922261238097,
+            "pos_x": -1196.7793703079208,
+            "pos_y": 2497.344136238097,
             "inputs": [
                 {
                     "id": 2373654384448,
@@ -1369,8 +233,8 @@
         {
             "id": 2316990996464,
             "title": "Bg Node",
-            "pos_x": -277.2237062454219,
-            "pos_y": 2184.7220659255977,
+            "pos_x": -273.3174562454219,
+            "pos_y": 2184.7220659255972,
             "inputs": [],
             "outputs": [],
             "content": {},
@@ -1383,8 +247,8 @@
         {
             "id": 2373654390880,
             "title": "Deforum Masking Params",
-            "pos_x": -1236.3301515579205,
-            "pos_y": 2856.719136238097,
+            "pos_x": -1193.3614015579208,
+            "pos_y": 2837.1878862380972,
             "inputs": [
                 {
                     "id": 2373654390544,
@@ -1426,7 +290,7 @@
                 "invert_mask": "False",
                 "mask_contrast_adjust": 1.0,
                 "mask_brightness_adjust": 1.0,
-                "overlay_mask": "True",
+                "overlay_mask": "False",
                 "mask_overlay_blur": 4,
                 "fill": 1,
                 "full_res_mask": "True",
@@ -1452,8 +316,8 @@
         {
             "id": 2373654391312,
             "title": "Deforum Translation",
-            "pos_x": -2286.1348390579205,
-            "pos_y": 2688.262104988097,
+            "pos_x": -2279.884839057921,
+            "pos_y": 2680.449604988097,
             "inputs": [
                 {
                     "id": 2373654380992,
@@ -1488,10 +352,10 @@
             ],
             "content": {
                 "angle": "0:(0)",
-                "zoom": "0:(1.0025+0.002*sin(1.25*3.14*t/30))",
+                "zoom": "0:(0)",
                 "translation_x": "0:(0)",
                 "translation_y": "0:(0)",
-                "translation_z": "0:(1.75)",
+                "translation_z": "0:(5)",
                 "transform_center_x": "0:(0.5)",
                 "transform_center_y": "0:(0.5)",
                 "rotation_3d_x": "0:(0)",
@@ -1512,8 +376,8 @@
             "op_code": 5,
             "content_label_objname": "bg_node",
             "color": "#ff550000",
-            "width": 1128.3388671874986,
-            "height": 1491.4980468749984
+            "width": 2204.5107421874986,
+            "height": 1522.7480468749984
         },
         {
             "id": 2316990994496,
@@ -1532,8 +396,8 @@
         {
             "id": 2373654391600,
             "title": "Image Preview",
-            "pos_x": 546.4884519577024,
-            "pos_y": 2175.7041215896593,
+            "pos_x": 605.8634519577023,
+            "pos_y": 2071.4072465896593,
             "inputs": [
                 {
                     "id": 2373654391744,
@@ -1691,7 +555,7 @@
                 }
             ],
             "content": {
-                "W": 768,
+                "W": 512,
                 "H": 512,
                 "seed": "-1",
                 "sampler": "euler_ancestral",
@@ -1718,8 +582,8 @@
         {
             "id": 2373654392992,
             "title": "Deforum Hybrid Video Params",
-            "pos_x": -1821.8621828079222,
-            "pos_y": 2656.1730424880966,
+            "pos_x": -1820.2996828079224,
+            "pos_y": 2610.8605424880966,
             "inputs": [
                 {
                     "id": 2373654391120,
@@ -1775,8 +639,8 @@
         {
             "id": 2373654391648,
             "title": "Video Save",
-            "pos_x": 994.581420707703,
-            "pos_y": 3042.9834184646593,
+            "pos_x": 443.80017070770293,
+            "pos_y": 3181.6552934646597,
             "inputs": [
                 {
                     "id": 2373654393664,
@@ -1812,63 +676,8 @@
             "content": {
                 "Dump at every:": 0
             },
-            "op_code": 38,
+            "op_code": 37,
             "content_label_objname": "video_output_node"
-        },
-        {
-            "id": 2373654393424,
-            "title": "Deforum Runner",
-            "pos_x": -178.2080812454219,
-            "pos_y": 3090.753315925597,
-            "inputs": [
-                {
-                    "id": 2373654393856,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2373654394288,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 3
-                },
-                {
-                    "id": 2373654394336,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2373654394384,
-                    "index": 3,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2373654394432,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2373654394480,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {},
-            "op_code": 56,
-            "content_label_objname": "deforum_runner_node"
         },
         {
             "id": 2316990996464,
@@ -1901,8 +710,8 @@
         {
             "id": 2373654394672,
             "title": "Deforum Diffusion Params",
-            "pos_x": -694.1426515579215,
-            "pos_y": 2846.758198738097,
+            "pos_x": -694.1426515579216,
+            "pos_y": 2868.2425737380972,
             "inputs": [
                 {
                     "id": 2373654394144,
@@ -1937,7 +746,7 @@
             ],
             "content": {
                 "noise_schedule": "0: (0.065)",
-                "strength_schedule": "0: (0.65)",
+                "strength_schedule": "0: (0.47)",
                 "contrast_schedule": "0: (1.0)",
                 "cfg_scale_schedule": "0: (7)",
                 "enable_steps_scheduling": "False",
@@ -1967,8 +776,8 @@
         {
             "id": 2373654393616,
             "title": "Deforum Depth Params",
-            "pos_x": -2294.5332765579205,
-            "pos_y": 2288.945698738097,
+            "pos_x": -2285.158276557921,
+            "pos_y": 2328.008198738097,
             "inputs": [
                 {
                     "id": 2373654391840,
@@ -2004,7 +813,7 @@
             "content": {
                 "use_depth_warping": "True",
                 "depth_algorithm_value_combobox": "Zoe",
-                "midas_weight": 0.0,
+                "midas_weight": 0.85,
                 "padding_mode_value_combobox": "border",
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
@@ -2015,8 +824,8 @@
         {
             "id": 2373654393472,
             "title": "Deforum Prompt Node",
-            "pos_x": -232.3018312454219,
-            "pos_y": 2262.358784675597,
+            "pos_x": -228.3955812454219,
+            "pos_y": 2262.3587846755972,
             "inputs": [
                 {
                     "id": 2373654395248,
@@ -2058,8 +867,8 @@
         {
             "id": 2373654392896,
             "title": "Deforum Hybrid Schedule",
-            "pos_x": -1825.1973390579215,
-            "pos_y": 2257.5980424880977,
+            "pos_x": -1820.5098390579217,
+            "pos_y": 2266.9730424880977,
             "inputs": [
                 {
                     "id": 2373654395728,
@@ -2106,8 +915,8 @@
         {
             "id": 2373654395536,
             "title": "Deforum Image Init Params",
-            "pos_x": -1223.6348390579215,
-            "pos_y": 2203.3988237380977,
+            "pos_x": -1198.2442140579217,
+            "pos_y": 2228.7894487380977,
             "inputs": [
                 {
                     "id": 2373654396208,
@@ -2152,8 +961,8 @@
         {
             "id": 2373654396016,
             "title": "Deforum Noise Params",
-            "pos_x": -699.7090578079215,
-            "pos_y": 2328.887104988097,
+            "pos_x": -705.5684328079216,
+            "pos_y": 2352.324604988097,
             "inputs": [
                 {
                     "id": 2373654395584,
@@ -2240,7 +1049,7 @@
                 }
             ],
             "content": {
-                "color_coherence_value_combobox": "None",
+                "color_coherence_value_combobox": "LAB",
                 "color_coherence_image_path": "",
                 "color_coherence_video_every_N_frames": 1,
                 "color_force_grayscale": "False",
@@ -2363,12 +1172,12 @@
                 }
             ],
             "content": {
-                "diffusion_cadence": 4,
-                "optical_flow_cadence_value_combobox": "None",
+                "diffusion_cadence": 25,
+                "optical_flow_cadence_value_combobox": "RAFT",
                 "cadence_flow_factor_schedule": "0: (1)",
-                "optical_flow_redo_generation_value_combobox": "None",
+                "optical_flow_redo_generation_value_combobox": "RAFT",
                 "redo_flow_factor_schedule": "0: (1)",
-                "diffusion_redo": "0"
+                "diffusion_redo": "1"
             },
             "op_code": 43,
             "content_label_objname": "deforum_cadence_params_node"
@@ -2386,212 +1195,1329 @@
             "color": "#ff55aaff",
             "width": 623.0898437500001,
             "height": 340.8632812499993
+        },
+        {
+            "id": 2362654425200,
+            "title": "Deforum Runner",
+            "pos_x": -191.4062499999999,
+            "pos_y": 3107.421874999998,
+            "inputs": [
+                {
+                    "id": 2362871046224,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362871046272,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2362871046320,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362871046368,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362871046416,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362871046080,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362871045456,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 56,
+            "content_label_objname": "deforum_runner_node"
+        },
+        {
+            "id": 2362871047424,
+            "title": "Image Preview",
+            "pos_x": 1266.4062499999993,
+            "pos_y": 2082.4218749999995,
+            "inputs": [
+                {
+                    "id": 2362871047568,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362871047952,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362871048000,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362871048048,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362871048096,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362871048144,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 14,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2316990996464,
+            "title": "Bg Node",
+            "pos_x": -1116.6381835937505,
+            "pos_y": 138.51928710937364,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffaa55ff",
+            "width": 550.5343750000002,
+            "height": 1228.5374999999997
+        },
+        {
+            "id": 2362654425296,
+            "title": "Deforum Hybrid Video Params",
+            "pos_x": -1067.5266601562512,
+            "pos_y": 623.6421386718732,
+            "inputs": [
+                {
+                    "id": 2362653993872,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362653993584,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362653995072,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362653994976,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "hybrid_generate_inputframes": "False",
+                "hybrid_generate_human_masks_value_combobox": "None",
+                "hybrid_use_first_frame_as_init_image": "True",
+                "hybrid_motion_value_combobox": "None",
+                "hybrid_motion_use_prev_img": "False",
+                "hybrid_flow_consistency": "False",
+                "hybrid_consistency_blur": 2,
+                "hybrid_flow_method_value_combobox": "RAFT",
+                "hybrid_composite_value_combobox": "None",
+                "hybrid_use_init_image": "False",
+                "hybrid_comp_mask_type_value_combobox": "None",
+                "hybrid_comp_mask_inverse": "False",
+                "hybrid_comp_mask_equalize_value_combobox": "None",
+                "hybrid_comp_mask_auto_contrast": "False",
+                "hybrid_comp_save_extra_frames": "False"
+            },
+            "op_code": 44,
+            "content_label_objname": "deforum_hybrid_params_node"
+        },
+        {
+            "id": 2362653987248,
+            "title": "Kandinsky",
+            "pos_x": 590.3930664062495,
+            "pos_y": -541.1682128906259,
+            "inputs": [
+                {
+                    "id": 2368122941648,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122941264,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122941168,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122940976,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122939920,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122941408,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Task": "TXT2IMG",
+                "Prompt:": "",
+                "Seed:": "",
+                "Steps:": 25,
+                "Guidance Scale:": 4,
+                "Width:": 512,
+                "Height:": 512,
+                "Strength:": 0.84,
+                "Sampler:": "p_sampler",
+                "Prior Scale:": 5
+            },
+            "op_code": 26,
+            "content_label_objname": "kandinsky_node"
+        },
+        {
+            "id": 2362653993056,
+            "title": "Deforum Diffusion Params",
+            "pos_x": 60.192871093749545,
+            "pos_y": 814.2272949218733,
+            "inputs": [
+                {
+                    "id": 2368122940592,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122941456,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122942464,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122942320,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "noise_schedule": "0: (0.065)",
+                "strength_schedule": "0: (0.65)",
+                "contrast_schedule": "0: (1.0)",
+                "cfg_scale_schedule": "0: (7)",
+                "enable_steps_scheduling": "False",
+                "steps_schedule": "0: (25)",
+                "enable_ddim_eta_scheduling": "False",
+                "ddim_eta_schedule": "0:(0)",
+                "enable_ancestral_eta_scheduling": "False",
+                "ancestral_eta_schedule": "0:(1)"
+            },
+            "op_code": 52,
+            "content_label_objname": "deforum_diffusion_params_node"
+        },
+        {
+            "id": 2368122942176,
+            "title": "Execute",
+            "pos_x": -3124.6948242187486,
+            "pos_y": 665.5883789062481,
+            "inputs": [
+                {
+                    "id": 2368122942608,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122942656,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 7,
+            "content_label_objname": "exec_node"
+        },
+        {
+            "id": 2316990996464,
+            "title": "Bg Node",
+            "pos_x": -1573.6694335937505,
+            "pos_y": 136.56616210937364,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff005500",
+            "width": 441.13750000000005,
+            "height": 1230.3249999999998
+        },
+        {
+            "id": 2368122942752,
+            "title": "Deforum Depth Params",
+            "pos_x": -1540.1977539062486,
+            "pos_y": 256.41479492187364,
+            "inputs": [
+                {
+                    "id": 2368122943376,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122943424,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122943472,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122943520,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "use_depth_warping": "True",
+                "depth_algorithm_value_combobox": "Zoe",
+                "midas_weight": 0.0,
+                "padding_mode_value_combobox": "border",
+                "sampling_mode_value_combobox": "bicubic",
+                "save_depth_maps": "False"
+            },
+            "op_code": 50,
+            "content_label_objname": "deforum_depth_params_node"
+        },
+        {
+            "id": 2316990994688,
+            "title": "Bg Node",
+            "pos_x": -2131.9702148437495,
+            "pos_y": 919.0856933593734,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffff0000",
+            "width": 176.3125,
+            "height": 431.0
+        },
+        {
+            "id": 2316990996464,
+            "title": "Bg Node",
+            "pos_x": -548.2788085937495,
+            "pos_y": 144.37866210937386,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffaa00ff",
+            "width": 550.5343750000002,
+            "height": 1228.5374999999997
+        },
+        {
+            "id": 2305020327440,
+            "title": "Bg Node",
+            "pos_x": 476.3793945312491,
+            "pos_y": -690.4602050781245,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffffaaff",
+            "width": 460.0039062499998,
+            "height": 774.9453124999995
+        },
+        {
+            "id": 2368122943808,
+            "title": "Deforum Masking Params",
+            "pos_x": -481.99462890624864,
+            "pos_y": 824.1882324218734,
+            "inputs": [
+                {
+                    "id": 2368122941744,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122941696,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122942224,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122943856,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "use_mask": "False",
+                "use_alpha_as_mask": "False",
+                "mask_file": "https://deforum.github.io/a1/M1.jpg",
+                "mask_image": "",
+                "noise_mask": "",
+                "invert_mask": "False",
+                "mask_contrast_adjust": 1.0,
+                "mask_brightness_adjust": 1.0,
+                "overlay_mask": "True",
+                "mask_overlay_blur": 4,
+                "fill": 1,
+                "full_res_mask": "True",
+                "full_res_mask_padding": 4
+            },
+            "op_code": 53,
+            "content_label_objname": "deforum_masking_params_node"
+        },
+        {
+            "id": 2368122943232,
+            "title": "Deforum Runner",
+            "pos_x": 576.7211914062495,
+            "pos_y": 1074.4567871093734,
+            "inputs": [
+                {
+                    "id": 2368122944576,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2368122944624,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2368122944672,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122944720,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2368122944768,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122944816,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2368122944864,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 56,
+            "content_label_objname": "deforum_runner_node"
+        },
+        {
+            "id": 2316990996464,
+            "title": "Bg Node",
+            "pos_x": 6.40869140625,
+            "pos_y": 150.23803710937364,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffffaa00",
+            "width": 439.20625000000024,
+            "height": 1220.7249999999997
+        },
+        {
+            "id": 2368122944960,
+            "title": "Deforum Translation",
+            "pos_x": -1531.7993164062486,
+            "pos_y": 655.7312011718734,
+            "inputs": [
+                {
+                    "id": 2362921976208,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921976256,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921976304,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921976352,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "angle": "0:(0)",
+                "zoom": "0:(0)",
+                "translation_x": "0:(0)",
+                "translation_y": "0:(0)",
+                "translation_z": "0:(25)",
+                "transform_center_x": "0:(0.5)",
+                "transform_center_y": "0:(0.5)",
+                "rotation_3d_x": "0:(0)",
+                "rotation_3d_y": "0:(0)",
+                "rotation_3d_z": "0:(0)"
+            },
+            "op_code": 48,
+            "content_label_objname": "deforum_translation_node"
+        },
+        {
+            "id": 2305020327488,
+            "title": "Bg Node",
+            "pos_x": 1116.7602539062486,
+            "pos_y": 112.88452148437364,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff550000",
+            "width": 2040.4482421874986,
+            "height": 1265.7167968749984
+        },
+        {
+            "id": 2316990994448,
+            "title": "Bg Node",
+            "pos_x": -2127.3803710937495,
+            "pos_y": 126.80053710937364,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ffffff00",
+            "width": 508.83203125,
+            "height": 738.3242187499998
+        },
+        {
+            "id": 2362921976544,
+            "title": "Video Save",
+            "pos_x": 1194.6872070312497,
+            "pos_y": 1012.5124511718734,
+            "inputs": [
+                {
+                    "id": 2362921977072,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977120,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921977168,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977216,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Dump at every:": 0
+            },
+            "op_code": 37,
+            "content_label_objname": "video_output_node"
+        },
+        {
+            "id": 2302744841376,
+            "title": "Bg Node",
+            "pos_x": -3227.2338867187486,
+            "pos_y": 538.635253906248,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff55aa00",
+            "width": 455.12109374999955,
+            "height": 428.2656249999999
+        },
+        {
+            "id": 2368122944432,
+            "title": "Deforum Video Init Params",
+            "pos_x": -475.64697265624955,
+            "pos_y": 482.39135742187364,
+            "inputs": [
+                {
+                    "id": 2362921976160,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921976112,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921976064,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921976016,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "video_init_path": "https://deforum.github.io/a1/V1.mp4",
+                "extract_nth_frame": 1,
+                "extract_from_frame": 0,
+                "extract_to_frame": -1,
+                "overwrite_extracted_frames": "True",
+                "use_mask_video": "False",
+                "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
+            },
+            "op_code": 54,
+            "content_label_objname": "deforum_video_init_params_node"
+        },
+        {
+            "id": 2316990994496,
+            "title": "Bg Node",
+            "pos_x": -1952.2827148437495,
+            "pos_y": 920.6481933593734,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff00aa00",
+            "width": 173.1875,
+            "height": 429.4375
+        },
+        {
+            "id": 2362921977312,
+            "title": "Image Preview",
+            "pos_x": 1197.7661132812486,
+            "pos_y": 221.4050292968733,
+            "inputs": [
+                {
+                    "id": 2362921977504,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977888,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921977936,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921977984,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921978032,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921978080,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 14,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2362921977840,
+            "title": "Deforum Prompt Node",
+            "pos_x": 522.0336914062495,
+            "pos_y": 229.8278808593734,
+            "inputs": [
+                {
+                    "id": 2362921978512,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921978560,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921978608,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921978656,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
+            },
+            "op_code": 55,
+            "content_label_objname": "deforum_prompt_node"
+        },
+        {
+            "id": 2362921978272,
+            "title": "Deforum Color Params",
+            "pos_x": -2035.6079101562495,
+            "pos_y": 978.7780761718734,
+            "inputs": [
+                {
+                    "id": 2362921979280,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921979328,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921979376,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921979424,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "color_coherence_value_combobox": "None",
+                "color_coherence_image_path": "",
+                "color_coherence_video_every_N_frames": 1,
+                "color_force_grayscale": "False",
+                "legacy_colormatch": "False"
+            },
+            "op_code": 49,
+            "content_label_objname": "deforum_color_params_node"
+        },
+        {
+            "id": 2362921979040,
+            "title": "Deforum Anim Params",
+            "pos_x": -2047.3118164062503,
+            "pos_y": 186.59916992187368,
+            "inputs": [
+                {
+                    "id": 2362921979136,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921979088,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921978464,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921978416,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "animation_mode_value_combobox": "3D",
+                "max_frames": 300,
+                "border_value_combobox": "wrap",
+                "resume_from_timestring": "False",
+                "resume_timestring": "20230519203823",
+                "use_looper": "False"
+            },
+            "op_code": 47,
+            "content_label_objname": "deforum_anim_params_node"
+        },
+        {
+            "id": 2316990996608,
+            "title": "Bg Node",
+            "pos_x": -2664.8132324218736,
+            "pos_y": 285.19287109374864,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff55557f",
+            "width": 457.5625,
+            "height": 896.6249999999998
+        },
+        {
+            "id": 2362921978320,
+            "title": "Deforum Base Params",
+            "pos_x": -2613.7243652343736,
+            "pos_y": 391.46728515624886,
+            "inputs": [
+                {
+                    "id": 2362921980576,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921980624,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921980672,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921980720,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "W": 768,
+                "H": 512,
+                "seed": "-1",
+                "sampler": "euler_ancestral",
+                "steps": 25,
+                "scale": 7,
+                "n_batch": 1,
+                "batch_name": "Deforum_{timestring}",
+                "seed_behavior_value_combobox": "iter",
+                "seed_iter_N": 1,
+                "outdir": "output/deforum",
+                "strength": 0.0,
+                "save_settings": "True",
+                "save_sample_per_step": "False",
+                "prompt_weighting": "False",
+                "normalize_prompt_weights": "True",
+                "log_weighted_subprompts": "False",
+                "prompt": "",
+                "timestring": "",
+                "seed_internal": "-1"
+            },
+            "op_code": 42,
+            "content_label_objname": "deforum_base_params_node"
+        },
+        {
+            "id": 2362921980336,
+            "title": "Image Preview",
+            "pos_x": 2272.033691406249,
+            "pos_y": 219.76928710937364,
+            "inputs": [
+                {
+                    "id": 2362921980912,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921981296,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921981344,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921981392,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921981440,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921981488,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 14,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2316990996464,
+            "title": "Bg Node",
+            "pos_x": 477.11181640624955,
+            "pos_y": 152.19116210937386,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff00557f",
+            "width": 484.1281250000001,
+            "height": 1218.771875
+        },
+        {
+            "id": 2362921981584,
+            "title": "Deforum Hybrid Schedule",
+            "pos_x": -1070.8618164062505,
+            "pos_y": 225.06713867187386,
+            "inputs": [
+                {
+                    "id": 2362921982304,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921982352,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921982400,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921982448,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "hybrid_comp_alpha_schedule": "0:(0.5)",
+                "hybrid_comp_mask_blend_alpha_schedule": "0:(0.5)",
+                "hybrid_comp_mask_contrast_schedule": "0:(1)",
+                "hybrid_comp_mask_auto_contrast_cutoff_high_schedule": "0:(100)",
+                "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
+                "hybrid_flow_factor_schedule": "0:(1)"
+            },
+            "op_code": 46,
+            "content_label_objname": "deforum_hybrid_sched_node"
+        },
+        {
+            "id": 2362921982064,
+            "title": "Deforum Noise Params",
+            "pos_x": 54.62646484375,
+            "pos_y": 296.35620117187375,
+            "inputs": [
+                {
+                    "id": 2362921980432,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921980384,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921979184,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921979232,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "enable_noise_multiplier_scheduling": "True",
+                "noise_multiplier_schedule": "0: (1.05)",
+                "amount_schedule": "0: (0.1)",
+                "kernel_schedule": "0: (5)",
+                "sigma_schedule": "0: (1.0)",
+                "threshold_schedule": "0: (0.0)",
+                "noise_type_value_combobox": "uniform",
+                "perlin_w": 8,
+                "perlin_h": 8,
+                "perlin_octaves": 4,
+                "perlin_persistence": 0.0
+            },
+            "op_code": 51,
+            "content_label_objname": "deforum_noise_params_node"
+        },
+        {
+            "id": 2362921981056,
+            "title": "Deforum Image Init Params",
+            "pos_x": -469.29931640625045,
+            "pos_y": 170.86791992187386,
+            "inputs": [
+                {
+                    "id": 2362921983264,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921983312,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921983360,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921983408,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "strength_0_no_init": "True",
+                "init_image": "https://deforum.github.io/a1/I1.png",
+                "init_sample": "",
+                "use_init": "False"
+            },
+            "op_code": 45,
+            "content_label_objname": "deforum_image_init_params_node"
+        },
+        {
+            "id": 2316990994496,
+            "title": "Bg Node",
+            "pos_x": -1775.7202148437495,
+            "pos_y": 917.5231933593734,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "bg_node",
+            "color": "#ff0000ff",
+            "width": 173.1875,
+            "height": 429.4375
+        },
+        {
+            "id": 2362921983504,
+            "title": "Deforum Cadence Params",
+            "pos_x": -2077.1118164062495,
+            "pos_y": 521.6491699218737,
+            "inputs": [
+                {
+                    "id": 2362921984224,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921984272,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921984320,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921984368,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "diffusion_cadence": 4,
+                "optical_flow_cadence_value_combobox": "None",
+                "cadence_flow_factor_schedule": "0: (1)",
+                "optical_flow_redo_generation_value_combobox": "None",
+                "redo_flow_factor_schedule": "0: (1)",
+                "diffusion_redo": "0"
+            },
+            "op_code": 43,
+            "content_label_objname": "deforum_cadence_params_node"
         }
     ],
     "edges": [
-        {
-            "id": 1757574098240,
-            "edge_type": 2,
-            "start": 1759433912528,
-            "end": 1759487328656
-        },
-        {
-            "id": 1759619149984,
-            "edge_type": 2,
-            "start": 1759619150368,
-            "end": 1759484775872
-        },
-        {
-            "id": 1759486952784,
-            "edge_type": 2,
-            "start": 1759619150176,
-            "end": 1759484773232
-        },
-        {
-            "id": 1759619150704,
-            "edge_type": 2,
-            "start": 1759436032704,
-            "end": 1759619149744
-        },
-        {
-            "id": 1759619150944,
-            "edge_type": 2,
-            "start": 1759619148304,
-            "end": 1759619149936
-        },
-        {
-            "id": 1759619151184,
-            "edge_type": 2,
-            "start": 1759619148544,
-            "end": 1759619148448
-        },
-        {
-            "id": 1759619151472,
-            "edge_type": 2,
-            "start": 1759619148160,
-            "end": 1759619149024
-        },
-        {
-            "id": 1759619151760,
-            "edge_type": 2,
-            "start": 1759619149120,
-            "end": 1759499090336
-        },
-        {
-            "id": 1759619152048,
-            "edge_type": 2,
-            "start": 1759499091824,
-            "end": 1759492124976
-        },
-        {
-            "id": 1759619151568,
-            "edge_type": 2,
-            "start": 1759498922608,
-            "end": 1759498922176
-        },
-        {
-            "id": 1759619150848,
-            "edge_type": 2,
-            "start": 1759498924912,
-            "end": 1759619149312
-        },
-        {
-            "id": 1759619153392,
-            "edge_type": 2,
-            "start": 1759619149264,
-            "end": 1759498924960
-        },
-        {
-            "id": 1759619153776,
-            "edge_type": 2,
-            "start": 1759498912672,
-            "end": 1759490165824
-        },
-        {
-            "id": 1760101515472,
-            "edge_type": 2,
-            "start": 1759492125120,
-            "end": 1759499088944
-        },
-        {
-            "id": 1760101515760,
-            "edge_type": 2,
-            "start": 1759499090384,
-            "end": 1759619149072
-        },
-        {
-            "id": 1759619153872,
-            "edge_type": 2,
-            "start": 1759619148976,
-            "end": 1759619148112
-        },
-        {
-            "id": 1759619151136,
-            "edge_type": 2,
-            "start": 1759619148400,
-            "end": 1759619148208
-        },
-        {
-            "id": 1759619152480,
-            "edge_type": 2,
-            "start": 1759619149888,
-            "end": 1759619149792
-        },
-        {
-            "id": 1760101515568,
-            "edge_type": 2,
-            "start": 1759619149600,
-            "end": 1759433470016
-        },
-        {
-            "id": 1760101516000,
-            "edge_type": 2,
-            "start": 1759619149408,
-            "end": 1759487328704
-        },
-        {
-            "id": 1760101516384,
-            "edge_type": 2,
-            "start": 1759619148256,
-            "end": 1759497790528
-        },
-        {
-            "id": 2302744842480,
-            "edge_type": 2,
-            "start": 2302744842624,
-            "end": 1759619149648
-        },
-        {
-            "id": 2302744839360,
-            "edge_type": 2,
-            "start": 1759487341232,
-            "end": 2302744839648
-        },
-        {
-            "id": 2316990995360,
-            "edge_type": 2,
-            "start": 1759619148832,
-            "end": 1759450762064
-        },
-        {
-            "id": 2316990996368,
-            "edge_type": 2,
-            "start": 1759619149360,
-            "end": 1759450761680
-        },
-        {
-            "id": 2316990994304,
-            "edge_type": 2,
-            "start": 1759619148352,
-            "end": 1759619150080
-        },
-        {
-            "id": 2316990994928,
-            "edge_type": 2,
-            "start": 1759619148496,
-            "end": 1759619150320
-        },
-        {
-            "id": 2316991003664,
-            "edge_type": 2,
-            "start": 1759619150224,
-            "end": 1759488529200
-        },
-        {
-            "id": 2316990995168,
-            "edge_type": 2,
-            "start": 1759619150464,
-            "end": 1757662435200
-        },
-        {
-            "id": 2316991004528,
-            "edge_type": 2,
-            "start": 1759499088992,
-            "end": 1759619148688
-        },
-        {
-            "id": 2305020328592,
-            "edge_type": 2,
-            "start": 1759499088656,
-            "end": 1759619149840
-        },
-        {
-            "id": 2303939165344,
-            "edge_type": 2,
-            "start": 1759487341232,
-            "end": 2317242779728
-        },
         {
             "id": 2374258147776,
             "edge_type": 2,
             "start": 2373654396208,
             "end": 2373654393184
-        },
-        {
-            "id": 2374258148160,
-            "edge_type": 2,
-            "start": 2373654394432,
-            "end": 2373654391744
         },
         {
             "id": 2374258148208,
@@ -2666,22 +2592,10 @@
             "end": 2374258147488
         },
         {
-            "id": 2374258149312,
-            "edge_type": 2,
-            "start": 2373654395392,
-            "end": 2373654394384
-        },
-        {
             "id": 2374258149456,
             "edge_type": 2,
             "start": 2373654395728,
             "end": 2373654390400
-        },
-        {
-            "id": 2374258149600,
-            "edge_type": 2,
-            "start": 2373654394432,
-            "end": 2373654393664
         },
         {
             "id": 2374258149744,
@@ -2706,12 +2620,6 @@
             "edge_type": 2,
             "start": 2373654394048,
             "end": 2373654395248
-        },
-        {
-            "id": 2374258150320,
-            "edge_type": 2,
-            "start": 2373654395344,
-            "end": 2373654393856
         },
         {
             "id": 2374258150464,
@@ -2774,16 +2682,244 @@
             "end": 2373654391984
         },
         {
-            "id": 2374258152720,
+            "id": 2362653982784,
             "edge_type": 2,
-            "start": 2373654394288,
-            "end": 2316991003424
+            "start": 2373654395392,
+            "end": 2362871046368
         },
         {
-            "id": 2374258152384,
+            "id": 2362871045648,
+            "edge_type": 2,
+            "start": 2316991003424,
+            "end": 2362871046272
+        },
+        {
+            "id": 2362579992480,
+            "edge_type": 2,
+            "start": 2362871046080,
+            "end": 2373654391744
+        },
+        {
+            "id": 2362871047856,
+            "edge_type": 2,
+            "start": 2362871046416,
+            "end": 2362871047568
+        },
+        {
+            "id": 2362871047664,
+            "edge_type": 2,
+            "start": 2373654393664,
+            "end": 2362871046416
+        },
+        {
+            "id": 2362871048624,
+            "edge_type": 2,
+            "start": 2373654395344,
+            "end": 2362871046224
+        },
+        {
+            "id": 2362921983984,
+            "edge_type": 2,
+            "start": 2368122943520,
+            "end": 2362921976256
+        },
+        {
+            "id": 2362921984416,
+            "edge_type": 2,
+            "start": 2362921976160,
+            "end": 2362921983360
+        },
+        {
+            "id": 2362921984464,
+            "edge_type": 2,
+            "start": 2368122944768,
+            "end": 2362921977072
+        },
+        {
+            "id": 2362921984608,
+            "edge_type": 2,
+            "start": 2362921984224,
+            "end": 2362921978464
+        },
+        {
+            "id": 2362921984752,
+            "edge_type": 2,
+            "start": 2368122943856,
+            "end": 2362921980384
+        },
+        {
+            "id": 2362921984896,
+            "edge_type": 2,
+            "start": 2368122943376,
+            "end": 2362921979376
+        },
+        {
+            "id": 2362921985040,
+            "edge_type": 2,
+            "start": 2362921976208,
+            "end": 2368122943472
+        },
+        {
+            "id": 2362921985184,
+            "edge_type": 2,
+            "start": 2362921976064,
+            "end": 2368122941744
+        },
+        {
+            "id": 2362921985328,
+            "edge_type": 2,
+            "start": 2362921979232,
+            "end": 2368122941456
+        },
+        {
+            "id": 2362921985472,
+            "edge_type": 2,
+            "start": 2362921980672,
+            "end": 2362921979136
+        },
+        {
+            "id": 2362921985616,
+            "edge_type": 2,
+            "start": 2362921983408,
+            "end": 2362921976112
+        },
+        {
+            "id": 2362921985760,
+            "edge_type": 2,
+            "start": 2368122939920,
+            "end": 2368122944672
+        },
+        {
+            "id": 2362921985904,
+            "edge_type": 2,
+            "start": 2368122942464,
+            "end": 2362921978512
+        },
+        {
+            "id": 2362921986048,
+            "edge_type": 2,
+            "start": 2362921980720,
+            "end": 2362921979088
+        },
+        {
+            "id": 2362921986192,
+            "edge_type": 2,
+            "start": 2368122942224,
+            "end": 2362921980432
+        },
+        {
+            "id": 2362921986336,
+            "edge_type": 2,
+            "start": 2362921978608,
+            "end": 2368122944576
+        },
+        {
+            "id": 2362921986480,
+            "edge_type": 2,
+            "start": 2362921983264,
+            "end": 2362653995072
+        },
+        {
+            "id": 2362921986624,
+            "edge_type": 2,
+            "start": 2362921979280,
+            "end": 2362921984320
+        },
+        {
+            "id": 2362921986768,
+            "edge_type": 2,
+            "start": 2362921976016,
+            "end": 2368122941696
+        },
+        {
+            "id": 2362921986912,
+            "edge_type": 2,
+            "start": 2362921979424,
+            "end": 2368122943424
+        },
+        {
+            "id": 2362921984080,
+            "edge_type": 2,
+            "start": 2368122942320,
+            "end": 2362921978560
+        },
+        {
+            "id": 2362921983168,
+            "edge_type": 2,
+            "start": 2368122944816,
+            "end": 2362921977504
+        },
+        {
+            "id": 2362921980480,
+            "edge_type": 2,
+            "start": 2362653993872,
+            "end": 2362921982400
+        },
+        {
+            "id": 2362921981008,
+            "edge_type": 2,
+            "start": 2362921984368,
+            "end": 2362921979328
+        },
+        {
+            "id": 2362921986960,
+            "edge_type": 2,
+            "start": 2368122944768,
+            "end": 2362921980912
+        },
+        {
+            "id": 2362921987104,
+            "edge_type": 2,
+            "start": 2362921979184,
+            "end": 2368122940592
+        },
+        {
+            "id": 2362921987248,
+            "edge_type": 2,
+            "start": 2368122942656,
+            "end": 2362921980624
+        },
+        {
+            "id": 2362921987392,
+            "edge_type": 2,
+            "start": 2362921982448,
+            "end": 2362653993584
+        },
+        {
+            "id": 2362921987536,
+            "edge_type": 2,
+            "start": 2362921982304,
+            "end": 2362921976304
+        },
+        {
+            "id": 2362921987680,
+            "edge_type": 2,
+            "start": 2362921978416,
+            "end": 2362921984272
+        },
+        {
+            "id": 2362921987824,
+            "edge_type": 2,
+            "start": 2362921978656,
+            "end": 2368122944720
+        },
+        {
+            "id": 2362921987968,
+            "edge_type": 2,
+            "start": 2362921976352,
+            "end": 2362921982352
+        },
+        {
+            "id": 2362921988112,
+            "edge_type": 2,
+            "start": 2362653994976,
+            "end": 2362921983312
+        },
+        {
+            "id": 2226737250160,
             "edge_type": 2,
             "start": 2316990996080,
-            "end": 2373654394336
+            "end": 2362871046320
         }
     ]
 }

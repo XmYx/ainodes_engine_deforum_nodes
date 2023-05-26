@@ -1,7 +1,7 @@
-import numpy as np
-import librosa
 
 def get_peak_values(mp3_path, threshold, number_of_samples, distribution=None):
+    import librosa
+
     # Load the audio file
     audio, sr = librosa.load(mp3_path)
 
