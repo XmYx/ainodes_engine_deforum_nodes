@@ -1,3 +1,5 @@
+import base64
+import io
 import json
 import math
 import os
@@ -9,8 +11,10 @@ from types import SimpleNamespace
 import cv2
 import numexpr
 import numpy as np
+import requests
 import torch
 from PIL import Image
+from deforum.animation.animation_key_frames import DeformAnimKeys
 
 from deforum.avfunctions.image.load_images import check_mask_for_errors, prepare_mask, load_img
 from deforum.datafunctions.prompt import check_is_number, split_weighted_subprompts
@@ -37,6 +41,10 @@ from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, Defo
 
 from ainodes_frontend import singleton as gs
 
+#from transformers import AutoProcessor, CLIPVisionModelWithProjection
+
+
+
 OP_NODE_DEFORUM_RUN = get_next_opcode()
 OP_NODE_DEFORUM_CNET = get_next_opcode()
 
@@ -46,7 +54,8 @@ class DeforumRunWidget(QDMNodeContentWidget):
         self.create_widgets()
         self.create_main_layout(grid=1)
     def create_widgets(self):
-        self.button = QtWidgets.QPushButton("Run")
+        self.cond_schedule_checkbox = self.create_check_box("Use Conditioning schedule")
+        self.blend_factor = self.create_double_spin_box("Conditioning Blend factor")
 
 @register_node(OP_NODE_DEFORUM_RUN)
 class DeforumRunNode(AiNode):
@@ -69,6 +78,10 @@ class DeforumRunNode(AiNode):
         self.content.setMinimumWidth(300)
         self.content.setMinimumHeight(250)
         self.content.eval_signal.connect(self.evalImplementation)
+        self.images = []
+        #if "vision" not in gs.models:
+        #    gs.models["vision"] = CLIPVisionModelWithProjection.from_pretrained("openai/clip-vit-large-patch14")
+        #    gs.models["processor"] = AutoProcessor.from_pretrained("openai/clip-vit-large-patch14")
 
 
     def evalImplementation_thread(self, index=0):
@@ -170,6 +183,9 @@ class DeforumRunNode(AiNode):
             setattr(self.deforum.root, "seed_internal", 0)
         else:
             self.deforum.args.seed = int(self.deforum.args.seed)
+
+        self.deforum.keys = DeformAnimKeys(self.deforum.anim_args, self.deforum.args.seed)
+
         success = self.deforum()
         return success
 
@@ -179,24 +195,53 @@ class DeforumRunNode(AiNode):
         #except:
         #    handle_ainodes_exception()
         #return success
+
+    def printkeys(self):
+        print(self.deforum.keys)
+
+
     def datacallback(self, data):
         if "image" in data:
             self.handle_main_callback(data["image"])
         elif "cadence_frame" in data:
             self.handle_cadence_callback(data["cadence_frame"])
     def handle_main_callback(self, image):
+        return_frames = None
+        """self.images.append(image)
+        if len(self.images) == 2:
+            return_frames = []
+            np_image1 = np.array(self.images[0])
+            np_image2 = np.array(self.images[1])
+            frames = gs.models["FILM"].inference(np_image1, np_image2, inter_frames=25)
+            print(f"FILM NODE:  {len(frames)}")
+            for frame in frames:
+                image = Image.fromarray(frame)
+                pixmap = pil_image_to_pixmap(image)
+                return_frames.append(pixmap)
+            self.images = [Image.fromarray(np_image2)]"""
         pixmap = pil_image_to_pixmap(image)
+        self.setOutput(1, [pixmap])
         for node in self.getOutputs(1):
             if isinstance(node, ImagePreviewNode):
                 node.content.preview_signal.emit(pixmap)
+                if return_frames:
+                    for frame in return_frames:
+                        node.content.preview_signal.emit(frame)
+                        time.sleep(0.1)
             elif isinstance(node, VideoOutputNode):
                 frame = np.array(image)
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
 
     def handle_cadence_callback(self, image):
         pixmap = pil_image_to_pixmap(image)
+        self.setOutput(0, [pixmap])
+
         for node in self.getOutputs(0):
             if isinstance(node, ImagePreviewNode):
+
+
+
+
                 node.content.preview_signal.emit(pixmap)
             elif isinstance(node, VideoOutputNode):
                 frame = np.array(image)
@@ -333,26 +378,124 @@ def eval_nodes(node):
     else:
         result = node.evalImplementation_thread
         return result
-def generate_with_node(node, prompt, negative_prompt, args, root, frame, init_images=None):
+
+
+def generate_with_api(node, prompt, negative_prompt, args, root, frame, init_images=None):
+    strength = 1.0 if args.strength == 0 or not args.use_init else args.strength
+    seed = args.seed
+    steps = args.steps
+    cfg = args.scale
+    start_step = 0
+    width = args.W
+    height = args.H
+    imgur_url = None
+    if len(init_images) > 0:
+        # Load the init image
+        init_image = init_images[0]  # Replace with the actual path to your image
+        if init_image is not None:
+            # Upload the init image to Imgur
+            imgur_url = upload_image_to_postimages(init_image)
+    if imgur_url is not None:
+        method = "img2img"
+    else:
+        method = "txt2img"
+
+    # Prepare the data for the POST request
+    data = {
+        "prompt": prompt,
+        "negative_prompt": negative_prompt,
+        "samples": "1",
+        "scheduler": "DDIM",
+        "num_inference_steps": steps,
+        "guidance_scale": cfg,
+        "seed": seed,
+        "strength": strength,
+        "imageUrl": imgur_url
+    }
+    # Make the POST request
+    url = f"https://api.segmind.com/v1/sd2.1-{method}"
+    headers = {"x-api-key": "SG_b6ff407f17eeda88"}
+
+    print("HEADERS", headers)
+    print("METHOD", method)
+    print("DATA", data)
+
+
+    response = requests.post(url, headers=headers, json=data)
+    print("RESPONSE", response)
+
+    print(response.content)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Get the response content
+        content = response.content
+        # Decode the base64-encoded image
+        decoded_image = base64.b64decode(content)
+        # Create a PIL image from the decoded bytes
+        try:
+            pil_image = Image.frombytes("RGB", (512, 512), decoded_image)
+            pil_image = pil_image.convert('RGB')
+            pil_image.save("api_test.png")
+            return pil_image
+        except Exception as e:
+            print("Failed to open image:", e)
+    return None
+
+
+def upload_image_to_postimages(image):
+    # Convert PIL Image to bytes
+    image_bytes = io.BytesIO()
+    image.save(image_bytes, format='JPEG')
+    image_bytes.seek(0)
+
+    # Upload image to postimages.org
+    url = "https://postimages.org/upload"
+    files = {"file": image_bytes}
+    response = requests.post(url, files=files)
+
+    if response.status_code == 200:
+        # Get the uploaded image URL from the response
+        postimages_url = response.text
+        return postimages_url
+
+    print("Image upload to postimages.org failed with status code:", response.status_code)
+    return None
+def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images=None):
     gs.should_run = True
     sampler_node, _ = node.getInput(2)
-    print("INIT_IMAGES", len(init_images))
+    make_latent = None
+    latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
     if isinstance(sampler_node, KSamplerNode):
-        latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
         if len(init_images) > 0:
             if init_images[0] is not None:
+                print("USING INIT")
                 latent = encode_latent_ainodes(init_images[0])
         cond_node, index = node.getInput(1)
-        conds, _ = cond_node.evalImplementation_thread(prompt_override=prompt)
+        conds = None
+        # Get conditioning for current prompt
+        c_1, _ = cond_node.evalImplementation_thread(prompt_override=prompt)
+        inter = node.content.cond_schedule_checkbox.isChecked()
+        if inter:
+            if next_prompt != prompt:
+                #If we still have a next prompt left, get an other conditioning
+                next_conds, _ = cond_node.evalImplementation_thread(prompt_override=next_prompt)
+                blend = min(blend_value * node.content.blend_factor.value(), 1.0)
+                conds = addWeighted(next_conds[0], c_1[0], blend)
+                print("Created Blended Conditioning for", prompt, next_prompt, blend_value)
+            else:
+                conds = c_1
+        else:
+            conds = c_1
         n_conds, _ = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
         if len(init_images) > 0:
             if init_images[0] is not None:
                 if len(node.getOutputs(2)) > 0:
                     try_cnet_node = node.getOutputs(2)[0]
                     if isinstance(try_cnet_node, DeforumCnetNode):
-                        node.setOutput(1, [pil_image_to_pixmap(init_images[0])])
+                        #node.setOutput(1, [pil_image_to_pixmap(init_images[0])])
                         conds = [try_cnet_node.evalImplementation_thread(conditioning = conds[0])]
-
+        print("STRENGTH", args.strength)
         pixmaps, _ = sampler_node.evalImplementation_thread(cond_override=[conds, n_conds], args=args, latent_override=latent)
 
     elif isinstance(sampler_node, KandinskyNode):
@@ -368,13 +511,13 @@ def generate_with_node(node, prompt, negative_prompt, args, root, frame, init_im
     return image
 
 def encode_latent_ainodes(init_image):
-    gs.models["vae"].first_stage_model.cuda()
-    image = init_image
-    image = image.convert("RGB")
-    image = np.array(image).astype(np.float32) / 255.0
-    image = image[None].transpose(0, 3, 1, 2)
+    #gs.models["vae"].first_stage_model.cuda()
+    #image = init_image
+    #image = image.convert("RGB")
+    image = np.array(init_image).astype(np.float32) / 255.0
+    image = image[None]# .transpose(0, 3, 1, 2)
     image = torch.from_numpy(image)
-    image = image.detach().half().cpu()
+    image = image.detach().cpu()
     torch_gc()
     latent = gs.models["vae"].encode(image)
     latent = latent.to("cpu")
@@ -389,6 +532,49 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
     # Setup the pipeline
     #p = get_webui_sd_pipeline(args, root, frame)
     prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame, anim_args.max_frames)
+
+    print("DEFORUM CONDITIONING INTERPOLATION")
+
+    """prompt = node.deforum.prompt_series[frame]
+    next_prompt = None
+    if frame + anim_args.diffusion_cadence < anim_args.max_frames:
+
+        curr_frame = frame
+
+        next_prompt = node.deforum.prompt_series[frame + anim_args.diffusion_cadence]
+    print("NEXT FRAME", frame, next_prompt)"""
+    blend_value = 0.0
+
+    #print(frame, anim_args.diffusion_cadence, node.deforum.prompt_series)
+
+    next_frame = frame + anim_args.diffusion_cadence
+    next_prompt = None
+    while next_frame < anim_args.max_frames:
+        next_prompt = node.deforum.prompt_series[next_frame]
+        if next_prompt != prompt:
+            # Calculate blend value based on distance and frame number
+            prompt_distance = next_frame - frame
+            max_distance = anim_args.max_frames - frame
+            blend_value = prompt_distance / max_distance
+
+            if blend_value >= 1.0:
+                blend_value = 0.0
+
+            break  # Exit the loop once a different prompt is found
+
+        next_frame += anim_args.diffusion_cadence
+    #print("CURRENT PROMPT", prompt)
+    #print("NEXT FRAME:", next_prompt)
+    #print("BLEND VALUE:", blend_value)
+    #print("BLEND VALUE:", blend_value)
+    #print("PARSED_PROMPT", prompt)
+    #print("PARSED_PROMPT", prompt)
+    if frame == 0:
+        blend_value = 0.0
+    if frame > 0:
+        prev_prompt = node.deforum.prompt_series[frame - 1]
+        if prev_prompt != prompt:
+            blend_value = 0.0
 
     if not args.use_init and args.strength > 0 and args.strength_0_no_init:
         args.strength = 0
@@ -491,8 +677,8 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
 
     else:
 
-        if anim_args.animation_mode != 'Interpolation':
-            print(f"Not using an init image (doing pure txt2img)")
+        #if anim_args.animation_mode != 'Interpolation':
+        #    print(f"Not using an init image (doing pure txt2img)")
         """p_txt = StableDiffusionProcessingTxt2Img(
             sd_model=sd_model,
             outpath_samples=root.tmp_deforum_run_duplicated_folder,
@@ -524,7 +710,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         #    process_with_controlnet(p_txt, args, anim_args, loop_args, controlnet_args, root, is_img2img=False,
         #                            frame_idx=frame)
 
-        processed = generate_with_node(node, prompt, negative_prompt, args, root, frame, [init_image])
+        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, [init_image])
 
     if processed is None:
         # Mask functions
@@ -560,7 +746,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         #                            frame_idx=frame)
 
 
-        processed = generate_with_node(node, prompt, negative_prompt, args, root, frame, init_images)
+        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images)
         #processed = processing.process_images(p)
 
     #if root.initial_info == None:
@@ -631,3 +817,44 @@ def process_args(args_dict_main, run_id):
 
     return args_loaded_ok, root, args, anim_args, video_args, parseq_args, loop_args, controlnet_args
 
+def addWeighted(conditioning_to, conditioning_from, conditioning_to_strength):
+    out = []
+
+    if len(conditioning_from) > 1:
+        print("Warning: ConditioningAverage conditioning_from contains more than 1 cond, only the first one will actually be applied to conditioning_to.")
+
+    cond_from = conditioning_from[0][0]
+
+    for i in range(len(conditioning_to)):
+        t1 = conditioning_to[i][0]
+        t0 = cond_from[:,:t1.shape[1]]
+        if t0.shape[1] < t1.shape[1]:
+            t0 = torch.cat([t0] + [torch.zeros((1, (t1.shape[1] - t0.shape[1]), t1.shape[2]))], dim=1)
+
+        tw = torch.mul(t1, conditioning_to_strength) + torch.mul(t0, (1.0 - conditioning_to_strength))
+        n = [tw, conditioning_to[i][1].copy()]
+        out.append(n)
+    return [out]
+
+
+def _encode_image(image, prompt,  device, num_images_per_prompt, do_classifier_free_guidance, model, processor):
+    dtype = next(model.parameters()).dtype
+    image = processor(images=image, prompt=prompt, return_tensors="pt").pixel_values
+    image = image.to(device=device, dtype=dtype)
+    image_embeddings = model(image).image_embeds
+    image_embeddings = image_embeddings.unsqueeze(0)
+
+    # duplicate image embeddings for each generation per prompt, using mps friendly method
+    bs_embed, seq_len, _ = image_embeddings.shape
+    image_embeddings = image_embeddings.repeat(1, num_images_per_prompt, 1)
+    image_embeddings = image_embeddings.view(bs_embed * num_images_per_prompt, seq_len, -1)
+
+    if do_classifier_free_guidance:
+        negative_prompt_embeds = torch.zeros_like(image_embeddings)
+
+        # For classifier free guidance, we need to do two forward passes.
+        # Here we concatenate the unconditional and text embeddings into a single batch
+        # to avoid doing two forward passes
+        image_embeddings = torch.cat([negative_prompt_embeds, image_embeddings])
+    image_embeddings = image_embeddings.permute(1,0,2)
+    return image_embeddings
