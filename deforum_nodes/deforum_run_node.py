@@ -256,7 +256,8 @@ class DeforumRunNode(AiNode):
 
     #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         if gs.should_run:
             if len(self.getOutputs(2)) > 0:
                 self.executeChild(output_index=2)
@@ -327,7 +328,8 @@ class DeforumCnetNode(AiNode):
 
     #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         if gs.should_run:
             if len(self.getOutputs(1)) > 0:
                 self.executeChild(output_index=1)

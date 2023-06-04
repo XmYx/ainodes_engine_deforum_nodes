@@ -153,7 +153,8 @@ class DeforumKeyframeNode(AiNode):
         return(f"{key}:({value})")
     #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         self.setOutput(0, result)
         if len(self.getOutputs(1)) > 0:
             self.executeChild(output_index=1)
