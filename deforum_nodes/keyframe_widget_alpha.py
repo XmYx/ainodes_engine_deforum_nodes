@@ -1,9 +1,9 @@
 from datetime import datetime
 from uuid import uuid4
 
-from PySide6.QtCore import Signal, QLine, QPoint, QRectF, QSize, QRect, QPropertyAnimation, QEasingCurve
-from PySide6.QtGui import Qt, QColor, QFont, QPalette, QPainter, QPen, QPolygon, QBrush, QPainterPath, QAction, QCursor
-from PySide6.QtWidgets import QSizePolicy, QVBoxLayout, QWidget, QSlider, QDockWidget, QMenu
+from qtpy.QtCore import Qt, Signal, QLine, QPoint, QRectF, QSize, QRect, QPropertyAnimation, QEasingCurve
+from qtpy.QtGui import QColor, QFont, QPalette, QPainter, QPen, QPolygon, QBrush, QPainterPath, QAction, QCursor
+from qtpy.QtWidgets import QSizePolicy, QVBoxLayout, QWidget, QSlider, QDockWidget, QMenu
 
 
 class KeyFrame:

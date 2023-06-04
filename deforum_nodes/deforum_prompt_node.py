@@ -183,7 +183,7 @@ class DeforumPromptNode(AiNode):
         return data
 
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         self.setOutput(0, result)

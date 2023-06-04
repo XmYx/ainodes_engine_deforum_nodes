@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 from uuid import uuid4
 
-from PySide6.QtGui import Qt
+from qtpy.QtCore import Qt
 from qtpy import QtCore, QtWidgets
 
 from ainodes_frontend.base import register_node, get_next_opcode
@@ -105,7 +105,7 @@ class DeforumKeyframeNode(AiNode):
         self.content.timeline.verticalScale = self.content.zoom_slider.value()
         self.content.timeline.update()
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def resize(self):
         size = {
             'width': self.grNode._width,
@@ -151,7 +151,7 @@ class DeforumKeyframeNode(AiNode):
 
     def assemble_string(self, key, value):
         return(f"{key}:({value})")
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         self.setOutput(0, result)

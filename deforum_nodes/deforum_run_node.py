@@ -254,7 +254,7 @@ class DeforumRunNode(AiNode):
             image = None
         return image
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         if gs.should_run:
@@ -325,7 +325,7 @@ class DeforumCnetNode(AiNode):
             c.append(n)
         return c
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         if gs.should_run:

@@ -128,13 +128,13 @@ class DeforumAudioNode(AiNode):
         self.content.eval_signal.connect(self.evalImplementation)
         self.content.set_peaks_signal.connect(self.set_peak)
 
-    @QtCore.Slot(str)
+    #@QtCore.Slot(str)
     def set_peak(self, peak):
         self.content.peaks.setText(peak)
 
 
 
-    @QtCore.Slot()
+    #@QtCore.Slot()
     def evalImplementation_thread(self, index=0):
 
         path = self.content.path_edit.text()
@@ -146,7 +146,7 @@ class DeforumAudioNode(AiNode):
         return None
 
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         if len(self.getOutputs(0)) > 0:

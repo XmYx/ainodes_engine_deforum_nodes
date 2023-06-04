@@ -1,28 +1,12 @@
-import json
-import os
-import re
-import secrets
-import shutil
-import sys
-import time
-from functools import partial
-from types import SimpleNamespace
-
-import numpy as np
-from PySide6.QtCore import QTimer
-from PySide6.QtGui import QPaintEvent, Qt
-from PySide6.QtWidgets import QVBoxLayout, QWidget
+from qtpy.QtCore import QTimer, Qt
+from qtpy.QtGui import QPaintEvent
+from qtpy.QtWidgets import QVBoxLayout, QWidget
 from mpmath import sin
-from qtpy import QtCore, Qt3DCore, Qt3DExtras
-from qtpy import QtWidgets
+from qtpy import QtCore# , Qt3DCore, Qt3DExtras
 
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from ainodes_frontend import singleton as gs
-from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap
-from custom_nodes.ainodes_engine_base_nodes.image_nodes.output_node import ImagePreviewNode
-from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 from .deforum_basenode import DeforumBaseParamsWidget, DeforumCadenceParamsWidget, DeforumHybridParamsWidget, \
     DeforumImageInitParamsWidget, DeforumHybridScheduleParamsWidget, DeforumAnimParamsWidget, DeforumTranslationScheduleWidget, \
     DeforumColorParamsWidget, DeforumDepthParamsWidget, DeforumNoiseParamsWidget, DeforumDiffusionParamsWidget, DeforumMaskingParamsWidget, \
@@ -46,7 +30,7 @@ OP_NODE_DEFORUM_VIDEO_INIT_PARAMS = get_next_opcode()
 
 #OP_NODE_DEFORUM_MOTION = get_next_opcode()
 
-class MotionWidget(QWidget):
+"""class MotionWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -142,7 +126,7 @@ class DeforumMotionWidget(QDMNodeContentWidget):
         self.main_layout.addWidget(self.widget)
 
     def createUI(self):
-        self.widget = MotionWidget(self)
+        self.widget = MotionWidget(self)"""
 
 
 
@@ -178,7 +162,7 @@ class DeforumParamBaseNode(AiNode):
             data = merge_dicts(input_data, data)
         return data
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
         super().onWorkerFinished(None)
         self.setOutput(0, result)
