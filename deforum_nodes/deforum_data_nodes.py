@@ -11,8 +11,6 @@ from .deforum_basenode import DeforumBaseParamsWidget, DeforumCadenceParamsWidge
     DeforumImageInitParamsWidget, DeforumHybridScheduleParamsWidget, DeforumAnimParamsWidget, DeforumTranslationScheduleWidget, \
     DeforumColorParamsWidget, DeforumDepthParamsWidget, DeforumNoiseParamsWidget, DeforumDiffusionParamsWidget, DeforumMaskingParamsWidget, \
     DeforumVideoInitParamsWidget
-from .deforum_data_no import merge_dicts
-
 
 OP_NODE_DEFORUM_BASE_PARAMS = get_next_opcode()
 OP_NODE_DEFORUM_CADENCE_PARAMS = get_next_opcode()
@@ -129,8 +127,16 @@ class DeforumMotionWidget(QDMNodeContentWidget):
         self.widget = MotionWidget(self)"""
 
 
+def merge_dicts(dict1, dict2):
+    result_dict = dict1.copy()
+    for key, value in dict2.items():
+        if key in result_dict:
+            result_dict[key] = value
+        else:
+            result_dict[key] = value
+    return result_dict
 
-#
+
 class DeforumParamBaseNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/torch.png"
     op_code = None

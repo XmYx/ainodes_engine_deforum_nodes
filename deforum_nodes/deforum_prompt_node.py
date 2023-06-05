@@ -9,7 +9,7 @@ from qtpy import QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from custom_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_data_no import merge_dicts
+from custom_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_data_nodes import merge_dicts
 
 OP_NODE_DEFORUM_PROMPT = get_next_opcode()
 
