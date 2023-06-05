@@ -27,7 +27,7 @@ from ainodes_frontend.base import register_node, get_next_opcode, handle_ainodes
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
 from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap, pixmap_to_pil_image
-from custom_nodes.ainodes_engine_base_nodes.image_nodes.output_node import ImagePreviewNode
+from custom_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import ImagePreviewNode
 from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 #from ..deforum_helpers.qops import pixmap_to_pil_image
 from ...ainodes_engine_base_nodes.ainodes_backend.cnet_preprocessors import hed

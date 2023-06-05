@@ -1,32 +1,20 @@
-import json
+"""import json
 import os
 import re
-import secrets
 import shutil
-import sys
-import time
 from functools import partial
-from types import SimpleNamespace
-
-import numpy as np
 from qtpy import QtCore
 from qtpy import QtWidgets
 
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from ainodes_frontend import singleton as gs
-from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap
-from custom_nodes.ainodes_engine_base_nodes.image_nodes.output_node import ImagePreviewNode
-from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
-from .deforum_basenode import DeforumBaseParamsWidget
+from .deforum_basenode import DeforumBaseParamsWidget"""
 
-#from ..deforum_helpers.render import render_animation, Root, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
-#    DeformAnimKeys, DeforumAnimPrompts, ParseqArgs, LoopArgs
 
-OP_NODE_DEFORUM_DATA = get_next_opcode()
-OP_NODE_DEFORUM_ARGS_DATA = get_next_opcode()
-OP_NODE_DEFORUM_PROMPT = get_next_opcode()
+#OP_NODE_DEFORUM_DATA = get_next_opcode()
+#OP_NODE_DEFORUM_ARGS_DATA = get_next_opcode()
+#OP_NODE_DEFORUM_PROMPT = get_next_opcode()
 
 def get_os():
     import platform
@@ -1040,9 +1028,10 @@ class DeforumPromptNode(AiNode):
         return data
 
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         self.setOutput(0, result)
         if len(self.getOutputs(1)) > 0:
             self.executeChild(output_index=1)
@@ -1083,9 +1072,10 @@ class DeforumArgsDataNode(AiNode):
         return data
 
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         self.setOutput(0, result)
         if len(self.getOutputs(1)) > 0:
             self.executeChild(output_index=1)
@@ -1218,9 +1208,9 @@ class DeforumArgsDataNode(AiNode):
 
 
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        #super().onWorkerFinished(None)
         return
         self.markDirty(False)
         self.setOutput(0, result)
