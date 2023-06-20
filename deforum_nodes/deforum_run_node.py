@@ -26,9 +26,9 @@ from qtpy import QtCore, QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode, handle_ainodes_exception
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap, pixmap_to_pil_image
-from custom_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import ImagePreviewNode
-from custom_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
+from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap, pixmap_to_pil_image
+from ai_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import ImagePreviewNode
+from ai_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 #from ..deforum_helpers.qops import pixmap_to_pil_image
 from ...ainodes_engine_base_nodes.ainodes_backend.cnet_preprocessors import hed
 from ...ainodes_engine_base_nodes.image_nodes.image_op_node import HWC3
@@ -59,7 +59,7 @@ class DeforumRunWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_DEFORUM_RUN)
 class DeforumRunNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/torch.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
     op_code = OP_NODE_DEFORUM_RUN
     op_title = "Deforum Runner"
     content_label_objname = "deforum_runner_node"
@@ -265,7 +265,7 @@ class DeforumRunNode(AiNode):
 
 @register_node(OP_NODE_DEFORUM_CNET)
 class DeforumCnetNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/torch.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
     op_code = OP_NODE_DEFORUM_CNET
     op_title = "Deforum Cnet Node"
     content_label_objname = "deforum_cnet_node"
@@ -468,6 +468,17 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
     sampler_node, _ = node.getInput(2)
     make_latent = None
     latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
+
+
+    api = True
+
+    if api:
+        pass
+
+
+
+
+
     if isinstance(sampler_node, KSamplerNode):
         if len(init_images) > 0:
             if init_images[0] is not None:
