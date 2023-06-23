@@ -81,7 +81,7 @@ class DeforumKeyframeNode(AiNode):
     op_code = OP_NODE_DEFORUM_KEYFRAME
     op_title = "Deforum Keyframe Node"
     content_label_objname = "deforum_keyframe_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
 
     # output_socket_name = ["EXEC", "MODEL"]

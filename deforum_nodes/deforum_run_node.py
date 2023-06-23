@@ -26,7 +26,7 @@ from qtpy import QtCore, QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode, handle_ainodes_exception
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import pil_image_to_pixmap, pixmap_to_pil_image
+from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import tensor_image_to_pixmap, pixmap_to_tensor
 from ai_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import ImagePreviewNode
 from ai_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 #from ..deforum_helpers.qops import pixmap_to_pil_image
@@ -63,7 +63,7 @@ class DeforumRunNode(AiNode):
     op_code = OP_NODE_DEFORUM_RUN
     op_title = "Deforum Runner"
     content_label_objname = "deforum_runner_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
     custom_input_socket_name = ["DATA", "COND", "SAMPLER", "EXEC"]
     output_socket_name = ["IMAGE", "EXEC"]
 
@@ -219,7 +219,7 @@ class DeforumRunNode(AiNode):
                 pixmap = pil_image_to_pixmap(image)
                 return_frames.append(pixmap)
             self.images = [Image.fromarray(np_image2)]"""
-        pixmap = pil_image_to_pixmap(image)
+        pixmap = tensor_image_to_pixmap(image)
         self.setOutput(1, [pixmap])
         for node in self.getOutputs(1):
             if isinstance(node, ImagePreviewNode):
@@ -233,7 +233,7 @@ class DeforumRunNode(AiNode):
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
 
     def handle_cadence_callback(self, image):
-        pixmap = pil_image_to_pixmap(image)
+        pixmap = tensor_image_to_pixmap(image)
         self.setOutput(0, [pixmap])
 
         for node in self.getOutputs(0):
@@ -269,7 +269,7 @@ class DeforumCnetNode(AiNode):
     op_code = OP_NODE_DEFORUM_CNET
     op_title = "Deforum Cnet Node"
     content_label_objname = "deforum_cnet_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
     custom_input_socket_name = ["MASK", "IMAGE", "EXEC"]
     output_socket_name = ["IMAGE", "EXEC"]
 
@@ -294,13 +294,13 @@ class DeforumCnetNode(AiNode):
         print(gs.models["loaded_controlnet"])
 
         if conditioning is not None:
-            img = cnet_image_ops("canny", pixmap_to_pil_image(pixmaps[0]))
+            img = cnet_image_ops("canny", pixmap_to_tensor(pixmaps[0]))
             conditioning = self.add_control_image(conditioning, img)
             #self.setOutput(1, [pil_image_to_pixmap(img)])
             if len(self.getOutputs(0)) > 0:
                 node = self.getOutputs(0)[0]
                 if isinstance(node, ImagePreviewNode):
-                    node.content.preview_signal.emit(pil_image_to_pixmap(img))
+                    node.content.preview_signal.emit(tensor_image_to_pixmap(img))
         return conditioning
 
     def add_control_image(self, conditioning, image, progress_callback=None):
@@ -515,12 +515,12 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         init = None
         if len(init_images) > 0:
             if init_images[0] is not None:
-                init = pil_image_to_pixmap(init_images[0])
+                init = tensor_image_to_pixmap(init_images[0])
         if init is not None:
             init = [init]
         pixmaps = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)
 
-    image = pixmap_to_pil_image(pixmaps[0])
+    image = pixmap_to_tensor(pixmaps[0])
     return image
 
 def encode_latent_ainodes(init_image):

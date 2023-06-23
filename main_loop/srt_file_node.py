@@ -22,7 +22,7 @@ class DeforumRunNode(AiNode):
     op_code = OP_NODE_DEFORUM_SRT
     op_title = "Deforum Runner"
     content_label_objname = "deforum_runner_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
     def __init__(self, scene):
         super().__init__(scene, inputs=[6,1], outputs=[6,1])
