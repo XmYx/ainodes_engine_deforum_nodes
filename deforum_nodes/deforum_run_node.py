@@ -8,6 +8,7 @@ import secrets
 import time
 from types import SimpleNamespace
 
+import PIL
 import cv2
 import numexpr
 import numpy as np
@@ -26,7 +27,8 @@ from qtpy import QtCore, QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode, handle_ainodes_exception
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import tensor_image_to_pixmap, pixmap_to_tensor
+from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import tensor_image_to_pixmap, pixmap_to_tensor, tensor2pil, \
+    pil2tensor
 from ai_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import ImagePreviewNode
 from ai_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 #from ..deforum_helpers.qops import pixmap_to_pil_image
@@ -220,7 +222,7 @@ class DeforumRunNode(AiNode):
                 return_frames.append(pixmap)
             self.images = [Image.fromarray(np_image2)]"""
         pixmap = tensor_image_to_pixmap(image)
-        self.setOutput(1, [pixmap])
+        self.setOutput(1, [image])
         for node in self.getOutputs(1):
             if isinstance(node, ImagePreviewNode):
                 node.content.preview_signal.emit(pixmap)
@@ -234,7 +236,7 @@ class DeforumRunNode(AiNode):
 
     def handle_cadence_callback(self, image):
         pixmap = tensor_image_to_pixmap(image)
-        self.setOutput(0, [pixmap])
+        self.setOutput(0, [image])
 
         for node in self.getOutputs(0):
             if isinstance(node, ImagePreviewNode):
@@ -515,12 +517,17 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         init = None
         if len(init_images) > 0:
             if init_images[0] is not None:
-                init = tensor_image_to_pixmap(init_images[0])
+                init = init_images[0]
         if init is not None:
+            if isinstance(init, PIL.Image.Image):
+                init = pil2tensor(init)
+
             init = [init]
+
+
         pixmaps = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)
 
-    image = pixmap_to_tensor(pixmaps[0])
+    image = tensor2pil(pixmaps[0])
     return image
 
 def encode_latent_ainodes(init_image):
