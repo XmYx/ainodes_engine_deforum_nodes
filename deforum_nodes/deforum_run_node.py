@@ -486,7 +486,7 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
             if init_images[0] is not None:
                 print("USING INIT")
                 latent = encode_latent_ainodes(init_images[0])
-        cond_node, index = node.getInput(1)
+        cond_node, index = node.getInput(6)
         conds = None
         # Get conditioning for current prompt
         c_1, _ = cond_node.evalImplementation_thread(prompt_override=prompt)
@@ -642,9 +642,13 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
                                   shape=(args.W, args.H),
                                   use_alpha_as_mask=args.use_alpha_as_mask)
         image_init0 = list(jsonImages.values())[0]
+        print(" TYPE", type(image_init0))
+
 
     else:  # they passed in a single init image
         image_init0 = args.init_image
+
+        print("ELSE TYPE", type(image_init0))
 
     available_samplers = {
         'euler a': 'Euler a',
