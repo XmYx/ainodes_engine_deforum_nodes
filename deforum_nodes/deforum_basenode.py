@@ -1,7 +1,7 @@
 from qtpy import QtWidgets
 
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from custom_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_ui_data import deforum_base_params, deforum_anim_params, \
+from ai_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_ui_data import deforum_base_params, deforum_anim_params, \
     deforum_translation_params, deforum_cadence_params, deforum_masking_params, deforum_depth_params, deforum_noise_params, \
     deforum_color_coherence_params, deforum_diffusion_schedule_params, deforum_hybrid_video_params, deforum_video_init_params, \
     deforum_image_init_params, deforum_hybrid_video_schedules

@@ -33,7 +33,7 @@
                 "LDM Optimization": "sdp",
                 "Force Reload": "False"
             },
-            "op_code": 34,
+            "op_code": 37,
             "content_label_objname": "torch_loader_node"
         },
         {
@@ -105,18 +105,19 @@
                 "Scheduler:": "karras",
                 "Sampler:": "euler",
                 "Seed:": "",
-                "Steps:": 10,
-                "Start Step:": 0,
-                "Last Step:": 5,
+                "Steps:": "10",
+                "Start Step:": "0",
+                "Last Step:": "5",
                 "Stop Sampling Early": "False",
                 "Force full denoise": "True",
                 "Show Tensor Preview": "True",
                 "Disable noise generation": "False",
                 "Iterate seed": "False",
-                "Denoise:": 1.0,
-                "Guidance Scale:": 7.5
+                "Use latent from loop": "False",
+                "Denoise:": "1.0",
+                "Guidance Scale:": "7.5"
             },
-            "op_code": 27,
+            "op_code": 30,
             "content_label_objname": "K_sampling_node"
         },
         {
@@ -164,9 +165,10 @@
                 }
             ],
             "content": {
-                "Prompt": ""
+                "Prompt": "",
+                "Use embeds": "False"
             },
-            "op_code": 19,
+            "op_code": 22,
             "content_label_objname": "cond_node"
         },
         {
@@ -177,7 +179,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55aaff",
             "width": 976.5749511718745,
@@ -222,14 +224,14 @@
             ],
             "content": {
                 "video_init_path": "https://deforum.github.io/a1/V1.mp4",
-                "extract_nth_frame": 1,
-                "extract_from_frame": 0,
-                "extract_to_frame": -1,
+                "extract_nth_frame": "1",
+                "extract_from_frame": "0",
+                "extract_to_frame": "-1",
                 "overwrite_extracted_frames": "True",
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 55,
+            "op_code": 58,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
@@ -240,7 +242,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff00557f",
             "width": 484.1281250000001,
@@ -290,15 +292,15 @@
                 "mask_image": "",
                 "noise_mask": "",
                 "invert_mask": "False",
-                "mask_contrast_adjust": 1.0,
-                "mask_brightness_adjust": 1.0,
+                "mask_contrast_adjust": "1.0",
+                "mask_brightness_adjust": "1.0",
                 "overlay_mask": "False",
-                "mask_overlay_blur": 4,
-                "fill": 1,
+                "mask_overlay_blur": "4",
+                "fill": "1",
                 "full_res_mask": "True",
-                "full_res_mask_padding": 4
+                "full_res_mask_padding": "4"
             },
-            "op_code": 54,
+            "op_code": 57,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
@@ -309,7 +311,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff00aa00",
             "width": 173.1875,
@@ -364,7 +366,7 @@
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 49,
+            "op_code": 52,
             "content_label_objname": "deforum_translation_node"
         },
         {
@@ -375,7 +377,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff550000",
             "width": 2204.5107421874986,
@@ -389,7 +391,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff0000ff",
             "width": 173.1875,
@@ -447,7 +449,7 @@
                 }
             ],
             "content": {},
-            "op_code": 14,
+            "op_code": 13,
             "content_label_objname": "image_output_node"
         },
         {
@@ -474,7 +476,7 @@
                 }
             ],
             "content": {},
-            "op_code": 7,
+            "op_code": 5,
             "content_label_objname": "exec_node"
         },
         {
@@ -485,7 +487,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffffaa00",
             "width": 439.20625000000024,
@@ -499,7 +501,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffaa00ff",
             "width": 550.5343750000002,
@@ -513,7 +515,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffffff00",
             "width": 508.83203125,
@@ -557,18 +559,18 @@
                 }
             ],
             "content": {
-                "W": 512,
-                "H": 512,
+                "W": "512",
+                "H": "512",
                 "seed": "-1",
                 "sampler": "euler_ancestral",
-                "steps": 25,
-                "scale": 7,
-                "n_batch": 1,
+                "steps": "25",
+                "scale": "7",
+                "n_batch": "1",
                 "batch_name": "Deforum_{timestring}",
                 "seed_behavior_value_combobox": "iter",
-                "seed_iter_N": 1,
+                "seed_iter_N": "1",
                 "outdir": "output/deforum",
-                "strength": 0.0,
+                "strength": "0.0",
                 "save_settings": "True",
                 "save_sample_per_step": "False",
                 "prompt_weighting": "False",
@@ -578,7 +580,7 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 43,
+            "op_code": 46,
             "content_label_objname": "deforum_base_params_node"
         },
         {
@@ -625,7 +627,7 @@
                 "hybrid_motion_value_combobox": "None",
                 "hybrid_motion_use_prev_img": "False",
                 "hybrid_flow_consistency": "False",
-                "hybrid_consistency_blur": 2,
+                "hybrid_consistency_blur": "2",
                 "hybrid_flow_method_value_combobox": "RAFT",
                 "hybrid_composite_value_combobox": "None",
                 "hybrid_use_init_image": "False",
@@ -635,7 +637,7 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 45,
+            "op_code": 48,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
@@ -676,9 +678,9 @@
                 }
             ],
             "content": {
-                "Dump at every:": 0
+                "Dump at every:": "0"
             },
-            "op_code": 26,
+            "op_code": 29,
             "content_label_objname": "video_output_node"
         },
         {
@@ -689,7 +691,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff005500",
             "width": 441.13750000000005,
@@ -703,7 +705,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffff0000",
             "width": 176.3125,
@@ -758,7 +760,7 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 53,
+            "op_code": 56,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
@@ -769,7 +771,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55aa00",
             "width": 455.12109374999955,
@@ -815,12 +817,12 @@
             "content": {
                 "use_depth_warping": "True",
                 "depth_algorithm_value_combobox": "Zoe",
-                "midas_weight": 0.85,
+                "midas_weight": "0.85",
                 "padding_mode_value_combobox": "border",
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 51,
+            "op_code": 54,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
@@ -863,7 +865,7 @@
             "content": {
                 "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
             },
-            "op_code": 56,
+            "op_code": 59,
             "content_label_objname": "deforum_prompt_node"
         },
         {
@@ -911,7 +913,7 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 47,
+            "op_code": 50,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
@@ -957,7 +959,7 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 46,
+            "op_code": 49,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
@@ -1005,12 +1007,12 @@
                 "sigma_schedule": "0: (1.0)",
                 "threshold_schedule": "0: (0.0)",
                 "noise_type_value_combobox": "uniform",
-                "perlin_w": 8,
-                "perlin_h": 8,
-                "perlin_octaves": 4,
-                "perlin_persistence": 0.0
+                "perlin_w": "8",
+                "perlin_h": "8",
+                "perlin_octaves": "4",
+                "perlin_persistence": "0.0"
             },
-            "op_code": 52,
+            "op_code": 55,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
@@ -1053,11 +1055,11 @@
             "content": {
                 "color_coherence_value_combobox": "LAB",
                 "color_coherence_image_path": "",
-                "color_coherence_video_every_N_frames": 1,
+                "color_coherence_video_every_N_frames": "1",
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 50,
+            "op_code": 53,
             "content_label_objname": "deforum_color_params_node"
         },
         {
@@ -1068,7 +1070,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffaa55ff",
             "width": 550.5343750000002,
@@ -1082,7 +1084,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55557f",
             "width": 457.5625,
@@ -1127,13 +1129,13 @@
             ],
             "content": {
                 "animation_mode_value_combobox": "3D",
-                "max_frames": 300,
+                "max_frames": "300",
                 "border_value_combobox": "wrap",
                 "resume_from_timestring": "False",
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 48,
+            "op_code": 51,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
@@ -1174,14 +1176,14 @@
                 }
             ],
             "content": {
-                "diffusion_cadence": 25,
+                "diffusion_cadence": "25",
                 "optical_flow_cadence_value_combobox": "RAFT",
                 "cadence_flow_factor_schedule": "0: (1)",
                 "optical_flow_redo_generation_value_combobox": "RAFT",
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "1"
             },
-            "op_code": 44,
+            "op_code": 47,
             "content_label_objname": "deforum_cadence_params_node"
         },
         {
@@ -1192,7 +1194,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55aaff",
             "width": 623.0898437500001,
@@ -1256,15 +1258,18 @@
                     "socket_type": 1
                 }
             ],
-            "content": {},
-            "op_code": 57,
+            "content": {
+                "Use Conditioning schedule": "False",
+                "Conditioning Blend factor": "1.0"
+            },
+            "op_code": 60,
             "content_label_objname": "deforum_runner_node"
         },
         {
             "id": 2362871047424,
             "title": "Image Preview",
-            "pos_x": 1163.4094238281243,
-            "pos_y": 2566.888427734374,
+            "pos_x": 1460.9558105468739,
+            "pos_y": 2593.5913085937495,
             "inputs": [
                 {
                     "id": 2362871047568,
@@ -1312,7 +1317,7 @@
                 }
             ],
             "content": {},
-            "op_code": 14,
+            "op_code": 13,
             "content_label_objname": "image_output_node"
         },
         {
@@ -1323,7 +1328,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffaa55ff",
             "width": 550.5343750000002,
@@ -1373,7 +1378,7 @@
                 "hybrid_motion_value_combobox": "None",
                 "hybrid_motion_use_prev_img": "False",
                 "hybrid_flow_consistency": "False",
-                "hybrid_consistency_blur": 2,
+                "hybrid_consistency_blur": "2",
                 "hybrid_flow_method_value_combobox": "RAFT",
                 "hybrid_composite_value_combobox": "None",
                 "hybrid_use_init_image": "False",
@@ -1383,7 +1388,7 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 45,
+            "op_code": 48,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
@@ -1439,17 +1444,22 @@
             ],
             "content": {
                 "Task": "TXT2IMG",
+                "Tensor Preview": "False",
                 "Prompt:": "",
+                "Negative Prompt:": "",
+                "Negative Prior Prompt:": "",
                 "Seed:": "",
-                "Steps:": 25,
-                "Guidance Scale:": 4,
-                "Width:": 512,
-                "Height:": 512,
-                "Strength:": 0.84,
+                "Steps:": "25",
+                "Guidance Scale:": "4",
+                "Width:": "512",
+                "Height:": "512",
+                "Strength:": "0.84",
                 "Sampler:": "p_sampler",
-                "Prior Scale:": 5
+                "Prior Scale:": "5",
+                "Prior Steps:": "5",
+                "Force Values:": "False"
             },
-            "op_code": 28,
+            "op_code": 31,
             "content_label_objname": "kandinsky_node"
         },
         {
@@ -1491,7 +1501,7 @@
             ],
             "content": {
                 "noise_schedule": "0: (0.065)",
-                "strength_schedule": "0: (0.65)",
+                "strength_schedule": "0: (0.85)",
                 "contrast_schedule": "0: (1.0)",
                 "cfg_scale_schedule": "0: (7)",
                 "enable_steps_scheduling": "False",
@@ -1501,7 +1511,7 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 53,
+            "op_code": 56,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
@@ -1528,7 +1538,7 @@
                 }
             ],
             "content": {},
-            "op_code": 7,
+            "op_code": 5,
             "content_label_objname": "exec_node"
         },
         {
@@ -1539,7 +1549,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff005500",
             "width": 441.13750000000005,
@@ -1585,12 +1595,12 @@
             "content": {
                 "use_depth_warping": "True",
                 "depth_algorithm_value_combobox": "Zoe",
-                "midas_weight": 0.0,
+                "midas_weight": "0.0",
                 "padding_mode_value_combobox": "border",
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 51,
+            "op_code": 54,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
@@ -1601,7 +1611,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffff0000",
             "width": 176.3125,
@@ -1615,7 +1625,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffaa00ff",
             "width": 550.5343750000002,
@@ -1629,7 +1639,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffffaaff",
             "width": 460.0039062499998,
@@ -1679,15 +1689,15 @@
                 "mask_image": "",
                 "noise_mask": "",
                 "invert_mask": "False",
-                "mask_contrast_adjust": 1.0,
-                "mask_brightness_adjust": 1.0,
+                "mask_contrast_adjust": "1.0",
+                "mask_brightness_adjust": "1.0",
                 "overlay_mask": "True",
-                "mask_overlay_blur": 4,
-                "fill": 1,
+                "mask_overlay_blur": "4",
+                "fill": "1",
                 "full_res_mask": "True",
-                "full_res_mask_padding": 4
+                "full_res_mask_padding": "4"
             },
-            "op_code": 54,
+            "op_code": 57,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
@@ -1748,8 +1758,11 @@
                     "socket_type": 1
                 }
             ],
-            "content": {},
-            "op_code": 57,
+            "content": {
+                "Use Conditioning schedule": "False",
+                "Conditioning Blend factor": "1.0"
+            },
+            "op_code": 60,
             "content_label_objname": "deforum_runner_node"
         },
         {
@@ -1760,7 +1773,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffffaa00",
             "width": 439.20625000000024,
@@ -1808,14 +1821,14 @@
                 "zoom": "0:(0)",
                 "translation_x": "0:(0)",
                 "translation_y": "0:(0)",
-                "translation_z": "0:(25)",
+                "translation_z": "0:(2)",
                 "transform_center_x": "0:(0.5)",
                 "transform_center_y": "0:(0.5)",
                 "rotation_3d_x": "0:(0)",
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 49,
+            "op_code": 52,
             "content_label_objname": "deforum_translation_node"
         },
         {
@@ -1826,7 +1839,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff550000",
             "width": 2040.4482421874986,
@@ -1840,7 +1853,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ffffff00",
             "width": 508.83203125,
@@ -1884,9 +1897,9 @@
                 }
             ],
             "content": {
-                "Dump at every:": 0
+                "Dump at every:": "0"
             },
-            "op_code": 26,
+            "op_code": 29,
             "content_label_objname": "video_output_node"
         },
         {
@@ -1897,7 +1910,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55aa00",
             "width": 455.12109374999955,
@@ -1942,14 +1955,14 @@
             ],
             "content": {
                 "video_init_path": "https://deforum.github.io/a1/V1.mp4",
-                "extract_nth_frame": 1,
-                "extract_from_frame": 0,
-                "extract_to_frame": -1,
+                "extract_nth_frame": "1",
+                "extract_from_frame": "0",
+                "extract_to_frame": "-1",
                 "overwrite_extracted_frames": "True",
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 55,
+            "op_code": 58,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
@@ -1960,7 +1973,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff00aa00",
             "width": 173.1875,
@@ -2018,7 +2031,7 @@
                 }
             ],
             "content": {},
-            "op_code": 14,
+            "op_code": 13,
             "content_label_objname": "image_output_node"
         },
         {
@@ -2059,9 +2072,11 @@
                 }
             ],
             "content": {
-                "0": "\"A highly stylized and explosive abstract painting, showcasing ((((the earth exploding)))), multiple planets in various stages of destruction against a black-bokeh-style texture background, inspired by the vibrant and dynamic artwork of Mark Ryden. The piece will feature bold colors and a highly textured surface, creating a sense of movement and energy\""
+                "0": "\"highly detailed illustration of a candy explosion, abstract background, sprinkles, galaxy twirling\"",
+                "100": "\"highly detailed magical forest, candy trees, tiny mushrooms, abstract textures, psychedelic twirl\"",
+                "200": "\"beautiful artwork of random abstract patters emerge from a gigantic candy bar in candy land\""
             },
-            "op_code": 56,
+            "op_code": 59,
             "content_label_objname": "deforum_prompt_node"
         },
         {
@@ -2104,11 +2119,11 @@
             "content": {
                 "color_coherence_value_combobox": "None",
                 "color_coherence_image_path": "",
-                "color_coherence_video_every_N_frames": 1,
+                "color_coherence_video_every_N_frames": "1",
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 50,
+            "op_code": 53,
             "content_label_objname": "deforum_color_params_node"
         },
         {
@@ -2150,13 +2165,13 @@
             ],
             "content": {
                 "animation_mode_value_combobox": "3D",
-                "max_frames": 300,
+                "max_frames": "300",
                 "border_value_combobox": "wrap",
                 "resume_from_timestring": "False",
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 48,
+            "op_code": 51,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
@@ -2167,7 +2182,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff55557f",
             "width": 457.5625,
@@ -2211,18 +2226,18 @@
                 }
             ],
             "content": {
-                "W": 768,
-                "H": 512,
+                "W": "768",
+                "H": "512",
                 "seed": "-1",
                 "sampler": "euler_ancestral",
-                "steps": 25,
-                "scale": 7,
-                "n_batch": 1,
+                "steps": "75",
+                "scale": "5",
+                "n_batch": "1",
                 "batch_name": "Deforum_{timestring}",
                 "seed_behavior_value_combobox": "iter",
-                "seed_iter_N": 1,
+                "seed_iter_N": "1",
                 "outdir": "output/deforum",
-                "strength": 0.0,
+                "strength": "0.0",
                 "save_settings": "True",
                 "save_sample_per_step": "False",
                 "prompt_weighting": "False",
@@ -2232,7 +2247,7 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 43,
+            "op_code": 46,
             "content_label_objname": "deforum_base_params_node"
         },
         {
@@ -2287,7 +2302,7 @@
                 }
             ],
             "content": {},
-            "op_code": 14,
+            "op_code": 13,
             "content_label_objname": "image_output_node"
         },
         {
@@ -2298,7 +2313,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff00557f",
             "width": 484.1281250000001,
@@ -2349,7 +2364,7 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 47,
+            "op_code": 50,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
@@ -2397,12 +2412,12 @@
                 "sigma_schedule": "0: (1.0)",
                 "threshold_schedule": "0: (0.0)",
                 "noise_type_value_combobox": "uniform",
-                "perlin_w": 8,
-                "perlin_h": 8,
-                "perlin_octaves": 4,
-                "perlin_persistence": 0.0
+                "perlin_w": "8",
+                "perlin_h": "8",
+                "perlin_octaves": "4",
+                "perlin_persistence": "0.0"
             },
-            "op_code": 52,
+            "op_code": 55,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
@@ -2448,7 +2463,7 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 46,
+            "op_code": 49,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
@@ -2459,7 +2474,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 5,
+            "op_code": 3,
             "content_label_objname": "bg_node",
             "color": "#ff0000ff",
             "width": 173.1875,
@@ -2468,8 +2483,8 @@
         {
             "id": 2362921983504,
             "title": "Deforum Cadence Params",
-            "pos_x": -2077.1118164062495,
-            "pos_y": 521.6491699218737,
+            "pos_x": -2071.1118164062495,
+            "pos_y": 520.6491699218736,
             "inputs": [
                 {
                     "id": 2362921984224,
@@ -2503,14 +2518,14 @@
                 }
             ],
             "content": {
-                "diffusion_cadence": 4,
+                "diffusion_cadence": "10",
                 "optical_flow_cadence_value_combobox": "None",
                 "cadence_flow_factor_schedule": "0: (1)",
                 "optical_flow_redo_generation_value_combobox": "None",
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "0"
             },
-            "op_code": 44,
+            "op_code": 47,
             "content_label_objname": "deforum_cadence_params_node"
         }
     ],

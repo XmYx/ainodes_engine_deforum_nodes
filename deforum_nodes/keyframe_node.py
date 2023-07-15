@@ -9,7 +9,7 @@ from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode
 from ainodes_frontend.base.resize_a_node import QDMGraphicsResizeNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from custom_nodes.ainodes_engine_deforum_nodes.deforum_nodes.keyframe_widget_alpha import OurTimeline, KeyFrame
+from ai_nodes.ainodes_engine_deforum_nodes.deforum_nodes.keyframe_widget_alpha import OurTimeline, KeyFrame
 
 OP_NODE_DEFORUM_KEYFRAME = get_next_opcode()
 
@@ -77,11 +77,11 @@ class DeforumKeyframeWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_DEFORUM_KEYFRAME)
 class DeforumKeyframeNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/torch.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
     op_code = OP_NODE_DEFORUM_KEYFRAME
     op_title = "Deforum Keyframe Node"
     content_label_objname = "deforum_keyframe_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
 
     # output_socket_name = ["EXEC", "MODEL"]

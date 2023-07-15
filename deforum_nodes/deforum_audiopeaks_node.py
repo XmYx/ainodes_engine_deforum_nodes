@@ -114,7 +114,7 @@ class DeforumAudioNode(AiNode):
     op_code = OP_NODE_DEFORUM_PEAKS
     op_title = "Deforum Peaks"
     content_label_objname = "deforum_audio_peaks_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
 
     def __init__(self, scene):

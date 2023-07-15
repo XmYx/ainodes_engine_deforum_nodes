@@ -9,7 +9,7 @@ from qtpy import QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
-from custom_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_data_nodes import merge_dicts
+from ai_nodes.ainodes_engine_deforum_nodes.deforum_nodes.deforum_data_nodes import merge_dicts
 
 OP_NODE_DEFORUM_PROMPT = get_next_opcode()
 
@@ -148,11 +148,11 @@ class DeforumPromptWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_DEFORUM_PROMPT)
 class DeforumPromptNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/torch.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
     op_code = OP_NODE_DEFORUM_PROMPT
     op_title = "Deforum Prompt Node"
     content_label_objname = "deforum_prompt_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
 
     # output_socket_name = ["EXEC", "MODEL"]

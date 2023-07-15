@@ -138,11 +138,11 @@ def merge_dicts(dict1, dict2):
 
 
 class DeforumParamBaseNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/torch.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
     op_code = None
     op_title = "Deforum Args Node"
     content_label_objname = "deforum_args_node"
-    category = "DeForum"
+    category = "aiNodes Deforum/DeForum"
 
     w_value = 340
     h_value = 600
