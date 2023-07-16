@@ -483,7 +483,7 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         conds = None
         # Get conditioning for current prompt
         c_1 = cond_node.evalImplementation_thread(prompt_override=prompt)
-        c_1 = [c_1[0]["conds"]]
+        #c_1 = [c_1[0]["conds"]]
         print("got cond", c_1)
 
         inter = node.content.cond_schedule_checkbox.isChecked()
@@ -492,14 +492,19 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
                 #If we still have a next prompt left, get an other conditioning
                 next_conds = cond_node.evalImplementation_thread(prompt_override=next_prompt)
                 blend = min(blend_value * node.content.blend_factor.value(), 1.0)
-                conds = addWeighted(next_conds[0], c_1[0], blend)
-                print("Created Blended Conditioning for", prompt, next_prompt, blend_value)
+
+                print(len(next_conds), len(c_1))
+                conds = [addWeighted(next_conds[0]["conds"], c_1[0]["conds"], blend)]
+                print("Created Blended Conditioning for", prompt, next_prompt, blend_value, conds)
             else:
-                conds = c_1
+                conds = [c_1[0]["conds"]]
         else:
-            conds = c_1
+            conds = [c_1[0]["conds"]]
         n_conds = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
         n_conds = [n_conds[0]["conds"]]
+
+        print(n_conds)
+
         if len(init_images) > 0:
             if init_images[0] is not None:
                 if len(node.getOutputs(2)) > 0:
@@ -838,24 +843,36 @@ def process_args(args_dict_main, run_id):
 
     return args_loaded_ok, root, args, anim_args, video_args, parseq_args, loop_args, controlnet_args
 
+
 def addWeighted(conditioning_to, conditioning_from, conditioning_to_strength):
     out = []
 
     if len(conditioning_from) > 1:
-        print("Warning: ConditioningAverage conditioning_from contains more than 1 cond, only the first one will actually be applied to conditioning_to.")
+        print(
+            "Warning: ConditioningAverage conditioning_from contains more than 1 cond, only the first one will actually be applied to conditioning_to.")
 
     cond_from = conditioning_from[0][0]
+    pooled_output_from = conditioning_from[0][1].get("pooled_output", None)
 
     for i in range(len(conditioning_to)):
         t1 = conditioning_to[i][0]
-        t0 = cond_from[:,:t1.shape[1]]
+        pooled_output_to = conditioning_to[i][1].get("pooled_output", pooled_output_from)
+        t0 = cond_from[:, :t1.shape[1]]
         if t0.shape[1] < t1.shape[1]:
             t0 = torch.cat([t0] + [torch.zeros((1, (t1.shape[1] - t0.shape[1]), t1.shape[2]))], dim=1)
 
         tw = torch.mul(t1, conditioning_to_strength) + torch.mul(t0, (1.0 - conditioning_to_strength))
-        n = [tw, conditioning_to[i][1].copy()]
+        t_to = conditioning_to[i][1].copy()
+        if pooled_output_from is not None and pooled_output_to is not None:
+            t_to["pooled_output"] = torch.mul(pooled_output_to, conditioning_to_strength) + torch.mul(
+                pooled_output_from, (1.0 - conditioning_to_strength))
+        elif pooled_output_from is not None:
+            t_to["pooled_output"] = pooled_output_from
+
+        n = [tw, t_to]
         out.append(n)
-    return [out]
+    outback = [[out[0][0], {"pooled_output": out[0][1]["pooled_output"]}]]
+    return outback
 
 
 def _encode_image(image, prompt,  device, num_images_per_prompt, do_classifier_free_guidance, model, processor):
