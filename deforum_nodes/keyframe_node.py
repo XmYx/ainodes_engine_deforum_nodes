@@ -17,7 +17,7 @@ OP_NODE_DEFORUM_KEYFRAME = get_next_opcode()
 class DeforumKeyframeWidget(QDMNodeContentWidget):
     def initUI(self):
         self.createUI()
-        self.create_main_layout()
+        self.create_main_layout(grid=1)
         self.main_layout.addWidget(self.timeline)
         self.main_layout.addWidget(self.zoom_slider)
 

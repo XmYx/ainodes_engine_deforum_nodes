@@ -101,7 +101,7 @@ class DeforumAudioPeaksWidget(QDMNodeContentWidget):
     def initUI(self):
         # Create a label to display the image
         self.createUI()
-        self.create_main_layout()
+        self.create_main_layout(grid=1)
     def createUI(self):
         self.path_edit = self.create_line_edit("Path")
         self.peaks = self.create_line_edit("Peaks")

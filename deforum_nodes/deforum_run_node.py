@@ -472,29 +472,25 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
     latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
 
 
-    api = True
-
-    if api:
-        pass
-
-
-
-
 
     if isinstance(sampler_node, KSamplerNode):
         if len(init_images) > 0:
             if init_images[0] is not None:
                 print("USING INIT")
-                latent = encode_latent_ainodes(init_images[0])
-        cond_node, index = node.getInput(6)
+                vae = sampler_node.getInputData(1)
+                latent = encode_latent_ainodes(init_images[0], vae)
+        cond_node, index = node.getInput(1)
         conds = None
         # Get conditioning for current prompt
-        c_1, _ = cond_node.evalImplementation_thread(prompt_override=prompt)
+        c_1 = cond_node.evalImplementation_thread(prompt_override=prompt)
+        c_1 = [c_1[0]["conds"]]
+        print("got cond", c_1)
+
         inter = node.content.cond_schedule_checkbox.isChecked()
         if inter:
             if next_prompt != prompt:
                 #If we still have a next prompt left, get an other conditioning
-                next_conds, _ = cond_node.evalImplementation_thread(prompt_override=next_prompt)
+                next_conds = cond_node.evalImplementation_thread(prompt_override=next_prompt)
                 blend = min(blend_value * node.content.blend_factor.value(), 1.0)
                 conds = addWeighted(next_conds[0], c_1[0], blend)
                 print("Created Blended Conditioning for", prompt, next_prompt, blend_value)
@@ -502,7 +498,8 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
                 conds = c_1
         else:
             conds = c_1
-        n_conds, _ = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
+        n_conds = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
+        n_conds = [n_conds[0]["conds"]]
         if len(init_images) > 0:
             if init_images[0] is not None:
                 if len(node.getOutputs(2)) > 0:
@@ -530,7 +527,7 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
     image = tensor2pil(pixmaps[0])
     return image
 
-def encode_latent_ainodes(init_image):
+def encode_latent_ainodes(init_image, vae):
     #gs.models["vae"].first_stage_model.cuda()
     #image = init_image
     #image = image.convert("RGB")
@@ -539,7 +536,7 @@ def encode_latent_ainodes(init_image):
     image = torch.from_numpy(image)
     image = image.detach().cpu()
     torch_gc()
-    latent = gs.models["vae"].encode(image)
+    latent = vae.encode(image)
     latent = latent.to("cpu")
     image = image.detach().to("cpu")
     del image
