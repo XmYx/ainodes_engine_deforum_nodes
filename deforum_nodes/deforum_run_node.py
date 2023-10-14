@@ -42,6 +42,7 @@ from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, Defo
     ParseqArgs, LoopArgs
 
 from ainodes_frontend import singleton as gs
+from ...ainodes_engine_base_nodes.video_nodes.FILM_node import FILMNode
 
 #from transformers import AutoProcessor, CLIPVisionModelWithProjection
 
@@ -83,6 +84,7 @@ class DeforumRunNode(AiNode):
         self.content.setMinimumHeight(250)
         self.content.eval_signal.connect(self.evalImplementation)
         self.images = []
+        self.pipe = None
 
 
     def evalImplementation_thread(self, index=0):
@@ -171,6 +173,7 @@ class DeforumRunNode(AiNode):
 
         self.deforum = Deforum(args, anim_args, video_args, parseq_args, loop_args, controlnet_args, root)
         self.deforum.generate = self.generate
+        self.deforum.generate_inpaint = self.generate_inpaint
         self.deforum.datacallback = self.datacallback
 
         if self.deforum.args.seed == -1 or self.deforum.args.seed == "-1":
@@ -194,37 +197,99 @@ class DeforumRunNode(AiNode):
         elif "cadence_frame" in data:
             self.handle_cadence_callback(data["cadence_frame"])
     def handle_main_callback(self, image):
-        return_frames = None
-        pixmap = tensor_image_to_pixmap(image)
-        self.setOutput(1, [image])
+
+        if isinstance(image, PIL.Image.Image):
+            image = pil2tensor(image)
+
+
+        self.setOutput(1, image)
         for node in self.getOutputs(1):
             if isinstance(node, ImagePreviewNode):
-                node.content.preview_signal.emit(pixmap)
-                if return_frames:
-                    for frame in return_frames:
-                        node.content.preview_signal.emit(frame)
-                        time.sleep(0.1)
+                node.evalImplementation_thread()
             elif isinstance(node, VideoOutputNode):
-                frame = np.array(image)
+                frame = np.array(tensor2pil(image))
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
+            elif isinstance(node, FILMNode):
+                node.onWorkerFinished(result=node.evalImplementation_thread())
+                for sub_node in node.getOutputs(0):
+                    if isinstance(sub_node, ImagePreviewNode):
+                        sub_node.evalImplementation_thread()
+                    elif isinstance(sub_node, VideoOutputNode):
+                        sub_node.evalImplementation_thread()
+                #node.content.video.add_frame(frame, dump=node.content.dump_at.value())
     def handle_cadence_callback(self, image):
-        pixmap = tensor_image_to_pixmap(image)
-        self.setOutput(0, [image])
+
+
+        if isinstance(image, PIL.Image.Image):
+            image = pil2tensor(image)
+
+
+        self.setOutput(0, image)
         for node in self.getOutputs(0):
             if isinstance(node, ImagePreviewNode):
-                node.content.preview_signal.emit(pixmap)
+                node.evalImplementation_thread()
             elif isinstance(node, VideoOutputNode):
-                frame = np.array(image)
+                frame = np.array(tensor2pil(image))
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
 
     def generate(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name):
-        print("ainodes deforum adapter")
+        #print("ainodes deforum adapter")
         if gs.should_run:
             image = generate_inner(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name)
         else:
             image = None
         return image
 
+    def generate_inpaint(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name, image=None, mask=None):
+        #print("ainodes inpaint adapter")
+        original_image = image.copy()
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = Image.fromarray(image)
+        mask = mask.cpu().reshape((-1, 1, mask.shape[-2], mask.shape[-1])).movedim(1, -1).expand(-1, -1, -1, 3)
+        #print(mask.shape)
+
+        mask = tensor2pil(mask[0])
+        mask = dilate_mask(mask, dilation_size=48)
+        change_pipe = False
+        if gs.should_run:
+            if not self.pipe or change_pipe:
+                from diffusers import StableDiffusionInpaintPipeline
+                self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
+                            "stabilityai/stable-diffusion-2-inpainting",
+                            torch_dtype=torch.float16).to(gs.device.type)
+            prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
+            generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
+                               "num_inference_steps":args.steps,
+                               "prompt":prompt,
+                               "image":image,
+                               "mask_image":mask,
+                               "width" : image.size[0],
+                               "height" : image.size[1],
+                               }
+            mask.save("mask.png")
+            # image.save("image.png")
+            image = np.array(self.pipe(**generation_args).images[0]).astype(np.uint8)
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            # # Composite the original image and the generated image using the mask
+            mask_arr = np.array(mask).astype(np.uint8)[:, :, 0]  # Convert to grayscale mask for boolean indexing
+            mask_bool = mask_arr > 0  # Convert to boolean mask
+            original_image[mask_bool] = image[mask_bool]
+
+        return original_image
+def dilate_mask(mask_img, dilation_size=12):
+    # Convert the PIL Image to a NumPy array
+    mask_array = np.array(mask_img)
+
+    # Create the dilation kernel
+    kernel = np.ones((dilation_size, dilation_size), np.uint8)
+
+    # Dilate the mask
+    dilated_mask_array = cv2.dilate(mask_array, kernel)
+
+    # Convert back to a PIL Image
+    dilated_mask_img = Image.fromarray(dilated_mask_array)
+
+    return dilated_mask_img
 
 
 @register_node(OP_NODE_DEFORUM_CNET)
@@ -255,7 +320,7 @@ class DeforumCnetNode(AiNode):
         mask_pixmaps = self.getInputData(0)
         pixmaps = self.getInputData(1)
 
-        print(gs.models["loaded_controlnet"])
+        #print(gs.models["loaded_controlnet"])
 
         if conditioning is not None:
             img = cnet_image_ops("canny", pixmap_to_tensor(pixmaps[0]))
@@ -323,12 +388,9 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
     if isinstance(sampler_node, KSamplerNode):
         if init_images is not None:
             vae = sampler_node.getInputData(1)
-            print("WILL ENCODE", init_images)
             latent = encode_latent_ainodes(init_images, vae)
         else:
             latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
-
-        print("DEFORUM LATENT", latent)
 
         cond_node, _ = node.getInput(1)
         cond = cond_node.evalImplementation_thread(prompt_override=prompt)[0]
@@ -369,7 +431,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
     #p = get_webui_sd_pipeline(args, root, frame)
     prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame, anim_args.max_frames)
 
-    print("DEFORUM CONDITIONING INTERPOLATION")
+    #print("DEFORUM CONDITIONING INTERPOLATION")
 
     """prompt = node.deforum.prompt_series[frame]
     next_prompt = None
@@ -458,7 +520,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
                                   shape=(args.W, args.H),
                                   use_alpha_as_mask=args.use_alpha_as_mask)
         image_init0 = list(jsonImages.values())[0]
-        print(" TYPE", type(image_init0))
+        #print(" TYPE", type(image_init0))
 
 
     else:  # they passed in a single init image

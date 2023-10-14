@@ -122,7 +122,7 @@ deforum_anim_params = {
     },
     "border": {
         "type": "dropdown",
-        "choices": ["wrap", "replicate"]
+        "choices": ["wrap", "replicate", "zeros"]
     },
     "resume_from_timestring": {
         "type": "checkbox",
