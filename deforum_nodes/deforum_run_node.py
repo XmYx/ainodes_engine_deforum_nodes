@@ -241,39 +241,46 @@ class DeforumRunNode(AiNode):
         return image
 
     def generate_inpaint(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name, image=None, mask=None):
-        #print("ainodes inpaint adapter")
         original_image = image.copy()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(image)
         mask = mask.cpu().reshape((-1, 1, mask.shape[-2], mask.shape[-1])).movedim(1, -1).expand(-1, -1, -1, 3)
-        #print(mask.shape)
 
-        mask = tensor2pil(mask[0])
-        mask = dilate_mask(mask, dilation_size=48)
-        change_pipe = False
-        if gs.should_run:
-            if not self.pipe or change_pipe:
-                from diffusers import StableDiffusionInpaintPipeline
-                self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
-                            "stabilityai/stable-diffusion-2-inpainting",
-                            torch_dtype=torch.float16).to(gs.device.type)
-            prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
-            generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
-                               "num_inference_steps":args.steps,
-                               "prompt":prompt,
-                               "image":image,
-                               "mask_image":mask,
-                               "width" : image.size[0],
-                               "height" : image.size[1],
-                               }
-            mask.save("mask.png")
-            # image.save("image.png")
-            image = np.array(self.pipe(**generation_args).images[0]).astype(np.uint8)
-            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-            # # Composite the original image and the generated image using the mask
-            mask_arr = np.array(mask).astype(np.uint8)[:, :, 0]  # Convert to grayscale mask for boolean indexing
-            mask_bool = mask_arr > 0  # Convert to boolean mask
-            original_image[mask_bool] = image[mask_bool]
+        mask_array = np.array(mask)
+        # Check if any values are above 0
+        has_values_above_zero = (np.array(mask) > 0).any()
+        # Count the number of values above 0
+        count_values_above_zero = (mask_array > 0).sum()
+        threshold = 400
+
+        if has_values_above_zero and count_values_above_zero > threshold:
+            print(f"Mask pixels above {threshold} by {count_values_above_zero-threshold}, generating inpaing image")
+            mask = tensor2pil(mask[0])
+            mask = dilate_mask(mask, dilation_size=48)
+            change_pipe = False
+            if gs.should_run:
+                if not self.pipe or change_pipe:
+                    from diffusers import StableDiffusionInpaintPipeline
+                    self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
+                                "stabilityai/stable-diffusion-2-inpainting",
+                                torch_dtype=torch.float16).to(gs.device.type)
+                prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
+                generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
+                                   "num_inference_steps":args.steps,
+                                   "prompt":prompt,
+                                   "image":image,
+                                   "mask_image":mask,
+                                   "width" : image.size[0],
+                                   "height" : image.size[1],
+                                   }
+                #mask.save("mask.png")
+                # image.save("image.png")
+                image = np.array(self.pipe(**generation_args).images[0]).astype(np.uint8)
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                # # Composite the original image and the generated image using the mask
+                mask_arr = np.array(mask).astype(np.uint8)[:, :, 0]  # Convert to grayscale mask for boolean indexing
+                mask_bool = mask_arr > 0  # Convert to boolean mask
+                original_image[mask_bool] = image[mask_bool]
 
         return original_image
 def dilate_mask(mask_img, dilation_size=12):
