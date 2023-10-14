@@ -40,7 +40,7 @@ class DeforumRunNode(AiNode):
         return None
 
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
+    def onWorkerFinished(self, result, exec=True):
         self.busy = False
         #super().onWorkerFinished(None)
         if gs.should_run:

@@ -81,9 +81,6 @@ class DeforumRunNode(AiNode):
         self.content.setMinimumHeight(250)
         self.content.eval_signal.connect(self.evalImplementation)
         self.images = []
-        #if "vision" not in gs.models:
-        #    gs.models["vision"] = CLIPVisionModelWithProjection.from_pretrained("openai/clip-vit-large-patch14")
-        #    gs.models["processor"] = AutoProcessor.from_pretrained("openai/clip-vit-large-patch14")
 
 
     def evalImplementation_thread(self, index=0):
@@ -170,14 +167,9 @@ class DeforumRunNode(AiNode):
 
         os.makedirs(args.outdir, exist_ok=True)
 
-
-
-
-
         self.deforum = Deforum(args, anim_args, video_args, parseq_args, loop_args, controlnet_args, root)
         self.deforum.generate = self.generate
         self.deforum.datacallback = self.datacallback
-
 
         if self.deforum.args.seed == -1 or self.deforum.args.seed == "-1":
             setattr(self.deforum.args, "seed", secrets.randbelow(999999999999999999))
@@ -191,16 +183,8 @@ class DeforumRunNode(AiNode):
         success = self.deforum()
         return success
 
-
-        #try:
-        #    success = deforum_ainodes_adapter(self, data)
-        #except:
-        #    handle_ainodes_exception()
-        #return success
-
     def printkeys(self):
         print(self.deforum.keys)
-
 
     def datacallback(self, data):
         if "image" in data:
@@ -209,18 +193,6 @@ class DeforumRunNode(AiNode):
             self.handle_cadence_callback(data["cadence_frame"])
     def handle_main_callback(self, image):
         return_frames = None
-        """self.images.append(image)
-        if len(self.images) == 2:
-            return_frames = []
-            np_image1 = np.array(self.images[0])
-            np_image2 = np.array(self.images[1])
-            frames = gs.models["FILM"].inference(np_image1, np_image2, inter_frames=25)
-            print(f"FILM NODE:  {len(frames)}")
-            for frame in frames:
-                image = Image.fromarray(frame)
-                pixmap = pil_image_to_pixmap(image)
-                return_frames.append(pixmap)
-            self.images = [Image.fromarray(np_image2)]"""
         pixmap = tensor_image_to_pixmap(image)
         self.setOutput(1, [image])
         for node in self.getOutputs(1):
@@ -233,21 +205,16 @@ class DeforumRunNode(AiNode):
             elif isinstance(node, VideoOutputNode):
                 frame = np.array(image)
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
-
     def handle_cadence_callback(self, image):
         pixmap = tensor_image_to_pixmap(image)
         self.setOutput(0, [image])
-
         for node in self.getOutputs(0):
             if isinstance(node, ImagePreviewNode):
-
-
-
-
                 node.content.preview_signal.emit(pixmap)
             elif isinstance(node, VideoOutputNode):
                 frame = np.array(image)
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
+
     def generate(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name):
         print("ainodes deforum adapter")
         if gs.should_run:
@@ -257,12 +224,11 @@ class DeforumRunNode(AiNode):
         return image
 
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
+    def onWorkerFinished(self, result, exec=True):
         self.busy = False
         #super().onWorkerFinished(None)
-        if gs.should_run:
-            if len(self.getOutputs(2)) > 0:
-                self.executeChild(output_index=2)
+        if gs.should_run and exec:
+            self.executeChild(output_index=2)
 
 
 @register_node(OP_NODE_DEFORUM_CNET)
@@ -303,21 +269,11 @@ class DeforumCnetNode(AiNode):
                 node = self.getOutputs(0)[0]
                 if isinstance(node, ImagePreviewNode):
                     node.content.preview_signal.emit(tensor_image_to_pixmap(img))
-        return conditioning
+        return [conditioning]
 
     def add_control_image(self, conditioning, image, progress_callback=None):
-        #image = pixmap_to_pil_image(image)
-        #image = image.convert("RGB")
-        #print("DEBUG IMAGE", image)
-
-        #image.save("CNET.png", "PNG")
-
-        #array = np.array(image)
-        #print("ARRAY", array)
 
         image = np.array(image).astype(np.float32) / 255.0
-
-
         image = torch.from_numpy(image)[None,]
         c = []
         control_hint = image.movedim(-1,1)
@@ -327,14 +283,6 @@ class DeforumCnetNode(AiNode):
             n[1]['control_strength'] = 1.0
             c.append(n)
         return c
-
-    #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
-        self.busy = False
-        #super().onWorkerFinished(None)
-        if gs.should_run:
-            if len(self.getOutputs(1)) > 0:
-                self.executeChild(output_index=1)
 
 
 
@@ -356,7 +304,6 @@ def cnet_image_ops(method, image):
         image = Image.fromarray(image)
         detector.netNetwork.cpu()
         detector.netNetwork = None
-
         del detector
     elif method == 'hed':
         # Ref: https://github.com/lllyasviel/ControlNet/blob/main/gradio_hed2image.py
@@ -370,150 +317,28 @@ def cnet_image_ops(method, image):
         del detector
     return image
 
-def eval_nodes(node):
-    gs.should_run = None
-    index = len(node.outputs) - 1
-    if len(node.getOutputs(index)) > 0:
-        for other_node in node.getChildrenNodes():
-            result = other_node.evalImplementation_thread
-            gs.should_run = None
-            other_node.onWorkerFinished(result)
-            eval_nodes(other_node)
-    else:
-        result = node.evalImplementation_thread
-        return result
-
-
-def generate_with_api(node, prompt, negative_prompt, args, root, frame, init_images=None):
-    strength = 1.0 if args.strength == 0 or not args.use_init else args.strength
-    seed = args.seed
-    steps = args.steps
-    cfg = args.scale
-    start_step = 0
-    width = args.W
-    height = args.H
-    imgur_url = None
-    if len(init_images) > 0:
-        # Load the init image
-        init_image = init_images[0]  # Replace with the actual path to your image
-        if init_image is not None:
-            # Upload the init image to Imgur
-            imgur_url = upload_image_to_postimages(init_image)
-    if imgur_url is not None:
-        method = "img2img"
-    else:
-        method = "txt2img"
-
-    # Prepare the data for the POST request
-    data = {
-        "prompt": prompt,
-        "negative_prompt": negative_prompt,
-        "samples": "1",
-        "scheduler": "DDIM",
-        "num_inference_steps": steps,
-        "guidance_scale": cfg,
-        "seed": seed,
-        "strength": strength,
-        "imageUrl": imgur_url
-    }
-    # Make the POST request
-    url = f"https://api.segmind.com/v1/sd2.1-{method}"
-    headers = {"x-api-key": "SG_b6ff407f17eeda88"}
-
-    print("HEADERS", headers)
-    print("METHOD", method)
-    print("DATA", data)
-
-
-    response = requests.post(url, headers=headers, json=data)
-    print("RESPONSE", response)
-
-    print(response.content)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Get the response content
-        content = response.content
-        # Decode the base64-encoded image
-        decoded_image = base64.b64decode(content)
-        # Create a PIL image from the decoded bytes
-        try:
-            pil_image = Image.frombytes("RGB", (512, 512), decoded_image)
-            pil_image = pil_image.convert('RGB')
-            pil_image.save("api_test.png")
-            return pil_image
-        except Exception as e:
-            print("Failed to open image:", e)
-    return None
-
-
-def upload_image_to_postimages(image):
-    # Convert PIL Image to bytes
-    image_bytes = io.BytesIO()
-    image.save(image_bytes, format='JPEG')
-    image_bytes.seek(0)
-
-    # Upload image to postimages.org
-    url = "https://postimages.org/upload"
-    files = {"file": image_bytes}
-    response = requests.post(url, files=files)
-
-    if response.status_code == 200:
-        # Get the uploaded image URL from the response
-        postimages_url = response.text
-        return postimages_url
-
-    print("Image upload to postimages.org failed with status code:", response.status_code)
-    return None
 def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images=None):
     gs.should_run = True
     sampler_node, _ = node.getInput(2)
     make_latent = None
-    latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
-
+    tensor = torch.zeros([1, 4, args.H // 8, args.W // 8])
 
 
     if isinstance(sampler_node, KSamplerNode):
-        if len(init_images) > 0:
-            if init_images[0] is not None:
-                print("USING INIT")
-                vae = sampler_node.getInputData(1)
-                latent = encode_latent_ainodes(init_images[0], vae)
-        cond_node, index = node.getInput(1)
-        conds = None
-        # Get conditioning for current prompt
-        c_1 = cond_node.evalImplementation_thread(prompt_override=prompt)
-        #c_1 = [c_1[0]["conds"]]
-        print("got cond", c_1)
-
-        inter = node.content.cond_schedule_checkbox.isChecked()
-        if inter:
-            if next_prompt != prompt:
-                #If we still have a next prompt left, get an other conditioning
-                next_conds = cond_node.evalImplementation_thread(prompt_override=next_prompt)
-                blend = min(blend_value * node.content.blend_factor.value(), 1.0)
-
-                print(len(next_conds), len(c_1))
-                conds = [addWeighted(next_conds[0]["conds"], c_1[0]["conds"], blend)]
-                print("Created Blended Conditioning for", prompt, next_prompt, blend_value, conds)
-            else:
-                conds = [c_1[0]["conds"]]
+        if init_images is not None:
+            vae = sampler_node.getInputData(1)
+            print("WILL ENCODE", init_images)
+            latent = encode_latent_ainodes(init_images, vae)
         else:
-            conds = [c_1[0]["conds"]]
-        n_conds = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
-        n_conds = [n_conds[0]["conds"]]
+            latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
 
-        print(n_conds)
+        print("DEFORUM LATENT", latent)
 
-        if len(init_images) > 0:
-            if init_images[0] is not None:
-                if len(node.getOutputs(2)) > 0:
-                    try_cnet_node = node.getOutputs(2)[0]
-                    if isinstance(try_cnet_node, DeforumCnetNode):
-                        #node.setOutput(1, [pil_image_to_pixmap(init_images[0])])
-                        conds = [try_cnet_node.evalImplementation_thread(conditioning = conds[0])]
-        print("STRENGTH", args.strength)
-        pixmaps, _ = sampler_node.evalImplementation_thread(cond_override=[conds, n_conds], args=args, latent_override=latent)
+        cond_node, _ = node.getInput(1)
+        cond = cond_node.evalImplementation_thread(prompt_override=prompt)[0]
+        n_cond = cond_node.evalImplementation_thread(prompt_override=negative_prompt)[0]
+        tensor, _ = sampler_node.evalImplementation_thread(cond_override=[cond, n_cond], args=args,
+                                                            latent_override=latent)
 
     elif isinstance(sampler_node, KandinskyNode):
         init = None
@@ -523,19 +348,13 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         if init is not None:
             if isinstance(init, PIL.Image.Image):
                 init = pil2tensor(init)
-
             init = [init]
+        tensor = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)
 
-
-        pixmaps = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)
-
-    image = tensor2pil(pixmaps[0])
+    image = tensor2pil(tensor)
     return image
 
 def encode_latent_ainodes(init_image, vae):
-    #gs.models["vae"].first_stage_model.cuda()
-    #image = init_image
-    #image = image.convert("RGB")
     image = np.array(init_image).astype(np.float32) / 255.0
     image = image[None]# .transpose(0, 3, 1, 2)
     image = torch.from_numpy(image)
@@ -650,8 +469,6 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
     else:  # they passed in a single init image
         image_init0 = args.init_image
 
-        print("ELSE TYPE", type(image_init0))
-
     available_samplers = {
         'euler a': 'Euler a',
         'euler': 'Euler',
@@ -705,7 +522,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
 
         #if anim_args.animation_mode != 'Interpolation':
         #    print(f"Not using an init image (doing pure txt2img)")
-        """p_txt = StableDiffusionProcessingTxt2Img(
+        """p_txt = StableDiffusionProcessingTxt2Img( 
             sd_model=sd_model,
             outpath_samples=root.tmp_deforum_run_duplicated_folder,
             outpath_grids=root.tmp_deforum_run_duplicated_folder,
@@ -736,7 +553,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         #    process_with_controlnet(p_txt, args, anim_args, loop_args, controlnet_args, root, is_img2img=False,
         #                            frame_idx=frame)
 
-        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, [init_image])
+        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_image)
 
     if processed is None:
         # Mask functions
@@ -761,7 +578,6 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         assert not ((mask is not None and args.use_mask and args.overlay_mask) and (
                     args.init_sample is None and init_image is None)), "Need an init image when use_mask == True and overlay_mask == True"
 
-        init_images = [init_image]
         image_mask = mask
         image_cfg_scale = args.pix2pix_img_cfg_scale
 
@@ -772,7 +588,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
         #                            frame_idx=frame)
 
 
-        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images)
+        processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_image)
         #processed = processing.process_images(p)
 
     #if root.initial_info == None:

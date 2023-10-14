@@ -152,7 +152,7 @@ class DeforumKeyframeNode(AiNode):
     def assemble_string(self, key, value):
         return(f"{key}:({value})")
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
+    def onWorkerFinished(self, result, exec=True):
         self.busy = False
         #super().onWorkerFinished(None)
         self.setOutput(0, result)

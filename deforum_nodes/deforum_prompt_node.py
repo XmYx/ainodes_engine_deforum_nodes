@@ -184,7 +184,7 @@ class DeforumPromptNode(AiNode):
 
 
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
+    def onWorkerFinished(self, result, exec=True):
         self.busy = False
         #super().onWorkerFinished(None)
         self.setOutput(0, result)

@@ -147,7 +147,7 @@ class DeforumAudioNode(AiNode):
 
 
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result):
+    def onWorkerFinished(self, result, exec=True):
         self.busy = False
         #super().onWorkerFinished(None)
         if len(self.getOutputs(0)) > 0:
