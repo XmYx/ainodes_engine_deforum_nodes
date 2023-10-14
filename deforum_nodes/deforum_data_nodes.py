@@ -147,6 +147,8 @@ class DeforumParamBaseNode(AiNode):
     w_value = 340
     h_value = 600
 
+    make_dirty = True
+
     # output_socket_name = ["EXEC", "MODEL"]
     def __init__(self, scene):
         super().__init__(scene, inputs=[6, 1], outputs=[6, 1])

@@ -154,6 +154,7 @@ class DeforumPromptNode(AiNode):
     content_label_objname = "deforum_prompt_node"
     category = "aiNodes Deforum/DeForum"
 
+    make_dirty = True
 
     # output_socket_name = ["EXEC", "MODEL"]
     def __init__(self, scene):
@@ -180,16 +181,7 @@ class DeforumPromptNode(AiNode):
         if input_data is not None:
             data = merge_dicts(input_data, data)
 
-        return data
-
-
-    #@QtCore.Slot(object)
-    def onWorkerFinished(self, result, exec=True):
-        self.busy = False
-        #super().onWorkerFinished(None)
-        self.setOutput(0, result)
-        if len(self.getOutputs(1)) > 0:
-            self.executeChild(output_index=1)
+        return [data]
 
 
 

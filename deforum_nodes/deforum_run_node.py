@@ -69,6 +69,8 @@ class DeforumRunNode(AiNode):
     custom_input_socket_name = ["DATA", "COND", "SAMPLER", "EXEC"]
     output_socket_name = ["IMAGE", "EXEC"]
 
+    make_dirty = True
+
     def __init__(self, scene):
         super().__init__(scene, inputs=[6, 3, 5, 1], outputs=[5, 5, 1])
 
@@ -181,7 +183,7 @@ class DeforumRunNode(AiNode):
         self.deforum.keys = DeformAnimKeys(self.deforum.anim_args, self.deforum.args.seed)
 
         success = self.deforum()
-        return success
+        return [None, None]
 
     def printkeys(self):
         print(self.deforum.keys)
@@ -223,12 +225,6 @@ class DeforumRunNode(AiNode):
             image = None
         return image
 
-    #@QtCore.Slot(object)
-    def onWorkerFinished(self, result, exec=True):
-        self.busy = False
-        #super().onWorkerFinished(None)
-        if gs.should_run and exec:
-            self.executeChild(output_index=2)
 
 
 @register_node(OP_NODE_DEFORUM_CNET)
@@ -342,14 +338,13 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
 
     elif isinstance(sampler_node, KandinskyNode):
         init = None
-        if len(init_images) > 0:
-            if init_images[0] is not None:
-                init = init_images[0]
+        if init_images is not None:
+            init = init_images
         if init is not None:
             if isinstance(init, PIL.Image.Image):
                 init = pil2tensor(init)
             init = [init]
-        tensor = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)
+        tensor = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)[0]
 
     image = tensor2pil(tensor)
     return image
