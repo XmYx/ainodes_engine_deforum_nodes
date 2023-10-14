@@ -6,8 +6,8 @@
         {
             "id": 2270577832624,
             "title": "Video Save",
-            "pos_x": -2925.77454299925,
-            "pos_y": 2999.17475795745,
+            "pos_x": -2921.959845733625,
+            "pos_y": 2995.3600606918244,
             "inputs": [
                 {
                     "id": 2270577455408,
@@ -152,7 +152,7 @@
                 }
             ],
             "content": {
-                "diffusion_cadence": "10",
+                "diffusion_cadence": "4",
                 "optical_flow_cadence_value_combobox": "None",
                 "cadence_flow_factor_schedule": "0: (1)",
                 "optical_flow_redo_generation_value_combobox": "None",
@@ -241,8 +241,8 @@
         {
             "id": 2270577453248,
             "title": "Image Preview",
-            "pos_x": -2913.7177467346005,
-            "pos_y": 2247.3053121566686,
+            "pos_x": -2940.4206275939755,
+            "pos_y": 2209.1583395004186,
             "inputs": [
                 {
                     "id": 2288791652288,
@@ -338,7 +338,7 @@
             ],
             "content": {
                 "animation_mode_value_combobox": "3D",
-                "max_frames": "300",
+                "max_frames": "100",
                 "border_value_combobox": "wrap",
                 "resume_from_timestring": "False",
                 "resume_timestring": "20230519203823",
@@ -851,7 +851,7 @@
             ],
             "content": {
                 "noise_schedule": "0: (0.065)",
-                "strength_schedule": "0: (0.85)",
+                "strength_schedule": "0: (0.55)",
                 "contrast_schedule": "0: (1.0)",
                 "cfg_scale_schedule": "0: (7)",
                 "enable_steps_scheduling": "False",
@@ -1052,8 +1052,8 @@
         {
             "id": 2288791617392,
             "title": "Image Preview",
-            "pos_x": -1839.4501686096019,
-            "pos_y": 2197.985854148856,
+            "pos_x": -1942.4897193908519,
+            "pos_y": 2218.7622213363557,
             "inputs": [
                 {
                     "id": 2288791435584,
