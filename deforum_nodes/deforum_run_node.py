@@ -281,7 +281,6 @@ class DeforumRunNode(AiNode):
                 mask_arr = np.array(mask).astype(np.uint8)[:, :, 0]  # Convert to grayscale mask for boolean indexing
                 mask_bool = mask_arr > 0  # Convert to boolean mask
                 original_image[mask_bool] = image[mask_bool]
-
         return original_image
 def dilate_mask(mask_img, dilation_size=12):
     # Convert the PIL Image to a NumPy array

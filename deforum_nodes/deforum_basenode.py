@@ -20,7 +20,7 @@ class DeforumBaseWidget(QDMNodeContentWidget):
             elif t == "checkbox":
                 self.create_check_box(key, accessible_name=f"{key}_value_checkbox", checked=value['default'])
             elif t == "lineedit":
-                self.create_line_edit(key, accessible_name=f"{key}_value_lineedit", default=value['default'])
+                self.create_line_edit(key, accessible_name=f"{key}_value_lineedit", default=value['default'], schedule=True)
             elif t == "spinbox":
                 self.create_spin_box(key, int(value["min"]), int(value["max"]), int(value["default"]), int(value["step"]), accessible_name=f"{key}_value_spinbox")
             elif t == "doublespinbox":
