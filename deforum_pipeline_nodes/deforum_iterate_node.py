@@ -1,3 +1,4 @@
+import math
 from types import SimpleNamespace
 
 import numexpr
@@ -150,9 +151,6 @@ class DeforumIterateNode(AiNode):
             args.seed = int(args.seed)
             root.seed_internal = int(root.seed_internal)
             args.seed_iter_N = int(args.seed_iter_N)
-            print(root.seed_internal)
-            print(args.seed_iter_N)
-
             args.seed = next_seed(args, root)
 
 
@@ -162,25 +160,96 @@ class DeforumIterateNode(AiNode):
 
             next_frame = self.frame_index + anim_args.diffusion_cadence
             next_prompt = None
-            while next_frame < anim_args.max_frames:
-                next_prompt = prompt_series[next_frame]
-                if next_prompt != prompt_series[self.frame_index]:
-                    # Calculate blend value based on distance and frame number
-                    prompt_distance = next_frame - self.frame_index
-                    max_distance = anim_args.max_frames - self.frame_index
-                    blend_value = prompt_distance / max_distance
 
-                    if blend_value >= 1.0:
-                        blend_value = 0.0
+            def generate_blend_values(distance_to_next_prompt, blend_type="linear"):
+                if blend_type == "linear":
+                    return [i / distance_to_next_prompt for i in range(distance_to_next_prompt + 1)]
+                elif blend_type == "exponential":
+                    base = 2
+                    return [1 / (1 + math.exp(-8 * (i / distance_to_next_prompt - 0.5))) for i in
+                            range(distance_to_next_prompt + 1)]
+                else:
+                    raise ValueError(f"Unknown blend type: {blend_type}")
 
-                    break  # Exit the loop once a different prompt is found
+            def find_last_prompt_change(current_index, prompt_series):
+                # Step backward from the current position
+                for i in range(current_index - 1, -1, -1):
+                    if prompt_series[i] != prompt_series[current_index]:
+                        return i
+                return 0  # default to the start if no change found
 
-                next_frame += anim_args.diffusion_cadence
+            def find_next_prompt_change(current_index, prompt_series):
+                # Step forward from the current position
+                for i in range(current_index + 1, len(prompt_series)):
+                    if prompt_series[i] != prompt_series[current_index]:
+                        return i
+                return len(prompt_series) - 1  # default to the end if no change found
+
+            # Inside your main loop:
+
+            last_prompt_change = find_last_prompt_change(self.frame_index, prompt_series)
+            next_prompt_change = find_next_prompt_change(self.frame_index, prompt_series)
+
+            distance_between_changes = next_prompt_change - last_prompt_change
+            current_distance_from_last = self.frame_index - last_prompt_change
+
+            # Generate blend values for the distance between prompt changes
+            blend_values = generate_blend_values(distance_between_changes, blend_type="exponential")
+
+            # Fetch the blend value based on the current frame's distance from the last prompt change
+            blend_value = blend_values[current_distance_from_last]
+            next_prompt = prompt_series[next_prompt_change]
+
+            # print(f"Current Frame:", self.frame_index)
+            # print(f"Last Prompt Change:", last_prompt_change)
+            # print(f"Next Prompt Change:", next_prompt_change)
+            # print(f"Distance Between Changes:", distance_between_changes)
+            # print(f"Current Distance from Last Change:", current_distance_from_last)
+            # print(f"Blend Value:", blend_value)
+            # print(f"Blend Values:", blend_values)
+            # while next_frame < anim_args.max_frames:
+            #     next_prompt = prompt_series[next_frame]
+            #     if next_prompt != prompt_series[self.frame_index]:
+            #         distance_to_next_prompt = next_frame - self.frame_index
+            #         current_distance_from_start = self.frame_index % distance_to_next_prompt
+            #
+            #         # Generate blend values for the current set of frames
+            #         current_blend_values = generate_blend_values(distance_to_next_prompt + current_distance_from_start, blend_type="exponential")
+            #
+            #         # Fetch the blend value based on the current frame's distance from the starting frame
+            #         blend_value = current_blend_values[current_distance_from_start]
+            #
+            #         print(f"Current Frame:", self.frame_index)
+            #         print(f"Next Prompt Frame:", next_frame)
+            #         print(f"Distance to Next Prompt:", distance_to_next_prompt)
+            #         print(f"Current Distance from Start:", current_distance_from_start)
+            #         print(f"Blend Value:", blend_value)
+            #         print(f"Current Blend Values:", current_blend_values)
+            #
+            #         break  # Exit the loop once a different prompt is found
+            #     next_frame += anim_args.diffusion_cadence
+            # while next_frame < anim_args.max_frames:
+            #     next_prompt = prompt_series[next_frame]
+            #     if next_prompt != prompt_series[self.frame_index]:
+            #         # Calculate blend value based on distance and frame number
+            #         prompt_distance = next_frame - self.frame_index
+            #         max_distance = anim_args.max_frames - self.frame_index
+            #         blend_value = prompt_distance / max_distance
+            #
+            #         if blend_value >= 1.0:
+            #             blend_value = 0.0
+            #         print(f"Distance:", self.frame_index, prompt_distance, max_distance, blend_value)
+            #
+            #         break  # Exit the loop once a different prompt is found
+
+                # next_frame += anim_args.diffusion_cadence
+
+
+
 
             gen_args = self.get_current_frame(args, anim_args, root, keys, self.frame_index)
-
             gen_args["next_prompt"] = next_prompt
-            gen_args["prompt_blend"] = 1 - blend_value
+            gen_args["prompt_blend"] = blend_value
 
             print(f"[ Deforum Iterator: {self.frame_index} / {anim_args.max_frames} ]")
             self.frame_index += 1
