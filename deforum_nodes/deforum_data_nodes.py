@@ -173,6 +173,7 @@ class DeforumParamBaseNode(AiNode):
     #@QtCore.Slot(object)
     def onWorkerFinished(self, result, exec=True):
         self.busy = False
+        self.markDirty(False)
         #super().onWorkerFinished(None)
         self.setOutput(0, result)
         if len(self.getOutputs(1)) > 0:

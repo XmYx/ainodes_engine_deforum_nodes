@@ -46,8 +46,6 @@ from ...ainodes_engine_base_nodes.video_nodes.FILM_node import FILMNode
 
 #from transformers import AutoProcessor, CLIPVisionModelWithProjection
 
-
-
 OP_NODE_DEFORUM_RUN = get_next_opcode()
 OP_NODE_DEFORUM_CNET = get_next_opcode()
 
@@ -57,8 +55,9 @@ class DeforumRunWidget(QDMNodeContentWidget):
         self.create_widgets()
         self.create_main_layout(grid=1)
     def create_widgets(self):
-        self.cond_schedule_checkbox = self.create_check_box("Use Conditioning schedule")
+        self.cond_schedule_checkbox = self.create_check_box("Use Conditioning Schedule")
         self.blend_factor = self.create_double_spin_box("Conditioning Blend factor")
+        self.use_blend = self.create_check_box("Use Conditioning Blending [SD Only]")
 
 @register_node(OP_NODE_DEFORUM_RUN)
 class DeforumRunNode(AiNode):
@@ -72,6 +71,7 @@ class DeforumRunNode(AiNode):
 
     make_dirty = True
 
+
     def __init__(self, scene):
         super().__init__(scene, inputs=[6, 3, 5, 1], outputs=[5, 5, 1])
 
@@ -79,9 +79,9 @@ class DeforumRunNode(AiNode):
         self.content = DeforumRunWidget(self)
         self.grNode = CalcGraphicsNode(self)
         self.grNode.width = 300
-        self.grNode.height = 250
+        self.grNode.height = 320
         self.content.setMinimumWidth(300)
-        self.content.setMinimumHeight(250)
+        self.content.setMinimumHeight(300)
         self.content.eval_signal.connect(self.evalImplementation)
         self.images = []
         self.pipe = None
@@ -186,6 +186,7 @@ class DeforumRunNode(AiNode):
         self.deforum.keys = DeformAnimKeys(self.deforum.anim_args, self.deforum.args.seed)
 
         success = self.deforum()
+        gs.should_run = False
         return [None, None]
 
     def printkeys(self):
@@ -254,15 +255,19 @@ class DeforumRunNode(AiNode):
         threshold = 400
 
         if has_values_above_zero and count_values_above_zero > threshold:
-            print(f"Mask pixels above {threshold} by {count_values_above_zero-threshold}, generating inpaing image")
+            print(f"[ Mask pixels above {threshold} by {count_values_above_zero-threshold}, generating inpaing image ]")
             mask = tensor2pil(mask[0])
             mask = dilate_mask(mask, dilation_size=48)
             change_pipe = False
             if gs.should_run:
                 if not self.pipe or change_pipe:
                     from diffusers import StableDiffusionInpaintPipeline
+                    # self.pipe = StableDiffusionInpaintPipeline.from_single_file(
+                    #             "models/checkpoints/Deliberate-inpainting.safetensors",
+                    #             use_safetensors=True,
+                    #             torch_dtype=torch.float16).to(gs.device.type)
                     self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
-                                "stabilityai/stable-diffusion-2-inpainting",
+                                "runwayml/stable-diffusion-inpainting",
                                 torch_dtype=torch.float16).to(gs.device.type)
                 prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
                 generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
@@ -273,14 +278,16 @@ class DeforumRunNode(AiNode):
                                    "width" : image.size[0],
                                    "height" : image.size[1],
                                    }
-                #mask.save("mask.png")
-                # image.save("image.png")
+                #image.save("inpaint_image.png", "PNG")
                 image = np.array(self.pipe(**generation_args).images[0]).astype(np.uint8)
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 # # Composite the original image and the generated image using the mask
                 mask_arr = np.array(mask).astype(np.uint8)[:, :, 0]  # Convert to grayscale mask for boolean indexing
                 mask_bool = mask_arr > 0  # Convert to boolean mask
                 original_image[mask_bool] = image[mask_bool]
+                #test = Image.fromarray(original_image).save("test_result.png", "PNG")
+
+
         return original_image
 def dilate_mask(mask_img, dilation_size=12):
     # Convert the PIL Image to a NumPy array
@@ -384,6 +391,25 @@ def cnet_image_ops(method, image):
         del detector
     return image
 
+
+def blend_tensors(obj1, obj2, blend_value):
+    """
+    Blends tensors in two given objects based on a blend value.
+
+    Parameters:
+    - obj1: First object [tensor1, {"pooled_output": tensor2}]
+    - obj2: Second object [tensor3, {"pooled_output": tensor4}]
+    - blend_value: A float between 0 and 1 indicating how much of obj2 to blend with obj1.
+
+    Returns:
+    Blended object [blended_tensor1, {"pooled_output": blended_tensor2}]
+    """
+    # Blend the tensors using linear interpolation
+    blended_cond = (1 - blend_value) * obj1[0][0] + blend_value * obj2[0][0]
+    blended_pooled = (1 - blend_value) * obj1[0][1]['pooled_output'] + blend_value * obj2[0][1]['pooled_output']
+
+    # Return the blended object
+    return [[blended_cond, {"pooled_output": blended_pooled}]]
 def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images=None):
     gs.should_run = True
     sampler_node, _ = node.getInput(2)
@@ -400,6 +426,18 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
 
         cond_node, _ = node.getInput(1)
         cond = cond_node.evalImplementation_thread(prompt_override=prompt)[0]
+        node_blend = node.content.blend_factor.value()
+        use_blend = node.content.use_blend.isChecked()
+        # if node.content.blend_factor.value() < 1.00:
+        if next_prompt != prompt and use_blend:
+            next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)[0]
+            blend_value = 1 if blend_value == 0 else blend_value
+            blend_value = 1 - blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
+            print(f"\n[ Blending Conditionings, ratio: {blend_value} ]")
+            print(f"[ Next Prompt: {next_prompt} ]")
+            print(f"[ Seed: {args.seed} ]\n")
+            #print(f"[ Gen Args: {args} ]")
+            cond = blend_tensors(cond, next_cond, blend_value)
         n_cond = cond_node.evalImplementation_thread(prompt_override=negative_prompt)[0]
         tensor, _ = sampler_node.evalImplementation_thread(cond_override=[cond, n_cond], args=args,
                                                             latent_override=latent)

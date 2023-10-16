@@ -58,13 +58,13 @@
                 "Use Finetune": "False",
                 "Task": "TXT2IMG",
                 "Tensor Preview": "True",
-                "Prompt:": "",
+                "Prompt:": "ethereal moon landscape, highly detailed, 3d, tiny planet, tuny universe, style of moebius",
                 "Negative Prompt:": "",
                 "Negative Prior Prompt:": "",
                 "Seed:": "",
                 "Steps:": "25",
                 "Guidance Scale:": "4",
-                "Width:": "512",
+                "Width:": "768",
                 "Height:": "512",
                 "Strength:": "0.84",
                 "Sampler:": "p_sampler",
@@ -92,8 +92,8 @@
         {
             "id": 2496948621984,
             "title": "Image Preview",
-            "pos_x": 1786.149978637694,
-            "pos_y": 1039.3466949462886,
+            "pos_x": 1761.149978637694,
+            "pos_y": 925.2841949462884,
             "inputs": [
                 {
                     "id": 2496948621024,
@@ -631,7 +631,7 @@
             ],
             "content": {
                 "diffusion_cadence": "1",
-                "optical_flow_cadence_value_combobox": "RAFT",
+                "optical_flow_cadence_value_combobox": "None",
                 "cadence_flow_factor_schedule": "0: (1)",
                 "optical_flow_redo_generation_value_combobox": "None",
                 "redo_flow_factor_schedule": "0: (1)",
@@ -691,8 +691,8 @@
         {
             "id": 2314383317536,
             "title": "Deforum Prompt Node",
-            "pos_x": 663.0432128906241,
-            "pos_y": 484.49707031249955,
+            "pos_x": 598.9807128906242,
+            "pos_y": 482.93457031249955,
             "inputs": [
                 {
                     "id": 2314383311008,
@@ -726,8 +726,7 @@
                 }
             ],
             "content": {
-                "0": "\"p1c4ss0, abstract 3d render of a building staning in an empty post apocalyptic city, in the style of moebius, abstract artwork, in the style of: Femme en chemise assise dans un fauteuil\"",
-                "50": "\"p1c4ss0, abstract 3d render of a building staning in an empty post apocalyptic city, in the style of moebius, abstract artwork, in the style of: Femme en chemise assise dans un fauteuil\""
+                "0": "\"ethereal moon landscape, highly detailed, 3d, tiny planet, tuny universe, style of moebius\""
             },
             "op_code": 344,
             "content_label_objname": "deforum_prompt_node"
@@ -837,7 +836,7 @@
             ],
             "content": {
                 "animation_mode_value_combobox": "3D",
-                "max_frames": "100",
+                "max_frames": "5",
                 "border_value_combobox": "zeros",
                 "resume_from_timestring": "False",
                 "resume_timestring": "20230519203823",
@@ -1067,8 +1066,8 @@
         {
             "id": 2314383320512,
             "title": "Image Preview",
-            "pos_x": 1781.9557189941388,
-            "pos_y": 226.0990142822268,
+            "pos_x": 1803.8307189941393,
+            "pos_y": -14.525985717772983,
             "inputs": [
                 {
                     "id": 2314383323920,
