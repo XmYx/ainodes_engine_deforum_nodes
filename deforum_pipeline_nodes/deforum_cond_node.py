@@ -70,7 +70,7 @@ class DeforumConditioningWidget(QDMNodeContentWidget):
 
 
 @register_node(OP_NODE_DEFORUM_SD_COND)
-class ConditioningNode(AiNode):
+class DeforumConditioningNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/v2/conditioning.png"
     op_code = OP_NODE_DEFORUM_SD_COND
     op_title = "Deforum SD Conditioning"

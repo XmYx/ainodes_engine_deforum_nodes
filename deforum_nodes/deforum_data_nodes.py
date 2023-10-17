@@ -168,17 +168,9 @@ class DeforumParamBaseNode(AiNode):
         data = self.content.get_values()
         if input_data is not None:
             data = merge_dicts(input_data, data)
-        return data
+        return [data]
 
     #@QtCore.Slot(object)
-    def onWorkerFinished(self, result, exec=True):
-        self.busy = False
-        self.markDirty(False)
-        #super().onWorkerFinished(None)
-        self.setOutput(0, result)
-        if len(self.getOutputs(1)) > 0:
-            self.executeChild(output_index=1)
-
 
 @register_node(OP_NODE_DEFORUM_BASE_PARAMS)
 class DeforumBaseParamsNode(DeforumParamBaseNode):

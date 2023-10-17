@@ -151,6 +151,9 @@ class DeforumIterateNode(AiNode):
             args.seed = int(args.seed)
             root.seed_internal = int(root.seed_internal)
             args.seed_iter_N = int(args.seed_iter_N)
+            print(root.seed_internal)
+            print(args.seed_iter_N)
+
             args.seed = next_seed(args, root)
 
 

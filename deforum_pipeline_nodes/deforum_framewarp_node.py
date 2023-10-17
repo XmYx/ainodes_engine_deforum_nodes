@@ -13,19 +13,19 @@ from ainodes_frontend import singleton as gs
 OP_NODE_DEFORUM_FRAMEWARP = get_next_opcode()
 
 
-class DeforumIterateWidget(QDMNodeContentWidget):
+class DeforumFramewarpWidget(QDMNodeContentWidget):
     def initUI(self):
         self.create_main_layout(grid=1)
 
 @register_node(OP_NODE_DEFORUM_FRAMEWARP)
-class DeforumIterateNode(AiNode):
+class DeforumFramewarpNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/v2/experimental.png"
     help_text = "Deforum Frame Warp"
     op_code = OP_NODE_DEFORUM_FRAMEWARP
     op_title = "Deforum Frame Warp"
     content_label_objname = "deforum_framewarp_node"
     category = "aiNodes Deforum/DeForum"
-    NodeContent_class = DeforumIterateWidget
+    NodeContent_class = DeforumFramewarpWidget
     dim = (240, 120)
     custom_output_socket_name = ["DATA", "IMAGE", "MASK", "EXEC"]
 
@@ -34,7 +34,7 @@ class DeforumIterateNode(AiNode):
     def __init__(self, scene):
         super().__init__(scene, inputs=[6,5,1], outputs=[6,5,5,1])
         self.depth_model = None
-
+        self.algo = ""
     def evalImplementation_thread(self, index=0):
         np_image = None
         data = self.getInputData(0)
@@ -58,7 +58,8 @@ class DeforumIterateNode(AiNode):
                                          anim_args.animation_mode == '3D' and anim_args.use_depth_warping) or anim_args.save_depth_maps
             predict_depths = predict_depths or (
                     anim_args.hybrid_composite and anim_args.hybrid_comp_mask_type in ['Depth', 'Video Depth'])
-            if self.depth_model == None:
+            if self.depth_model == None or self.algo != anim_args.depth_algorithm:
+                self.algo = anim_args.depth_algorithm
                 if predict_depths:
                     keep_in_vram = True
                     # device = ('cpu' if cmd_opts.lowvram or cmd_opts.medvram else self.root.device)
@@ -83,7 +84,7 @@ class DeforumIterateNode(AiNode):
 
 
             warped_np_img, depth, mask = anim_frame_warp(np_image, args, anim_args, keys, frame_idx, depth_model=self.depth_model, depth=None, device='cuda',
-                            half_precision=False)
+                            half_precision=True)
 
             image = Image.fromarray(cv2.cvtColor(warped_np_img, cv2.COLOR_BGR2RGB))
 

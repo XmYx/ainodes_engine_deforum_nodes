@@ -68,6 +68,8 @@ class DeforumRunNode(AiNode):
     category = "aiNodes Deforum/DeForum"
     custom_input_socket_name = ["DATA", "COND", "SAMPLER", "EXEC"]
     output_socket_name = ["IMAGE", "EXEC"]
+    dim = (240, 240)
+    NodeContent_class = DeforumRunWidget
 
     make_dirty = True
 
@@ -75,16 +77,19 @@ class DeforumRunNode(AiNode):
     def __init__(self, scene):
         super().__init__(scene, inputs=[6, 3, 5, 1], outputs=[5, 5, 1])
 
-    def initInnerClasses(self):
-        self.content = DeforumRunWidget(self)
-        self.grNode = CalcGraphicsNode(self)
-        self.grNode.width = 300
-        self.grNode.height = 320
-        self.content.setMinimumWidth(300)
-        self.content.setMinimumHeight(300)
-        self.content.eval_signal.connect(self.evalImplementation)
         self.images = []
         self.pipe = None
+
+
+
+    # def initInnerClasses(self):
+    #     self.content = DeforumRunWidget(self)
+    #     self.grNode = CalcGraphicsNode(self)
+    #     self.grNode.width = 300
+    #     self.grNode.height = 320
+    #     self.content.setMinimumWidth(300)
+    #     self.content.setMinimumHeight(300)
+    #     self.content.eval_signal.connect(self.evalImplementation)
 
 
     def evalImplementation_thread(self, index=0):
@@ -234,7 +239,6 @@ class DeforumRunNode(AiNode):
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
 
     def generate(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name):
-        #print("ainodes deforum adapter")
         if gs.should_run:
             image = generate_inner(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name)
         else:
@@ -411,8 +415,9 @@ def blend_tensors(obj1, obj2, blend_value):
     # Return the blended object
     return [[blended_cond, {"pooled_output": blended_pooled}]]
 def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images=None):
-    gs.should_run = True
+
     sampler_node, _ = node.getInput(2)
+
     make_latent = None
     tensor = torch.zeros([1, 4, args.H // 8, args.W // 8])
 
@@ -425,6 +430,8 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
             latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
 
         cond_node, _ = node.getInput(1)
+
+
         cond = cond_node.evalImplementation_thread(prompt_override=prompt)[0]
         node_blend = node.content.blend_factor.value()
         use_blend = node.content.use_blend.isChecked()

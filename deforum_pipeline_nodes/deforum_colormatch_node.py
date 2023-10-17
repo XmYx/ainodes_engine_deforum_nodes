@@ -16,7 +16,7 @@ class DeforumColorMatchWidget(QDMNodeContentWidget):
 
 
 @register_node(OP_NODE_DEFORUM_COLORMATCH)
-class DeforumAddNoiseNode(AiNode):
+class DeforumColorMatchNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/v2/conditioning.png"
     op_code = OP_NODE_DEFORUM_COLORMATCH
     op_title = "Deforum ColorMatch Node"
