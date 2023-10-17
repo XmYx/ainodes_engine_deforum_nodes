@@ -55,10 +55,10 @@ class DeforumRunWidget(QDMNodeContentWidget):
         self.create_widgets()
         self.create_main_layout(grid=1)
     def create_widgets(self):
-        self.cond_schedule_checkbox = self.create_check_box("Use Conditioning Schedule")
-        self.blend_factor = self.create_double_spin_box("Conditioning Blend factor")
         self.use_blend = self.create_check_box("Use Conditioning Blending [SD Only]")
-
+        self.cond_schedule_checkbox = self.create_check_box("Force Blend Factor:")
+        self.blend_factor = self.create_double_spin_box("Conditioning Blend factor")
+        self.use_inpaint = self.create_check_box("Use Inpaint pass")
 @register_node(OP_NODE_DEFORUM_RUN)
 class DeforumRunNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
@@ -253,12 +253,12 @@ class DeforumRunNode(AiNode):
 
         mask_array = np.array(mask)
         # Check if any values are above 0
-        has_values_above_zero = (np.array(mask) > 0).any()
+        has_values_above_zero = (np.array(mask) > 1e-05).any()
         # Count the number of values above 0
         count_values_above_zero = (mask_array > 0).sum()
-        threshold = 400
+        threshold = 40000
 
-        if has_values_above_zero and count_values_above_zero > threshold:
+        if has_values_above_zero and count_values_above_zero > threshold and self.content.use_inpaint.isChecked():
             print(f"[ Mask pixels above {threshold} by {count_values_above_zero-threshold}, generating inpaing image ]")
             mask = tensor2pil(mask[0])
             mask = dilate_mask(mask, dilation_size=48)
@@ -266,13 +266,13 @@ class DeforumRunNode(AiNode):
             if gs.should_run:
                 if not self.pipe or change_pipe:
                     from diffusers import StableDiffusionInpaintPipeline
-                    # self.pipe = StableDiffusionInpaintPipeline.from_single_file(
-                    #             "models/checkpoints/Deliberate-inpainting.safetensors",
-                    #             use_safetensors=True,
-                    #             torch_dtype=torch.float16).to(gs.device.type)
-                    self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
-                                "runwayml/stable-diffusion-inpainting",
+                    self.pipe = StableDiffusionInpaintPipeline.from_single_file(
+                                "models/checkpoints/Deliberate-inpainting.safetensors",
+                                use_safetensors=True,
                                 torch_dtype=torch.float16).to(gs.device.type)
+                    # self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
+                    #             "runwayml/stable-diffusion-inpainting",
+                    #             torch_dtype=torch.float16).to(gs.device.type)
                 prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
                 generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
                                    "num_inference_steps":args.steps,
@@ -396,24 +396,61 @@ def cnet_image_ops(method, image):
     return image
 
 
-def blend_tensors(obj1, obj2, blend_value):
+
+
+import torch.nn.functional as F
+import torch
+
+def pyramid_blend(tensor1, tensor2, blend_value):
+    # For simplicity, we'll use two levels of blending
+    downsampled1 = F.avg_pool2d(tensor1, 2)
+    downsampled2 = F.avg_pool2d(tensor2, 2)
+
+    blended_low = (1 - blend_value) * downsampled1 + blend_value * downsampled2
+    blended_high = tensor1 + tensor2 - F.interpolate(blended_low, scale_factor=2)
+
+    return blended_high
+def gaussian_blend(tensor1, tensor2, blend_value):
+    sigma = 0.5  # Adjust for desired smoothness
+    weight = torch.exp(-((blend_value - 0.5) ** 2) / (2 * sigma ** 2))
+
+    return (1 - weight) * tensor1 + weight * tensor2
+
+
+def gaussian_blend(tensor1, tensor2, blend_value):
+    sigma = 0.5  # Adjust for desired smoothness
+    weight = torch.exp(-((blend_value - 0.5) ** 2) / (2 * sigma ** 2))
+
+    return (1 - weight) * tensor1 + weight * tensor2
+def sigmoidal_blend(tensor1, tensor2, blend_value):
+    # Convert blend_value into a tensor with the same shape as tensor1 and tensor2
+    blend_tensor = torch.full_like(tensor1, blend_value)
+    weight = 1 / (1 + torch.exp(-10 * (blend_tensor - 0.5)))  # Sigmoid function centered at 0.5
+    return (1 - weight) * tensor1 + weight * tensor2
+
+def blend_tensors(obj1, obj2, blend_value, blend_method="linear"):
     """
-    Blends tensors in two given objects based on a blend value.
-
-    Parameters:
-    - obj1: First object [tensor1, {"pooled_output": tensor2}]
-    - obj2: Second object [tensor3, {"pooled_output": tensor4}]
-    - blend_value: A float between 0 and 1 indicating how much of obj2 to blend with obj1.
-
-    Returns:
-    Blended object [blended_tensor1, {"pooled_output": blended_tensor2}]
+    Blends tensors in two given objects based on a blend value using various blending strategies.
     """
-    # Blend the tensors using linear interpolation
-    blended_cond = (1 - blend_value) * obj1[0][0] + blend_value * obj2[0][0]
-    blended_pooled = (1 - blend_value) * obj1[0][1]['pooled_output'] + blend_value * obj2[0][1]['pooled_output']
+    if blend_method == "linear":
+        weight = blend_value
+        blended_cond = (1 - weight) * obj1[0] + weight * obj2[0]
+        blended_pooled = (1 - weight) * obj1[1]['pooled_output'] + weight * obj2[1]['pooled_output']
 
-    # Return the blended object
+    elif blend_method == "sigmoidal":
+        blended_cond = sigmoidal_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = sigmoidal_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
+
+    elif blend_method == "gaussian":
+        blended_cond = gaussian_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = gaussian_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
+
+    elif blend_method == "pyramid":
+        blended_cond = pyramid_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = pyramid_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
+
     return [[blended_cond, {"pooled_output": blended_pooled}]]
+
 def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_images=None):
 
     sampler_node, _ = node.getInput(2)
@@ -432,20 +469,22 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         cond_node, _ = node.getInput(1)
 
 
-        cond = cond_node.evalImplementation_thread(prompt_override=prompt)[0]
+        _, cond = cond_node.evalImplementation_thread(prompt_override=prompt)
+
+
         node_blend = node.content.blend_factor.value()
         use_blend = node.content.use_blend.isChecked()
         # if node.content.blend_factor.value() < 1.00:
         if next_prompt != prompt and use_blend:
-            next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)[0]
+            _, next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)
             blend_value = 1 if blend_value == 0 else blend_value
-            blend_value = 1 - blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
+            blend_value = blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
             print(f"\n[ Blending Conditionings, ratio: {blend_value} ]")
-            print(f"[ Next Prompt: {next_prompt} ]")
-            print(f"[ Seed: {args.seed} ]\n")
+            # print(f"[ Next Prompt: {next_prompt} ]")
+            # print(f"[ Seed: {args.seed} ]\n")
             #print(f"[ Gen Args: {args} ]")
-            cond = blend_tensors(cond, next_cond, blend_value)
-        n_cond = cond_node.evalImplementation_thread(prompt_override=negative_prompt)[0]
+            cond = blend_tensors(cond[0], next_cond[0], blend_value)
+        _, n_cond = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
         tensor, _ = sampler_node.evalImplementation_thread(cond_override=[cond, n_cond], args=args,
                                                             latent_override=latent)
 
@@ -456,7 +495,6 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         if init is not None:
             if isinstance(init, PIL.Image.Image):
                 init = pil2tensor(init)
-            init = [init]
         tensor = sampler_node.evalImplementation_thread(prompt_override=prompt, args=args, init_image=init)[0]
 
     image = tensor2pil(tensor)
@@ -492,39 +530,109 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
 
         next_prompt = node.deforum.prompt_series[frame + anim_args.diffusion_cadence]
     print("NEXT FRAME", frame, next_prompt)"""
-    blend_value = 0.0
+    # blend_value = 0.0
+    #
+    # #print(frame, anim_args.diffusion_cadence, node.deforum.prompt_series)
+    #
+    # next_frame = frame + anim_args.diffusion_cadence
+    # next_prompt = None
+    # while next_frame < anim_args.max_frames:
+    #     next_prompt = node.deforum.prompt_series[next_frame]
+    #     if next_prompt != prompt:
+    #         # Calculate blend value based on distance and frame number
+    #         prompt_distance = next_frame - frame
+    #         max_distance = anim_args.max_frames - frame
+    #         blend_value = prompt_distance / max_distance
+    #
+    #         if blend_value >= 1.0:
+    #             blend_value = 0.0
+    #
+    #         break  # Exit the loop once a different prompt is found
+    #
+    #     next_frame += anim_args.diffusion_cadence
+    # #print("CURRENT PROMPT", prompt)
+    # #print("NEXT FRAME:", next_prompt)
+    # #print("BLEND VALUE:", blend_value)
+    # #print("BLEND VALUE:", blend_value)
+    # #print("PARSED_PROMPT", prompt)
+    # #print("PARSED_PROMPT", prompt)
+    # if frame == 0:
+    #     blend_value = 0.0
+    # if frame > 0:
+    #     prev_prompt = node.deforum.prompt_series[frame - 1]
+    #     if prev_prompt != prompt:
+    #         blend_value = 0.0
+    # def generate_blend_values(distance_to_next_prompt, blend_type="linear"):
+    #     if blend_type == "linear":
+    #         return [i / distance_to_next_prompt for i in range(distance_to_next_prompt + 1)]
+    #     elif blend_type == "exponential":
+    #         base = 2
+    #         return [1 / (1 + math.exp(-8 * (i / distance_to_next_prompt - 0.5))) for i in
+    #                 range(distance_to_next_prompt + 1)]
+    #     else:
+    #         raise ValueError(f"Unknown blend type: {blend_type}")
+    #
+    # def find_last_prompt_change(current_index, prompt_series):
+    #     # Step backward from the current position
+    #     for i in range(current_index - 1, -1, -1):
+    #         if prompt_series.iloc[i] != prompt_series.iloc[current_index]:
+    #             return i
+    #     return 0  # default to the start if no change found
+    #
+    # def find_next_prompt_change(current_index, prompt_series):
+    #     # Step forward from the current position
+    #     for i in range(current_index + 1, len(prompt_series)):
+    #         if prompt_series.iloc[i] != prompt_series.iloc[current_index]:
+    #             return i
+    #     return len(prompt_series) - 1  # default to the end if no change found
+    #
+    # # Inside your main loop:
+    #
+    # last_prompt_change = find_last_prompt_change(frame, node.deforum.prompt_series)
+    # next_prompt_change = find_next_prompt_change(frame, node.deforum.prompt_series)
+    #
+    # distance_between_changes = next_prompt_change - last_prompt_change
+    # current_distance_from_last = frame - last_prompt_change
+    #
+    # # Generate blend values for the distance between prompt changes
+    # blend_values = generate_blend_values(distance_between_changes, blend_type="exponential")
+    #
+    # # Fetch the blend value based on the current frame's distance from the last prompt change
+    # blend_value = blend_values[current_distance_from_last]
+    # next_prompt = node.deforum.prompt_series[next_prompt_change]
 
-    #print(frame, anim_args.diffusion_cadence, node.deforum.prompt_series)
+    def generate_blend_values(distance_to_next_prompt, blend_type="linear"):
+        if blend_type == "linear":
+            return [i / distance_to_next_prompt for i in range(distance_to_next_prompt + 1)]
+        elif blend_type == "exponential":
+            base = 2
+            return [1 / (1 + math.exp(-8 * (i / distance_to_next_prompt - 0.5))) for i in
+                    range(distance_to_next_prompt + 1)]
+        else:
+            raise ValueError(f"Unknown blend type: {blend_type}")
 
-    next_frame = frame + anim_args.diffusion_cadence
-    next_prompt = None
-    while next_frame < anim_args.max_frames:
-        next_prompt = node.deforum.prompt_series[next_frame]
-        if next_prompt != prompt:
-            # Calculate blend value based on distance and frame number
-            prompt_distance = next_frame - frame
-            max_distance = anim_args.max_frames - frame
-            blend_value = prompt_distance / max_distance
+    def get_next_prompt_and_blend(current_index, prompt_series, blend_type="exponential"):
+        # Find where the current prompt ends
+        next_prompt_start = current_index + 1
+        while next_prompt_start < len(prompt_series) and prompt_series.iloc[next_prompt_start] == prompt_series.iloc[
+            current_index]:
+            next_prompt_start += 1
 
-            if blend_value >= 1.0:
-                blend_value = 0.0
+        if next_prompt_start >= len(prompt_series):
+            raise ValueError("Already at the last prompt, no next prompt available.")
 
-            break  # Exit the loop once a different prompt is found
+        # Calculate blend value
+        distance_to_next = next_prompt_start - current_index
+        blend_values = generate_blend_values(distance_to_next, blend_type)
+        blend_value = blend_values[1]  # Blend value for the next frame after the current index
 
-        next_frame += anim_args.diffusion_cadence
-    #print("CURRENT PROMPT", prompt)
-    #print("NEXT FRAME:", next_prompt)
-    #print("BLEND VALUE:", blend_value)
-    #print("BLEND VALUE:", blend_value)
-    #print("PARSED_PROMPT", prompt)
-    #print("PARSED_PROMPT", prompt)
-    if frame == 0:
-        blend_value = 0.0
-    if frame > 0:
-        prev_prompt = node.deforum.prompt_series[frame - 1]
-        if prev_prompt != prompt:
-            blend_value = 0.0
+        return prompt_series.iloc[next_prompt_start], blend_value
 
+    next_prompt, blend_value = get_next_prompt_and_blend(frame, node.deforum.prompt_series)
+    # print("DEBUG", next_prompt, blend_value)
+
+    # blend_value = 1.0
+    # next_prompt = ""
     if not args.use_init and args.strength > 0 and args.strength_0_no_init:
         args.strength = 0
     processed = None

@@ -46,20 +46,20 @@ def blend_tensors(obj1, obj2, blend_value, blend_method="linear"):
 
     if blend_method == "linear":
         weight = blend_value
-        blended_cond = (1 - weight) * obj1[0][0] + weight * obj2[0][0]
-        blended_pooled = (1 - weight) * obj1[0][1]['pooled_output'] + weight * obj2[0][1]['pooled_output']
+        blended_cond = (1 - weight) * obj1[0] + weight * obj2[0]
+        blended_pooled = (1 - weight) * obj1[1]['pooled_output'] + weight * obj2[1]['pooled_output']
 
     elif blend_method == "sigmoidal":
-        blended_cond = sigmoidal_blend(obj1[0][0], obj2[0][0], blend_value)
-        blended_pooled = sigmoidal_blend(obj1[0][1]['pooled_output'], obj2[0][1]['pooled_output'], blend_value)
+        blended_cond = sigmoidal_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = sigmoidal_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
 
     elif blend_method == "gaussian":
-        blended_cond = gaussian_blend(obj1[0][0], obj2[0][0], blend_value)
-        blended_pooled = gaussian_blend(obj1[0][1]['pooled_output'], obj2[0][1]['pooled_output'], blend_value)
+        blended_cond = gaussian_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = gaussian_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
 
     elif blend_method == "pyramid":
-        blended_cond = pyramid_blend(obj1[0][0], obj2[0][0], blend_value)
-        blended_pooled = pyramid_blend(obj1[0][1]['pooled_output'], obj2[0][1]['pooled_output'], blend_value)
+        blended_cond = pyramid_blend(obj1[0], obj2[0], blend_value)
+        blended_pooled = pyramid_blend(obj1[1]['pooled_output'], obj2[1]['pooled_output'], blend_value)
 
     return [[blended_cond, {"pooled_output": blended_pooled}]]
 
@@ -104,12 +104,12 @@ class DeforumConditioningNode(AiNode):
             prompt = data.get("prompt", "")
             negative_prompt = data.get("negative_prompt", "")
 
-            next_prompt = data.get("next_prompt", "")
+            next_prompt = data.get("next_prompt", None)
 
             print(f"[ Deforum Conds: {prompt}, {negative_prompt} ]")
             cond = self.get_conditioning(prompt=prompt, clip=clip)
 
-            prompt_blend = data.get("prompt_blend", "")
+            prompt_blend = data.get("prompt_blend", 0.0)
             if next_prompt != prompt and prompt_blend != 0.0 and next_prompt is not None:
                 next_cond = self.get_conditioning(prompt=next_prompt, clip=clip)
                 cond = blend_tensors(cond, next_cond, prompt_blend, self.content.blend_method.currentText())
