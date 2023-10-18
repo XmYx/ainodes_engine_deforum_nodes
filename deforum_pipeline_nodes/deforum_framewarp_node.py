@@ -92,8 +92,30 @@ class DeforumFramewarpNode(AiNode):
 
             if mask is not None:
                 mask = mask.cpu()
-                mask = mask.reshape((-1, 1, mask.shape[-2], mask.shape[-1])).movedim(1, -1).expand(-1, -1, -1, 3)
-            return [data, tensor, mask]
+                #mask = mask.reshape((-1, 1, mask.shape[-2], mask.shape[-1])).movedim(1, -1).expand(-1, -1, -1, 3)
+
+            # print(mask.shape)
+            #
+            # print(mask)
+            #
+            mask = mask.mean(dim=0, keepdim=False)
+            mask[mask > 1e-05] = 1
+            mask[mask < 1e-05] = 0
+
+            # print(mask)
+            # print(mask.shape)
+
+
+            # from ai_nodes.ainodes_engine_base_nodes.ainodes_backend.resizeRight import resizeright
+            # from ai_nodes.ainodes_engine_base_nodes.ainodes_backend.resizeRight import interp_methods
+            # mask = resizeright.resize(mask, scale_factors=None,
+            #                                     out_shape=[mask.shape[0], int(mask.shape[1] // 8), int(mask.shape[2] // 8)
+            #                                             ],
+            #                                     interp_method=interp_methods.lanczos3, support_sz=None,
+            #                                     antialiasing=True, by_convs=True, scale_tolerance=None,
+            #                                     max_numerator=10, pad_mode='reflect')
+            # print(mask.shape)
+            return [data, tensor, mask[0].unsqueeze(0)]
         else:
             return [data, image, None]
 

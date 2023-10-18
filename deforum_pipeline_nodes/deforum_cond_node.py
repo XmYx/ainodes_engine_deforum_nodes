@@ -1,4 +1,6 @@
 import contextlib
+import math
+
 import torch
 
 from ainodes_frontend.base import register_node, get_next_opcode
@@ -18,17 +20,9 @@ def pyramid_blend(tensor1, tensor2, blend_value):
     blended_high = tensor1 + tensor2 - F.interpolate(blended_low, scale_factor=2)
 
     return blended_high
-def gaussian_blend(tensor1, tensor2, blend_value):
+def gaussian_blend(tensor2, tensor1, blend_value):
     sigma = 0.5  # Adjust for desired smoothness
-    weight = torch.exp(-((blend_value - 0.5) ** 2) / (2 * sigma ** 2))
-
-    return (1 - weight) * tensor1 + weight * tensor2
-
-
-def gaussian_blend(tensor1, tensor2, blend_value):
-    sigma = 0.5  # Adjust for desired smoothness
-    weight = torch.exp(-((blend_value - 0.5) ** 2) / (2 * sigma ** 2))
-
+    weight = math.exp(-((blend_value - 0.5) ** 2) / (2 * sigma ** 2))
     return (1 - weight) * tensor1 + weight * tensor2
 def sigmoidal_blend(tensor1, tensor2, blend_value):
     # Convert blend_value into a tensor with the same shape as tensor1 and tensor2
@@ -112,7 +106,7 @@ class DeforumConditioningNode(AiNode):
             prompt_blend = data.get("prompt_blend", 0.0)
             if next_prompt != prompt and prompt_blend != 0.0 and next_prompt is not None:
                 next_cond = self.get_conditioning(prompt=next_prompt, clip=clip)
-                cond = blend_tensors(cond, next_cond, prompt_blend, self.content.blend_method.currentText())
+                cond = blend_tensors(cond[0], next_cond[0], prompt_blend, self.content.blend_method.currentText())
                 print(f"[ Deforum Cond Blend: {next_prompt}, {prompt_blend} ]")
 
             n_cond = self.get_conditioning(prompt=negative_prompt, clip=clip)

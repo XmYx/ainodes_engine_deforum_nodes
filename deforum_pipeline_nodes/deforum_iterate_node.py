@@ -37,11 +37,13 @@ class DeforumIterateWidget(QDMNodeContentWidget):
     def initUI(self):
         self.reset_iteration = QtWidgets.QPushButton("Reset Frame Counter")
         self.frame_counter = self.create_label("Current Frame: 0")
+        self.create_slider("Timeline", min_val=0, max_val=500, default_val=0, step=1, spawn="frame_slider")
         self.create_button_layout([self.reset_iteration])
         self.create_main_layout(grid=1)
 
     def set_frame_counter(self, number):
         self.frame_counter.setText(f"Current Frame: {number}")
+        self.node.set_frame(number)
 
 @register_node(OP_NODE_DEFORUM_ITERATE)
 class DeforumIterateNode(AiNode):
@@ -52,7 +54,7 @@ class DeforumIterateNode(AiNode):
     content_label_objname = "deforum_iterate_node"
     category = "aiNodes Deforum/DeForum"
     NodeContent_class = DeforumIterateWidget
-    dim = (240, 160)
+    dim = (460, 160)
 
     make_dirty = True
 
@@ -61,9 +63,20 @@ class DeforumIterateNode(AiNode):
         self.frame_index = 0
         self.content.set_frame_signal.connect(self.content.set_frame_counter)
         self.content.reset_iteration.clicked.connect(self.reset_iteration)
+        self.seed = ""
+        self.seeds = []
+        self.args = None
+        self.root = None
+        self.content.frame_slider.valueChanged.connect(self.set_frame)
 
     def reset_iteration(self):
         self.frame_index = 0
+
+        self.seed = ""
+        self.seeds = []
+        self.args = None
+        self.root = None
+
         self.content.set_frame_signal.emit(0)
 
         for node in self.scene.nodes:
@@ -72,11 +85,18 @@ class DeforumIterateNode(AiNode):
             if hasattr(node, "markDirty"):
                 node.markDirty(True)
 
+    def set_frame(self, number):
+        self.frame_index = number
+        self.content.frame_slider.setValue(number)
+        if self.args:
+            for i in range(self.frame_index):
+                if i >= len(self.seeds):
+                    self.seed = next_seed(self.args, self.root)
+                    self.seeds.append(self.seed)
+
 
     def evalImplementation_thread(self, index=0):
-        self.content.set_frame_signal.emit(self.frame_index)
 
-        data = self.getInputData(0)
 
 
         data = self.getInputData(0)
@@ -137,10 +157,8 @@ class DeforumIterateNode(AiNode):
         keys, prompt_series = get_current_keys(anim_args, args.seed, root)
         # print(f"WOULD RETURN\n{keys}\n\n{prompt_series}")
 
-        if self.frame_index >= anim_args.max_frames:
-
+        if self.frame_index > anim_args.max_frames:
             self.reset_iteration()
-
             self.frame_index = 0
             gs.should_run = False
             return [None]
@@ -151,11 +169,15 @@ class DeforumIterateNode(AiNode):
             args.seed = int(args.seed)
             root.seed_internal = int(root.seed_internal)
             args.seed_iter_N = int(args.seed_iter_N)
-            print(root.seed_internal)
-            print(args.seed_iter_N)
 
-            args.seed = next_seed(args, root)
+            if self.seed == "":
+                self.seed = args.seed
+                self.seed_internal = root.seed_internal
+                self.seed_iter_N = args.seed_iter_N
 
+            self.seed = next_seed(args, root)
+            args.seed = self.seed
+            self.seeds.append(self.seed)
 
             blend_value = 0.0
 
@@ -203,60 +225,20 @@ class DeforumIterateNode(AiNode):
             blend_value = blend_values[current_distance_from_last]
             next_prompt = prompt_series[next_prompt_change]
 
-            # print(f"Current Frame:", self.frame_index)
-            # print(f"Last Prompt Change:", last_prompt_change)
-            # print(f"Next Prompt Change:", next_prompt_change)
-            # print(f"Distance Between Changes:", distance_between_changes)
-            # print(f"Current Distance from Last Change:", current_distance_from_last)
-            # print(f"Blend Value:", blend_value)
-            # print(f"Blend Values:", blend_values)
-            # while next_frame < anim_args.max_frames:
-            #     next_prompt = prompt_series[next_frame]
-            #     if next_prompt != prompt_series[self.frame_index]:
-            #         distance_to_next_prompt = next_frame - self.frame_index
-            #         current_distance_from_start = self.frame_index % distance_to_next_prompt
-            #
-            #         # Generate blend values for the current set of frames
-            #         current_blend_values = generate_blend_values(distance_to_next_prompt + current_distance_from_start, blend_type="exponential")
-            #
-            #         # Fetch the blend value based on the current frame's distance from the starting frame
-            #         blend_value = current_blend_values[current_distance_from_start]
-            #
-            #         print(f"Current Frame:", self.frame_index)
-            #         print(f"Next Prompt Frame:", next_frame)
-            #         print(f"Distance to Next Prompt:", distance_to_next_prompt)
-            #         print(f"Current Distance from Start:", current_distance_from_start)
-            #         print(f"Blend Value:", blend_value)
-            #         print(f"Current Blend Values:", current_blend_values)
-            #
-            #         break  # Exit the loop once a different prompt is found
-            #     next_frame += anim_args.diffusion_cadence
-            # while next_frame < anim_args.max_frames:
-            #     next_prompt = prompt_series[next_frame]
-            #     if next_prompt != prompt_series[self.frame_index]:
-            #         # Calculate blend value based on distance and frame number
-            #         prompt_distance = next_frame - self.frame_index
-            #         max_distance = anim_args.max_frames - self.frame_index
-            #         blend_value = prompt_distance / max_distance
-            #
-            #         if blend_value >= 1.0:
-            #             blend_value = 0.0
-            #         print(f"Distance:", self.frame_index, prompt_distance, max_distance, blend_value)
-            #
-            #         break  # Exit the loop once a different prompt is found
-
-                # next_frame += anim_args.diffusion_cadence
-
-
-
-
             gen_args = self.get_current_frame(args, anim_args, root, keys, self.frame_index)
+
+            self.content.frame_slider.setMaximum(anim_args.max_frames - 1)
+
+            self.args = args
+            self.root = root
             gen_args["next_prompt"] = next_prompt
             gen_args["prompt_blend"] = blend_value
 
             print(f"[ Deforum Iterator: {self.frame_index} / {anim_args.max_frames} ]")
             self.frame_index += 1
+            self.content.set_frame_signal.emit(self.frame_index)
 
+            #print(f"[ Current Seed List: ]\n[ {self.seeds} ]")
             return [gen_args]
 
     def get_current_frame(self, args, anim_args, root, keys, frame_idx):
@@ -273,15 +255,11 @@ class DeforumIterateNode(AiNode):
                 "frame_idx":frame_idx}
 
 
-# prev_img, depth, mask = anim_frame_warp(prev_img, self.args, self.anim_args, keys, frame_idx, depth_model,
-#                                         depth=None,
-#                                         device=self.root.device, half_precision=self.root.half_precision)
-
 
 def get_current_keys(anim_args, seed, root, parseq_args=None, video_args=None):
 
     use_parseq = False if parseq_args == None else True
-    anim_args.max_frames += 1
+    anim_args.max_frames += 2
     keys = DeformAnimKeys(anim_args, seed) if not use_parseq else ParseqAnimKeys(parseq_args, video_args)
 
     # Always enable pseudo-3d with parseq. No need for an extra toggle:
@@ -300,5 +278,5 @@ def get_current_keys(anim_args, seed, root, parseq_args=None, video_args=None):
                 prompt_series[int(numexpr.evaluate(i))] = prompt
         prompt_series = prompt_series.ffill().bfill()
     prompt_series = prompt_series
-
+    anim_args.max_frames -= 2
     return keys, prompt_series
