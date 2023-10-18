@@ -475,9 +475,9 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         node_blend = node.content.blend_factor.value()
         use_blend = node.content.use_blend.isChecked()
         # if node.content.blend_factor.value() < 1.00:
-        if next_prompt != prompt and use_blend:
+        if next_prompt != prompt and use_blend and blend_value != 0.0:
             _, next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)
-            blend_value = 1 if blend_value == 0 else blend_value
+            #blend_value = 1 if blend_value == 0 else blend_value
             blend_value = blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
             print(f"\n[ Blending Conditionings, ratio: {blend_value} ]")
             # print(f"[ Next Prompt: {next_prompt} ]")
@@ -619,7 +619,8 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
             next_prompt_start += 1
 
         if next_prompt_start >= len(prompt_series):
-            raise ValueError("Already at the last prompt, no next prompt available.")
+            return "", 1.0
+            #raise ValueError("Already at the last prompt, no next prompt available.")
 
         # Calculate blend value
         distance_to_next = next_prompt_start - current_index
