@@ -154,6 +154,8 @@ class DeforumPromptNode(AiNode):
     content_label_objname = "deforum_prompt_node"
     category = "aiNodes Deforum/DeForum"
 
+    dim = (600,800)
+
     make_dirty = True
 
     # output_socket_name = ["EXEC", "MODEL"]

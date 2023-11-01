@@ -1,8 +1,11 @@
 import contextlib
 import math
 
+import numpy as np
 import torch
 
+from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import tensor2pil, pil2tensor
+from ai_nodes.ainodes_engine_base_nodes.image_nodes.image_op_node import HWC3
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
@@ -74,12 +77,12 @@ class DeforumConditioningNode(AiNode):
     dim = (240, 140)
 
     make_dirty = True
-    custom_input_socket_name = ["CLIP", "DATA", "EXEC"]
+    custom_input_socket_name = ["CLIP", "DATA", "IMAGE", "CONTROL_NET", "EXEC"]
     custom_output_socket_name = ["DATA", "NEGATIVE", "POSITIVE", "EXEC"]
 
 
     def __init__(self, scene):
-        super().__init__(scene, inputs=[4,6,1], outputs=[6,3,3,1])
+        super().__init__(scene, inputs=[4,6,5,4,1], outputs=[6,3,3,1])
         # Create a worker object
         self.device = gs.device
         if self.device in [torch.device('mps'), torch.device('cpu')]:
@@ -102,19 +105,56 @@ class DeforumConditioningNode(AiNode):
 
             print(f"[ Deforum Conds: {prompt}, {negative_prompt} ]")
             cond = self.get_conditioning(prompt=prompt, clip=clip)
-
+            image = self.getInputData(2)
+            controlnet = self.getInputData(3)
+            if image is not None:
+                if controlnet is not None:
+                    cnet_image = self.get_canny_image(image)
+                    with torch.inference_mode():
+                        print("[ Applying controlnet - Loopback Mode] ")
+                        cond = self.apply_controlnet(cond, controlnet, cnet_image, 0.7)
             prompt_blend = data.get("prompt_blend", 0.0)
             if next_prompt != prompt and prompt_blend != 0.0 and next_prompt is not None:
                 next_cond = self.get_conditioning(prompt=next_prompt, clip=clip)
-                cond = blend_tensors(cond[0], next_cond[0], prompt_blend, self.content.blend_method.currentText())
+                with torch.inference_mode():
+                    cond = blend_tensors(cond[0], next_cond[0], prompt_blend, self.content.blend_method.currentText())
                 print(f"[ Deforum Cond Blend: {next_prompt}, {prompt_blend} ]")
 
             n_cond = self.get_conditioning(prompt=negative_prompt, clip=clip)
 
+
+
+
+
+
             return [data, n_cond, cond]
         else:
             return [None, None, None]
+    def get_canny_image(self, image):
+        image = tensor2pil(image)
+        image = np.array(image)
+        import cv2
+        from PIL import Image
+        image = cv2.Canny(image, 0, 200, L2gradient=True)
+        image = HWC3(image)
+        image = Image.fromarray(image)
+        image = pil2tensor(image)
+        return image
+    def apply_controlnet(self, conditioning, control_net, image, strength):
+        if strength == 0:
+            return (conditioning, )
 
+        c = []
+        control_hint = image.movedim(-1,1)
+        for t in conditioning:
+            n = [t[0], t[1].copy()]
+            c_net = control_net.copy().set_cond_hint(control_hint, strength)
+            if 'control' in t[1]:
+                c_net.set_previous_controlnet(t[1]['control'])
+            n[1]['control'] = c_net
+            n[1]['control_apply_to_uncond'] = True
+            c.append(n)
+        return c
     def get_conditioning(self, prompt="", clip=None, progress_callback=None):
 
         """if gs.loaded_models["loaded"] == []:

@@ -33,6 +33,7 @@ from ai_nodes.ainodes_engine_base_nodes.image_nodes.image_preview_node import Im
 from ai_nodes.ainodes_engine_base_nodes.video_nodes.video_save_node import VideoOutputNode
 #from ..deforum_helpers.qops import pixmap_to_pil_image
 from ...ainodes_engine_base_nodes.ainodes_backend.cnet_preprocessors import hed
+from ...ainodes_engine_base_nodes.ainodes_backend.rng.rng import ImageRNG
 from ...ainodes_engine_base_nodes.image_nodes.image_op_node import HWC3
 
 from ...ainodes_engine_base_nodes.torch_nodes.kandinsky_node import KandinskyNode
@@ -55,10 +56,11 @@ class DeforumRunWidget(QDMNodeContentWidget):
         self.create_widgets()
         self.create_main_layout(grid=1)
     def create_widgets(self):
-        self.use_blend = self.create_check_box("Use Conditioning Blending [SD Only]")
-        self.cond_schedule_checkbox = self.create_check_box("Force Blend Factor:")
-        self.blend_factor = self.create_double_spin_box("Conditioning Blend factor")
-        self.use_inpaint = self.create_check_box("Use Inpaint pass")
+        self.create_check_box("Use Prompt Blending", spawn="use_blend")
+        self.create_check_box("Force Blend", spawn="cond_schedule_checkbox")
+        self.create_double_spin_box("CondBlend:", spawn="blend_factor")
+        self.create_check_box("Use Inpaint pass", spawn="use_inpaint")
+
 @register_node(OP_NODE_DEFORUM_RUN)
 class DeforumRunNode(AiNode):
     icon = "ainodes_frontend/icons/base_nodes/v2/deforum.png"
@@ -68,7 +70,7 @@ class DeforumRunNode(AiNode):
     category = "aiNodes Deforum/DeForum"
     custom_input_socket_name = ["DATA", "COND", "SAMPLER", "EXEC"]
     output_socket_name = ["IMAGE", "EXEC"]
-    dim = (240, 240)
+    dim = (400, 300)
     NodeContent_class = DeforumRunWidget
 
     make_dirty = True
@@ -79,6 +81,9 @@ class DeforumRunNode(AiNode):
 
         self.images = []
         self.pipe = None
+
+
+        self.content.setMaximumWidth(350)
 
 
 
@@ -103,12 +108,16 @@ class DeforumRunNode(AiNode):
         anim_args_dict = {key: value["value"] for key, value in DeforumAnimArgs().items()}
         output_args_dict = {key: value["value"] for key, value in DeforumOutputArgs().items()}
         loop_args_dict = {key: value["value"] for key, value in LoopArgs().items()}
+        parseq_args_dict = {key: value["value"] for key, value in ParseqArgs().items()}
         root = SimpleNamespace(**root_dict)
         args = SimpleNamespace(**args_dict)
         anim_args = SimpleNamespace(**anim_args_dict)
         video_args = SimpleNamespace(**output_args_dict)
-        #parseq_args = SimpleNamespace(**ParseqArgs())
-        parseq_args = None
+        parseq_args = SimpleNamespace(**parseq_args_dict)
+
+        parseq_args.parseq_manifest = ""
+
+        # #parseq_args = None
         loop_args = SimpleNamespace(**loop_args_dict)
         controlnet_args = SimpleNamespace(**{"controlnet_args": "None"})
 
@@ -157,6 +166,7 @@ class DeforumRunNode(AiNode):
 
         success = None
         root.timestring = time.strftime('%Y%m%d%H%M%S')
+        args.timestring = root.timestring
         args.strength = max(0.0, min(1.0, args.strength))
         #args.prompts = json.loads(args_dict_main['animation_prompts'])
         #args.positive_prompts = args_dict_main['animation_prompts_positive']
@@ -170,13 +180,22 @@ class DeforumRunNode(AiNode):
 
         current_arg_list = [args, anim_args, video_args, parseq_args, root]
         full_base_folder_path = os.path.join(os.getcwd(), "output/deforum")
+        #root.raw_batch_name = args.batch_name
+
+
+        args.batch_name = f"aiNodes_Deforum_{args.timestring}"
+        args.outdir = os.path.join(full_base_folder_path, args.batch_name)
+
         root.raw_batch_name = args.batch_name
         args.batch_name = substitute_placeholders(args.batch_name, current_arg_list, full_base_folder_path)
-        args.outdir = os.path.join(full_base_folder_path, str(args.batch_name))
 
         os.makedirs(args.outdir, exist_ok=True)
 
         self.deforum = Deforum(args, anim_args, video_args, parseq_args, loop_args, controlnet_args, root)
+
+        self.deforum.config_dir = os.path.join(os.getcwd(),"output/_deforum_configs")
+        os.makedirs(self.deforum.config_dir, exist_ok=True)
+
         self.deforum.generate = self.generate
         self.deforum.generate_inpaint = self.generate_inpaint
         self.deforum.datacallback = self.datacallback
@@ -238,14 +257,14 @@ class DeforumRunNode(AiNode):
                 frame = np.array(tensor2pil(image))
                 node.content.video.add_frame(frame, dump=node.content.dump_at.value())
 
-    def generate(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name):
+    def generate(self, args, keys, anim_args, loop_args, controlnet_args, root, sampler_name):
         if gs.should_run:
-            image = generate_inner(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name)
+            image = generate_inner(self, args, keys, anim_args, loop_args, controlnet_args, root, self.deforum.frame_idx, sampler_name)
         else:
             image = None
         return image
 
-    def generate_inpaint(self, args, keys, anim_args, loop_args, controlnet_args, root, frame_idx, sampler_name, image=None, mask=None):
+    def generate_inpaint(self, args, keys, anim_args, loop_args, controlnet_args, root, sampler_name, image=None, mask=None):
         original_image = image.copy()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(image)
@@ -267,13 +286,13 @@ class DeforumRunNode(AiNode):
                 if not self.pipe or change_pipe:
                     from diffusers import StableDiffusionInpaintPipeline
                     self.pipe = StableDiffusionInpaintPipeline.from_single_file(
-                                "models/checkpoints/Deliberate-inpainting.safetensors",
+                                "https://huggingface.co/XpucT/Deliberate/blob/main/Deliberate-inpainting.safetensors",
                                 use_safetensors=True,
                                 torch_dtype=torch.float16).to(gs.device.type)
                     # self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
                     #             "runwayml/stable-diffusion-inpainting",
                     #             torch_dtype=torch.float16).to(gs.device.type)
-                prompt, negative_prompt = split_weighted_subprompts(args.prompt, frame_idx, anim_args.max_frames)
+                prompt, negative_prompt = split_weighted_subprompts(args.prompt, self.deforum.frame_idx, anim_args.max_frames)
                 generation_args = {"generator":torch.Generator(gs.device.type).manual_seed(args.seed),
                                    "num_inference_steps":args.steps,
                                    "prompt":prompt,
@@ -460,11 +479,55 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
 
 
     if isinstance(sampler_node, KSamplerNode):
-        if init_images is not None:
-            vae = sampler_node.getInputData(1)
-            latent = encode_latent_ainodes(init_images, vae)
-        else:
-            latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
+        with torch.inference_mode():
+            if init_images is not None:
+                vae = sampler_node.getInputData(1)
+                latent = encode_latent_ainodes(init_images, vae)
+
+                # def slerp(val, low, high):
+                #     low_norm = low / torch.norm(low, dim=1, keepdim=True)
+                #     high_norm = high / torch.norm(high, dim=1, keepdim=True)
+                #     dot = (low_norm * high_norm).sum(1)
+                #
+                #     if dot.mean() > 0.9995:
+                #         return low * val + high * (1 - val)
+                #
+                #     omega = torch.acos(dot)
+                #     so = torch.sin(omega)
+                #     res = (torch.sin((1.0 - val) * omega) / so).unsqueeze(1) * low + (
+                #                 torch.sin(val * omega) / so).unsqueeze(
+                #         1) * high
+                #     return res
+                # subnoise = node.rng.next()
+                #
+                # print(subnoise.device)
+                # print(latent.device)
+                # latent = latent.to(subnoise.device)
+                #
+                # latent = slerp(0.6, latent, subnoise)
+            else:
+                #latent = torch.zeros([1, 4, args.H // 8, args.W // 8])
+                shape = [4, args.H // 8, args.W // 8]
+                subseed = 1
+                subseed_strength = 0.6
+                seed_resize_from_h = 1024
+                seed_resize_from_w = 1024
+                if node.deforum.anim_args.enable_subseed_scheduling:
+                    subseed = root.subseed
+                    subseed_strength = root.subseed_strength
+                    seed_resize_from_h = args.seed_resize_from_h
+                    seed_resize_from_w = args.seed_resize_from_w
+
+                node.rng = ImageRNG(shape=shape, subseed_strength=subseed_strength, seeds=[args.seed], subseeds=[subseed], seed_resize_from_h=seed_resize_from_h, seed_resize_from_w=seed_resize_from_h)
+                latent = node.rng.next()
+                latent = latent.to("cuda")
+
+
+        # subnoise = torch.randn(size=[1, 4, args.H // 8, args.W // 8], generator=torch.Generator("cpu").manual_seed(1))
+
+
+        # if init_images is not None:
+        #     latent = slerp(0.05, latent, subnoise)
 
         cond_node, _ = node.getInput(1)
 
@@ -475,16 +538,16 @@ def generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, 
         node_blend = node.content.blend_factor.value()
         use_blend = node.content.use_blend.isChecked()
         # if node.content.blend_factor.value() < 1.00:
-        if next_prompt != prompt and use_blend and blend_value != 0.0:
-            _, next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)
-            #blend_value = 1 if blend_value == 0 else blend_value
-            blend_value = blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
-            print(f"\n[ Blending Conditionings, ratio: {blend_value} ]")
-            # print(f"[ Next Prompt: {next_prompt} ]")
-            # print(f"[ Seed: {args.seed} ]\n")
-            #print(f"[ Gen Args: {args} ]")
-            cond = blend_tensors(cond[0], next_cond[0], blend_value)
+        if next_prompt != prompt and use_blend and 0.0 < blend_value < 1.0:
+            if next_prompt is not "" and next_prompt is not None:
+                _, next_cond = cond_node.evalImplementation_thread(prompt_override=next_prompt)
+
+                blend_value = blend_value if not node.content.cond_schedule_checkbox.isChecked() else node_blend
+                print(f"\n[ Blending Conditionings, ratio: {blend_value} ]")
+
+                cond = blend_tensors(cond[0], next_cond[0], blend_value)
         _, n_cond = cond_node.evalImplementation_thread(prompt_override=negative_prompt)
+
         tensor, _ = sampler_node.evalImplementation_thread(cond_override=[cond, n_cond], args=args,
                                                             latent_override=latent)
 
@@ -505,11 +568,9 @@ def encode_latent_ainodes(init_image, vae):
     image = image[None]# .transpose(0, 3, 1, 2)
     image = torch.from_numpy(image)
     image = image.detach().cpu()
-    torch_gc()
-    latent = vae.encode(image)
+    latent = vae.encode_tiled(image[:,:,:,:3])
     latent = latent.to("cpu")
-    image = image.detach().to("cpu")
-    del image
+
     return latent
 
 def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root, frame=0, return_sample=False,
@@ -522,84 +583,6 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
 
     #print("DEFORUM CONDITIONING INTERPOLATION")
 
-    """prompt = node.deforum.prompt_series[frame]
-    next_prompt = None
-    if frame + anim_args.diffusion_cadence < anim_args.max_frames:
-
-        curr_frame = frame
-
-        next_prompt = node.deforum.prompt_series[frame + anim_args.diffusion_cadence]
-    print("NEXT FRAME", frame, next_prompt)"""
-    # blend_value = 0.0
-    #
-    # #print(frame, anim_args.diffusion_cadence, node.deforum.prompt_series)
-    #
-    # next_frame = frame + anim_args.diffusion_cadence
-    # next_prompt = None
-    # while next_frame < anim_args.max_frames:
-    #     next_prompt = node.deforum.prompt_series[next_frame]
-    #     if next_prompt != prompt:
-    #         # Calculate blend value based on distance and frame number
-    #         prompt_distance = next_frame - frame
-    #         max_distance = anim_args.max_frames - frame
-    #         blend_value = prompt_distance / max_distance
-    #
-    #         if blend_value >= 1.0:
-    #             blend_value = 0.0
-    #
-    #         break  # Exit the loop once a different prompt is found
-    #
-    #     next_frame += anim_args.diffusion_cadence
-    # #print("CURRENT PROMPT", prompt)
-    # #print("NEXT FRAME:", next_prompt)
-    # #print("BLEND VALUE:", blend_value)
-    # #print("BLEND VALUE:", blend_value)
-    # #print("PARSED_PROMPT", prompt)
-    # #print("PARSED_PROMPT", prompt)
-    # if frame == 0:
-    #     blend_value = 0.0
-    # if frame > 0:
-    #     prev_prompt = node.deforum.prompt_series[frame - 1]
-    #     if prev_prompt != prompt:
-    #         blend_value = 0.0
-    # def generate_blend_values(distance_to_next_prompt, blend_type="linear"):
-    #     if blend_type == "linear":
-    #         return [i / distance_to_next_prompt for i in range(distance_to_next_prompt + 1)]
-    #     elif blend_type == "exponential":
-    #         base = 2
-    #         return [1 / (1 + math.exp(-8 * (i / distance_to_next_prompt - 0.5))) for i in
-    #                 range(distance_to_next_prompt + 1)]
-    #     else:
-    #         raise ValueError(f"Unknown blend type: {blend_type}")
-    #
-    # def find_last_prompt_change(current_index, prompt_series):
-    #     # Step backward from the current position
-    #     for i in range(current_index - 1, -1, -1):
-    #         if prompt_series.iloc[i] != prompt_series.iloc[current_index]:
-    #             return i
-    #     return 0  # default to the start if no change found
-    #
-    # def find_next_prompt_change(current_index, prompt_series):
-    #     # Step forward from the current position
-    #     for i in range(current_index + 1, len(prompt_series)):
-    #         if prompt_series.iloc[i] != prompt_series.iloc[current_index]:
-    #             return i
-    #     return len(prompt_series) - 1  # default to the end if no change found
-    #
-    # # Inside your main loop:
-    #
-    # last_prompt_change = find_last_prompt_change(frame, node.deforum.prompt_series)
-    # next_prompt_change = find_next_prompt_change(frame, node.deforum.prompt_series)
-    #
-    # distance_between_changes = next_prompt_change - last_prompt_change
-    # current_distance_from_last = frame - last_prompt_change
-    #
-    # # Generate blend values for the distance between prompt changes
-    # blend_values = generate_blend_values(distance_between_changes, blend_type="exponential")
-    #
-    # # Fetch the blend value based on the current frame's distance from the last prompt change
-    # blend_value = blend_values[current_distance_from_last]
-    # next_prompt = node.deforum.prompt_series[next_prompt_change]
 
     def generate_blend_values(distance_to_next_prompt, blend_type="linear"):
         if blend_type == "linear":
@@ -806,11 +789,7 @@ def generate_inner(node, args, keys, anim_args, loop_args, controlnet_args, root
 
 
         processed = generate_with_node(node, prompt, next_prompt, blend_value, negative_prompt, args, root, frame, init_image)
-        #processed = processing.process_images(p)
 
-    #if root.initial_info == None:
-    #    root.initial_seed = processed.seed
-    #    root.initial_info = processed.info
 
     if root.first_frame == None:
         root.first_frame = processed

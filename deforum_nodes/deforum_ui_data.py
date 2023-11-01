@@ -364,7 +364,7 @@ deforum_cadence_params = {
 
     "diffusion_cadence": {
         "type": "spinbox",
-        "min": 1,
+        "min": 0,
         "max": 100,
         "default": 4,
         "step": 1

@@ -178,7 +178,9 @@ class DeforumBaseParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_base_params_node"
     op_code = OP_NODE_DEFORUM_BASE_PARAMS
     content_class = DeforumBaseParamsWidget
-    h_value = 735
+    h_value = 900
+    w_value = 600
+
 
 
 @register_node(OP_NODE_DEFORUM_CADENCE_PARAMS)
@@ -187,8 +189,8 @@ class DeforumCadenceParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_cadence_params_node"
     op_code = OP_NODE_DEFORUM_CADENCE_PARAMS
     content_class = DeforumCadenceParamsWidget
-    w_value = 400
-    h_value = 300
+    w_value = 600
+    h_value = 320
 
 
 @register_node(OP_NODE_DEFORUM_HYBRID_PARAMS)
@@ -197,7 +199,8 @@ class DeforumHybridParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_hybrid_params_node"
     op_code = OP_NODE_DEFORUM_HYBRID_PARAMS
     content_class = DeforumHybridParamsWidget
-    w_value = 450
+    w_value = 600
+
 
 
 
@@ -216,8 +219,8 @@ class DeforumHybridSchedNode(DeforumParamBaseNode):
     content_label_objname = "deforum_hybrid_sched_node"
     op_code = OP_NODE_DEFORUM_HYBRID_SCHEDULE_PARAMS
     content_class = DeforumHybridScheduleParamsWidget
-    h_value = 300
-    w_value = 450
+    h_value = 320
+    w_value = 600
 
 
 @register_node(OP_NODE_DEFORUM_ANIM_PARAMS)
@@ -226,7 +229,8 @@ class DeforumAnimParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_anim_params_node"
     op_code = OP_NODE_DEFORUM_ANIM_PARAMS
     content_class = DeforumAnimParamsWidget
-    h_value = 300
+    h_value = 320
+    w_value = 600
 
 
 @register_node(OP_NODE_DEFORUM_TRANSLATION_PARAMS)
@@ -236,6 +240,8 @@ class DeforumTranslationNode(DeforumParamBaseNode):
     op_code = OP_NODE_DEFORUM_TRANSLATION_PARAMS
     content_class = DeforumTranslationScheduleWidget
     h_value = 450
+    w_value = 600
+
 
 
 @register_node(OP_NODE_DEFORUM_COLOR_PARAMS)
@@ -245,6 +251,8 @@ class DeforumColorParamsNode(DeforumParamBaseNode):
     op_code = OP_NODE_DEFORUM_COLOR_PARAMS
     content_class = DeforumColorParamsWidget
     h_value = 300
+    w_value = 600
+
 
 @register_node(OP_NODE_DEFORUM_DEPTH_PARAMS)
 class DeforumDepthParamsNode(DeforumParamBaseNode):
@@ -253,6 +261,8 @@ class DeforumDepthParamsNode(DeforumParamBaseNode):
     op_code = OP_NODE_DEFORUM_DEPTH_PARAMS
     content_class = DeforumDepthParamsWidget
     h_value = 325
+    w_value = 600
+
 
 
 @register_node(OP_NODE_DEFORUM_NOISE_PARAMS)
@@ -261,7 +271,8 @@ class DeforumNoiseParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_noise_params_node"
     op_code = OP_NODE_DEFORUM_NOISE_PARAMS
     content_class = DeforumNoiseParamsWidget
-    h_value = 420 + 40
+    h_value = 420 + 65
+    w_value = 600
 
 
 @register_node(OP_NODE_DEFORUM_DIFFUSION_PARAMS)
@@ -270,7 +281,8 @@ class DeforumDiffusionParamsNode(DeforumParamBaseNode):
     content_label_objname = "deforum_diffusion_params_node"
     op_code = OP_NODE_DEFORUM_DIFFUSION_PARAMS
     content_class = DeforumDiffusionParamsWidget
-    h_value = 420
+    h_value = 440
+    w_value = 600
 
 
 @register_node(OP_NODE_DEFORUM_MASKING_PARAMS)

@@ -11,7 +11,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff55aaff",
             "width": 660.5898437500001,
@@ -62,12 +62,12 @@
                 }
             ],
             "content": {
-                "Model:": "protovisionXLHighFidelity3D_beta0520Bakedvae.safetensors",
+                "Model:": "sd_xl_base_1.0_0.9vae.safetensors",
                 "Vae": "default",
                 "LDM Optimization": "None",
                 "Force Reload": "False"
             },
-            "op_code": 89,
+            "op_code": 196,
             "content_label_objname": "torch_loader_node"
         },
         {
@@ -115,7 +115,7 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 337,
+            "op_code": 121,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
@@ -163,7 +163,7 @@
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "0"
             },
-            "op_code": 334,
+            "op_code": 118,
             "content_label_objname": "deforum_cadence_params_node"
         },
         {
@@ -174,7 +174,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ffff0000",
             "width": 176.3125,
@@ -239,7 +239,7 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 333,
+            "op_code": 117,
             "content_label_objname": "deforum_base_params_node"
         },
         {
@@ -287,7 +287,7 @@
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 338,
+            "op_code": 122,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
@@ -298,7 +298,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff005500",
             "width": 441.13750000000005,
@@ -358,7 +358,7 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 335,
+            "op_code": 119,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
@@ -369,7 +369,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff00aa00",
             "width": 173.1875,
@@ -427,7 +427,7 @@
                 "full_res_mask": "True",
                 "full_res_mask_padding": "4"
             },
-            "op_code": 344,
+            "op_code": 128,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
@@ -438,7 +438,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ffaa55ff",
             "width": 550.5343750000002,
@@ -494,7 +494,7 @@
                 "perlin_octaves": "4",
                 "perlin_persistence": "0.0"
             },
-            "op_code": 342,
+            "op_code": 126,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
@@ -543,7 +543,7 @@
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 345,
+            "op_code": 129,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
@@ -554,7 +554,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ffaa00ff",
             "width": 550.5343750000002,
@@ -568,7 +568,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff0000ff",
             "width": 173.1875,
@@ -623,7 +623,7 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 343,
+            "op_code": 127,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
@@ -634,7 +634,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ffffaa00",
             "width": 439.20625000000024,
@@ -648,7 +648,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff00557f",
             "width": 484.1281250000001,
@@ -703,7 +703,7 @@
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 339,
+            "op_code": 123,
             "content_label_objname": "deforum_translation_node"
         },
         {
@@ -748,7 +748,7 @@
                 "100": "\"p1c4ss0, highly detailed magical forest, candy trees, tiny mushrooms, abstract textures, psychedelic twirl, , in the style of: Femme en chemise assise dans un fauteuil\"",
                 "200": "\"beautiful artwork of random abstract patters emerge from a gigantic candy bar in candy land, in the style of: Femme en chemise assise dans un fauteuil\""
             },
-            "op_code": 346,
+            "op_code": 130,
             "content_label_objname": "deforum_prompt_node"
         },
         {
@@ -794,7 +794,7 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 336,
+            "op_code": 120,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
@@ -805,7 +805,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff55557f",
             "width": 457.5625,
@@ -855,7 +855,7 @@
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 340,
+            "op_code": 124,
             "content_label_objname": "deforum_color_params_node"
         },
         {
@@ -866,7 +866,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ffffff00",
             "width": 508.83203125,
@@ -917,7 +917,7 @@
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 341,
+            "op_code": 125,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
@@ -979,72 +979,13 @@
                 }
             ],
             "content": {
-                "Use Conditioning Schedule": "False",
+                "Use Conditioning Blending [SD Only]": "True",
+                "Force Blend Factor:": "False",
                 "Conditioning Blend factor": "1.0",
-                "Use Conditioning Blending [SD Only]": "False"
+                "Use Inpaint pass": "True"
             },
-            "op_code": 347,
+            "op_code": 136,
             "content_label_objname": "deforum_runner_node"
-        },
-        {
-            "id": 1758089096896,
-            "title": "Lora Loader",
-            "pos_x": -123.02331219911798,
-            "pos_y": -469.5719624280913,
-            "inputs": [
-                {
-                    "id": 1758089095456,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 3,
-                    "socket_type": 4
-                },
-                {
-                    "id": 1758089093296,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 3,
-                    "socket_type": 4
-                },
-                {
-                    "id": 1758089093728,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 1758089097520,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 4
-                },
-                {
-                    "id": 1764619720864,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 4
-                },
-                {
-                    "id": 1764619469248,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "Lora": "p1c4ss0_003-step00028000.safetensors",
-                "Force Load": "False",
-                "Model Weight": "1.0",
-                "Clip Weight": "1.0"
-            },
-            "op_code": 85,
-            "content_label_objname": "lora_loader_node"
         },
         {
             "id": 2270578096592,
@@ -1149,7 +1090,7 @@
                 "Denoise:": "0.75",
                 "Guidance Scale:": "7.5"
             },
-            "op_code": 54,
+            "op_code": 133,
             "content_label_objname": "K_sampling_node"
         },
         {
@@ -1210,7 +1151,7 @@
                 "Embed Node graph in PNG": "False",
                 "Copy to Clipboard": "False"
             },
-            "op_code": 45,
+            "op_code": 131,
             "content_label_objname": "image_output_node"
         },
         {
@@ -1221,7 +1162,7 @@
             "inputs": [],
             "outputs": [],
             "content": {},
-            "op_code": 33,
+            "op_code": 166,
             "content_label_objname": "bg_node",
             "color": "#ff55aaff",
             "width": 976.5749511718745,
@@ -1283,7 +1224,7 @@
                 "Clip Skip": "-1",
                 "Use embeds": "False"
             },
-            "op_code": 74,
+            "op_code": 201,
             "content_label_objname": "cond_node"
         },
         {
@@ -1344,7 +1285,7 @@
                 "Embed Node graph in PNG": "False",
                 "Copy to Clipboard": "False"
             },
-            "op_code": 45,
+            "op_code": 131,
             "content_label_objname": "image_output_node"
         },
         {
@@ -1394,7 +1335,7 @@
             "content": {
                 "FRAMES": "10"
             },
-            "op_code": 93,
+            "op_code": 135,
             "content_label_objname": "FILM_node"
         },
         {
@@ -1443,7 +1384,7 @@
                 "Audio Path:": "",
                 "Keep Buffer": "True"
             },
-            "op_code": 53,
+            "op_code": 132,
             "content_label_objname": "video_output_node"
         }
     ],
@@ -1533,18 +1474,6 @@
             "end": 2288791616288
         },
         {
-            "id": 1758089097808,
-            "edge_type": 2,
-            "start": 1758089093296,
-            "end": 2288791854608
-        },
-        {
-            "id": 1758089097424,
-            "edge_type": 2,
-            "start": 1758089095456,
-            "end": 2288791854704
-        },
-        {
             "id": 2288791852688,
             "edge_type": 2,
             "start": 2288791651856,
@@ -1555,18 +1484,6 @@
             "edge_type": 2,
             "start": 2288791854656,
             "end": 2288791652528
-        },
-        {
-            "id": 1758089096656,
-            "edge_type": 2,
-            "start": 1764619720864,
-            "end": 2288791650464
-        },
-        {
-            "id": 1758089095936,
-            "edge_type": 2,
-            "start": 1758089097520,
-            "end": 2288791852208
         },
         {
             "id": 2288791855664,
@@ -1597,6 +1514,18 @@
             "edge_type": 2,
             "start": 2147597606032,
             "end": 2150357848880
+        },
+        {
+            "id": 140260952440256,
+            "edge_type": 2,
+            "start": 2288791854608,
+            "end": 2288791650464
+        },
+        {
+            "id": 140260952433440,
+            "edge_type": 2,
+            "start": 2288791852208,
+            "end": 2288791854704
         }
     ]
 }
