@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from PIL import Image
-from deforum.avfunctions.colors.colors import maintain_colors
+# from deforum.avfunctions.colors.colors import maintain_colors
 
 from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import pil2tensor, tensor2pil
 from ainodes_frontend.base import register_node, get_next_opcode

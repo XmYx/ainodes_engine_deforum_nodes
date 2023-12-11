@@ -185,7 +185,7 @@
             ],
             "content": {
                 "noise_schedule": "0: (0.065)",
-                "strength_schedule": "0: (0.85)",
+                "strength_schedule": "0: (0.45)",
                 "contrast_schedule": "0: (1.0)",
                 "cfg_scale_schedule": "0: (7)",
                 "enable_steps_scheduling": "False",
@@ -490,20 +490,6 @@
             "content_label_objname": "deforum_translation_node"
         },
         {
-            "id": 2305020327488,
-            "title": "Bg Node",
-            "pos_x": 836.6184234619127,
-            "pos_y": -238.78288269043094,
-            "inputs": [],
-            "outputs": [],
-            "content": {},
-            "op_code": 33,
-            "content_label_objname": "bg_node",
-            "color": "#ff550000",
-            "width": 2040.4482421874986,
-            "height": 1265.7167968749984
-        },
-        {
             "id": 2316990994448,
             "title": "Bg Node",
             "pos_x": -2407.5222015380855,
@@ -516,55 +502,6 @@
             "color": "#ffffff00",
             "width": 508.83203125,
             "height": 738.3242187499998
-        },
-        {
-            "id": 2362921976544,
-            "title": "Video Save",
-            "pos_x": 928.2172515869138,
-            "pos_y": 654.9856719970685,
-            "inputs": [
-                {
-                    "id": 2362921977072,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921977120,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2362921977168,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921977216,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "Save Format": "GIF",
-                "Width": "512",
-                "Height": "512",
-                "FPS": "30",
-                "Dump at every:": "0",
-                "Audio Path:": "",
-                "Keep Buffer": "False"
-            },
-            "op_code": 53,
-            "content_label_objname": "video_output_node"
         },
         {
             "id": 2368122944432,
@@ -630,67 +567,6 @@
             "height": 429.4375
         },
         {
-            "id": 2362921977312,
-            "title": "Image Preview",
-            "pos_x": 917.6242828369127,
-            "pos_y": -130.26237487793128,
-            "inputs": [
-                {
-                    "id": 2362921977504,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921977888,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2362921977936,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2362921977984,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921978032,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2362921978080,
-                    "index": 2,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "FPS": "24",
-                "Custom save directory": "",
-                "Autosave": "False",
-                "Embed Node graph in PNG": "False",
-                "Copy to Clipboard": "False"
-            },
-            "op_code": 45,
-            "content_label_objname": "image_output_node"
-        },
-        {
             "id": 2362921977840,
             "title": "Deforum Prompt Node",
             "pos_x": 241.89186096191355,
@@ -728,8 +604,7 @@
                 }
             ],
             "content": {
-                "0": "\"highly detailed illustration of a candy explosion, abstract background, sprinkles, galaxy twirling\"",
-                "100": "\"highly detailed magical forest, candy trees, tiny mushrooms, abstract textures, psychedelic twirl\"",
+                "0": "\"highly detailed magical forest, candy trees, tiny mushrooms, abstract textures, psychedelic twirl\"",
                 "200": "\"beautiful artwork of random abstract patters emerge from a gigantic candy bar in candy land\""
             },
             "op_code": 346,
@@ -905,67 +780,6 @@
             },
             "op_code": 333,
             "content_label_objname": "deforum_base_params_node"
-        },
-        {
-            "id": 2362921980336,
-            "title": "Image Preview",
-            "pos_x": 2021.6941833496087,
-            "pos_y": -114.01672363281375,
-            "inputs": [
-                {
-                    "id": 2362921980912,
-                    "index": 0,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921981296,
-                    "index": 1,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2362921981344,
-                    "index": 2,
-                    "multi_edges": false,
-                    "position": 3,
-                    "socket_type": 1
-                }
-            ],
-            "outputs": [
-                {
-                    "id": 2362921981392,
-                    "index": 0,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 5
-                },
-                {
-                    "id": 2362921981440,
-                    "index": 1,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 6
-                },
-                {
-                    "id": 2362921981488,
-                    "index": 2,
-                    "multi_edges": true,
-                    "position": 6,
-                    "socket_type": 1
-                }
-            ],
-            "content": {
-                "FPS": "24",
-                "Custom save directory": "",
-                "Autosave": "False",
-                "Embed Node graph in PNG": "False",
-                "Copy to Clipboard": "False"
-            },
-            "op_code": 45,
-            "content_label_objname": "image_output_node"
         },
         {
             "id": 2316990996464,
@@ -1250,6 +1064,191 @@
             },
             "op_code": 45,
             "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2305020327488,
+            "title": "Bg Node",
+            "pos_x": 836.6184234619127,
+            "pos_y": -238.78288269043094,
+            "inputs": [],
+            "outputs": [],
+            "content": {},
+            "op_code": 33,
+            "content_label_objname": "bg_node",
+            "color": "#ff550000",
+            "width": 2040.4482421874986,
+            "height": 1265.7167968749984
+        },
+        {
+            "id": 2362921976544,
+            "title": "Video Save",
+            "pos_x": 979.4867828369138,
+            "pos_y": 669.6341094970684,
+            "inputs": [
+                {
+                    "id": 2362921977072,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977120,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921977168,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977216,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Save Format": "mp4_fourcc",
+                "Width": "512",
+                "Height": "512",
+                "FPS": "30",
+                "Dump at every:": "0",
+                "Audio Path:": "",
+                "Keep Buffer": "False"
+            },
+            "op_code": 53,
+            "content_label_objname": "video_output_node"
+        },
+        {
+            "id": 2362921977312,
+            "title": "Image Preview",
+            "pos_x": 976.2180328369127,
+            "pos_y": -152.23503112793128,
+            "inputs": [
+                {
+                    "id": 2362921977504,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921977888,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921977936,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921977984,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921978032,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921978080,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "FPS": "24",
+                "Custom save directory": "",
+                "Autosave": "False",
+                "Embed Node graph in PNG": "False",
+                "Copy to Clipboard": "False"
+            },
+            "op_code": 45,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2362921980336,
+            "title": "Image Preview",
+            "pos_x": 1934.5262145996085,
+            "pos_y": -147.35656738281375,
+            "inputs": [
+                {
+                    "id": 2362921980912,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921981296,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921981344,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2362921981392,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2362921981440,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2362921981488,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "FPS": "24",
+                "Custom save directory": "",
+                "Autosave": "False",
+                "Embed Node graph in PNG": "False",
+                "Copy to Clipboard": "False"
+            },
+            "op_code": 45,
+            "content_label_objname": "image_output_node"
         }
     ],
     "edges": [
@@ -1258,12 +1257,6 @@
             "edge_type": 2,
             "start": 2362921976160,
             "end": 2362921983360
-        },
-        {
-            "id": 2362921984464,
-            "edge_type": 2,
-            "start": 2368122944768,
-            "end": 2362921977072
         },
         {
             "id": 2362921984608,
@@ -1332,22 +1325,10 @@
             "end": 2362921984320
         },
         {
-            "id": 2362921983168,
-            "edge_type": 2,
-            "start": 2368122944816,
-            "end": 2362921977504
-        },
-        {
             "id": 2362921980480,
             "edge_type": 2,
             "start": 2362653993872,
             "end": 2362921982400
-        },
-        {
-            "id": 2362921986960,
-            "edge_type": 2,
-            "start": 2368122944768,
-            "end": 2362921980912
         },
         {
             "id": 2362921987104,
@@ -1366,6 +1347,24 @@
             "edge_type": 2,
             "start": 2368122939920,
             "end": 2496948621024
+        },
+        {
+            "id": 2362921984464,
+            "edge_type": 2,
+            "start": 2368122944768,
+            "end": 2362921977072
+        },
+        {
+            "id": 2362921983168,
+            "edge_type": 2,
+            "start": 2368122944816,
+            "end": 2362921977504
+        },
+        {
+            "id": 2362921986960,
+            "edge_type": 2,
+            "start": 2368122944768,
+            "end": 2362921980912
         }
     ]
 }

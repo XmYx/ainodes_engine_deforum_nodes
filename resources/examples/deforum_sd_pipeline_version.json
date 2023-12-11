@@ -48,7 +48,7 @@
                 "hybrid_comp_mask_auto_contrast_cutoff_low_schedule": "0:(0)",
                 "hybrid_flow_factor_schedule": "0:(1)"
             },
-            "op_code": 341,
+            "op_code": 354,
             "content_label_objname": "deforum_hybrid_sched_node"
         },
         {
@@ -94,7 +94,7 @@
                 "init_sample": "",
                 "use_init": "False"
             },
-            "op_code": 340,
+            "op_code": 353,
             "content_label_objname": "deforum_image_init_params_node"
         },
         {
@@ -146,7 +146,7 @@
                 "enable_ancestral_eta_scheduling": "False",
                 "ancestral_eta_schedule": "0:(1)"
             },
-            "op_code": 347,
+            "op_code": 360,
             "content_label_objname": "deforum_diffusion_params_node"
         },
         {
@@ -195,7 +195,7 @@
                 "use_mask_video": "False",
                 "video_mask_path": "https://deforum.github.io/a1/VM1.mp4"
             },
-            "op_code": 349,
+            "op_code": 362,
             "content_label_objname": "deforum_video_init_params_node"
         },
         {
@@ -248,7 +248,7 @@
                 "LDM Optimization": "None",
                 "Force Reload": "False"
             },
-            "op_code": 89,
+            "op_code": 91,
             "content_label_objname": "torch_loader_node"
         },
         {
@@ -296,7 +296,7 @@
                 "resume_timestring": "20230519203823",
                 "use_looper": "False"
             },
-            "op_code": 342,
+            "op_code": 355,
             "content_label_objname": "deforum_anim_params_node"
         },
         {
@@ -400,7 +400,7 @@
                 "timestring": "",
                 "seed_internal": "-1"
             },
-            "op_code": 337,
+            "op_code": 350,
             "content_label_objname": "deforum_base_params_node"
         },
         {
@@ -447,7 +447,7 @@
                 "color_force_grayscale": "False",
                 "legacy_colormatch": "False"
             },
-            "op_code": 344,
+            "op_code": 357,
             "content_label_objname": "deforum_color_params_node"
         },
         {
@@ -523,7 +523,7 @@
                 "sampling_mode_value_combobox": "bicubic",
                 "save_depth_maps": "False"
             },
-            "op_code": 345,
+            "op_code": 358,
             "content_label_objname": "deforum_depth_params_node"
         },
         {
@@ -589,7 +589,7 @@
                 "Subnoise strength": "1.0",
                 "Force Encode": "False"
             },
-            "op_code": 79,
+            "op_code": 81,
             "content_label_objname": "empty_latent_node"
         },
         {
@@ -672,7 +672,7 @@
                 "full_res_mask": "True",
                 "full_res_mask_padding": "4"
             },
-            "op_code": 348,
+            "op_code": 361,
             "content_label_objname": "deforum_masking_params_node"
         },
         {
@@ -729,7 +729,7 @@
                 "hybrid_comp_mask_auto_contrast": "False",
                 "hybrid_comp_save_extra_frames": "False"
             },
-            "op_code": 339,
+            "op_code": 352,
             "content_label_objname": "deforum_hybrid_params_node"
         },
         {
@@ -774,7 +774,7 @@
                 "15": "\"baby yoda and pikachu fighting on the death star\"",
                 "25": "\"circus in hell, highly detailed, abstract artwork\""
             },
-            "op_code": 351,
+            "op_code": 363,
             "content_label_objname": "deforum_prompt_node"
         },
         {
@@ -826,7 +826,7 @@
                 "rotation_3d_y": "0:(0)",
                 "rotation_3d_z": "0:(0)"
             },
-            "op_code": 343,
+            "op_code": 356,
             "content_label_objname": "deforum_translation_node"
         },
         {
@@ -902,7 +902,7 @@
                 "redo_flow_factor_schedule": "0: (1)",
                 "diffusion_redo": "0"
             },
-            "op_code": 338,
+            "op_code": 351,
             "content_label_objname": "deforum_cadence_params_node"
         },
         {
@@ -955,7 +955,7 @@
                 "perlin_octaves": "4",
                 "perlin_persistence": "0.0"
             },
-            "op_code": 346,
+            "op_code": 359,
             "content_label_objname": "deforum_noise_params_node"
         },
         {
@@ -1061,7 +1061,7 @@
                 "Denoise:": "1.0",
                 "Guidance Scale:": "7.5"
             },
-            "op_code": 54,
+            "op_code": 56,
             "content_label_objname": "K_sampling_node"
         },
         {
@@ -1110,14 +1110,14 @@
                 "Audio Path:": "",
                 "Keep Buffer": "False"
             },
-            "op_code": 53,
+            "op_code": 55,
             "content_label_objname": "video_output_node"
         },
         {
             "id": 1970720831232,
             "title": "Deforum Iterator",
-            "pos_x": -650.6508409232005,
-            "pos_y": 90.11059433222465,
+            "pos_x": -763.9320909232005,
+            "pos_y": 70.57934433222465,
             "inputs": [
                 {
                     "id": 1970573186080,
@@ -1150,8 +1150,10 @@
                     "socket_type": 1
                 }
             ],
-            "content": {},
-            "op_code": 350,
+            "content": {
+                "Timeline": "23"
+            },
+            "op_code": 371,
             "content_label_objname": "deforum_iterate_node"
         },
         {
@@ -1262,7 +1264,7 @@
             "content": {
                 "FRAMES": "10"
             },
-            "op_code": 93,
+            "op_code": 95,
             "content_label_objname": "FILM_node"
         },
         {
@@ -1439,7 +1441,7 @@
                 }
             ],
             "content": {},
-            "op_code": 332,
+            "op_code": 367,
             "content_label_objname": "deforum_addnoise_node"
         },
         {
@@ -1494,7 +1496,7 @@
                 }
             ],
             "content": {},
-            "op_code": 335,
+            "op_code": 368,
             "content_label_objname": "deforum_colormatch_node"
         },
         {
@@ -1617,7 +1619,7 @@
                 }
             ],
             "content": {},
-            "op_code": 334,
+            "op_code": 370,
             "content_label_objname": "deforum_framewarp_node"
         },
         {
@@ -1707,9 +1709,9 @@
                 }
             ],
             "content": {
-                "Blend Method": "sigmoidal"
+                "Blend Method": "gaussian"
             },
-            "op_code": 336,
+            "op_code": 369,
             "content_label_objname": "deforum_sdcond_node"
         }
     ],

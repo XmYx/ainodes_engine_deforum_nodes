@@ -1,8 +1,8 @@
 
 import cv2
 import numpy as np
-from deforum.animation.animation import anim_frame_warp
-from deforum.exttools.depth import DepthModel
+# from deforum.animation.animation import anim_frame_warp
+# from deforum.exttools.depth import DepthModel
 from PIL import Image
 from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import pil2tensor, tensor2pil
 from ainodes_frontend.base import register_node, get_next_opcode

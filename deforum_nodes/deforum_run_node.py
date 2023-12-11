@@ -15,13 +15,13 @@ import numpy as np
 import requests
 import torch
 from PIL import Image
-from deforum.animation.animation_key_frames import DeformAnimKeys
-
-from deforum.avfunctions.image.load_images import check_mask_for_errors, prepare_mask, load_img
-from deforum.datafunctions.prompt import check_is_number, split_weighted_subprompts
-from deforum.general_utils import isJson, pairwise_repl, substitute_placeholders
-from deforum.torchfuncs.torch_gc import torch_gc
-from deforum.main import Deforum
+# from deforum.animation.animation_key_frames import DeformAnimKeys
+#
+# from deforum.avfunctions.image.load_images import check_mask_for_errors, prepare_mask, load_img
+# from deforum.datafunctions.prompt import check_is_number, split_weighted_subprompts
+# from deforum.general_utils import isJson, pairwise_repl, substitute_placeholders
+# from deforum.torchfuncs.torch_gc import torch_gc
+# from deforum.main import Deforum
 
 from qtpy import QtCore, QtWidgets
 from ainodes_frontend.base import register_node, get_next_opcode, handle_ainodes_exception
@@ -39,8 +39,8 @@ from ...ainodes_engine_base_nodes.image_nodes.image_op_node import HWC3
 from ...ainodes_engine_base_nodes.torch_nodes.kandinsky_node import KandinskyNode
 from ...ainodes_engine_base_nodes.torch_nodes.ksampler_node import KSamplerNode
 
-from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
-    ParseqArgs, LoopArgs
+# from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
+#     ParseqArgs, LoopArgs
 
 from ainodes_frontend import singleton as gs
 from ...ainodes_engine_base_nodes.video_nodes.FILM_node import FILMNode

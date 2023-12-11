@@ -4,19 +4,19 @@ from types import SimpleNamespace
 import numexpr
 import numpy as np
 import pandas as pd
-from deforum.animation.animation_key_frames import DeformAnimKeys
-from deforum.animation.new_args import RootArgs
-from deforum.datafunctions.parseq_adapter import ParseqAnimKeys
-from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
-    ParseqArgs, LoopArgs
+# from deforum.animation.animation_key_frames import DeformAnimKeys
+# from deforum.animation.new_args import RootArgs
+# from deforum.datafunctions.parseq_adapter import ParseqAnimKeys
+# from deforum.animation.new_args import process_args, RootArgs, DeforumArgs, DeforumAnimArgs, DeforumOutputArgs, \
+#     ParseqArgs, LoopArgs
 
 
 import os
 import secrets
 import torch
 from PIL import Image
-from deforum.datafunctions.prompt import split_weighted_subprompts
-from deforum.datafunctions.seed import next_seed
+# from deforum.datafunctions.prompt import split_weighted_subprompts
+# from deforum.datafunctions.seed import next_seed
 from qtpy import QtCore, QtWidgets
 
 from ai_nodes.ainodes_engine_base_nodes.ainodes_backend import pil2tensor
